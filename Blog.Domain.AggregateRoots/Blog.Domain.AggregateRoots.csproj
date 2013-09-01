@@ -37,7 +37,18 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Blog.Domain.Commands\Blog.Domain.Commands.csproj">
+      <Project>{e6015574-7338-466b-8288-7d13806856ac}</Project>
+      <Name>Blog.Domain.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Domain.Events\Blog.Domain.Events.csproj">
+      <Project>{069bbd1d-aadf-4df8-9429-fecf3068adee}</Project>
+      <Name>Blog.Domain.Events</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,34 @@
 ﻿using System;
+using System.Linq;
 using StoryQ;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Blog.Domain.Commands;
+using Yeast.EventStore;
+using Blog.Domain.AggregateRoots;
+using Blog.Domain.Events;
+using Blog.ReadModel.Projectors;
+using System.Threading;
+using Blog.ReadModel.Repository;
 
 [TestClass]
 public class WritePosts_
 {
+	IConfigure config = Configure.With()
+		.Synchrounous()
+		.DebugLogger()
+		.AzureEventStoreProvider("UseDevelopmentStorage=true")
+		.JsonSerializer()
+		.EventStore()
+		.NoAggregateRootCache()
+		.MessageReceiver()
+			.Register<CreatePost, Post>()
+		.EventPublisher()
+			.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId);
+
+	Guid id = Guid.NewGuid();
+	IDraftPostRepository draftPostRepo = new DraftPostRepository();
+	IPublishedPostRepository publishedPostRepo = new PublishedPostRepository();
+		
     [TestMethod]
     public void WritePosts()
     {
@@ -25,7 +49,7 @@ public class WritePosts_
                         .When(ThePostIsEdited)
                         .Then(ThePostShouldBeUpdatedWithThenTheNewContents)
                             .And(WithTheDateTimeItWasEdited)
-                            .And(ItShouldNotBeSeenByReaders)
+                            .And(ItShouldNotBeSeenByReaders2)
 
                     .WithScenario("Post Must Have Title")
                         .Given(Nothing)
@@ -48,27 +72,26 @@ public class WritePosts_
 
     private void Nothing()
     {
-        throw new NotImplementedException();
     }
 
     private void APostIsCreated()
     {
-        throw new NotImplementedException();
+		 config.GetMessageReceiver.Receive(new CreatePost() { AggregateRootId = id, WhenCreated = new DateTime(2000, 1, 1) });
     }
 
     private void ItShouldAppearInTheListOfDraftPosts()
     {
-        throw new NotImplementedException();
+		 Assert.IsTrue(draftPostRepo.Get().Any(dp => dp.Id == id));
     }
 
     private void WithTheDateTimeItWasCreated()
     {
-        throw new NotImplementedException();
+		 Assert.AreEqual(new DateTime(2000, 1, 1), draftPostRepo.Get(id).WhenCreated);
     }
 
     private void ItShouldNotBeSeenByReaders()
     {
-        throw new NotImplementedException();
+		 Assert.IsTrue(!publishedPostRepo.Get().Any(pp => pp.Id == id));
     }
 
     private void ADraftPost()
@@ -91,6 +114,11 @@ public class WritePosts_
         throw new NotImplementedException();
     }
 
+	 private void ItShouldNotBeSeenByReaders2()
+	 {
+		 throw new NotImplementedException();
+	 }
+
     private void ThePostHasAnEmptyTitle()
     {
         throw new NotImplementedException();
@@ -112,11 +140,6 @@ public class WritePosts_
     }
 
     private void AnotherPostIsSavedWithTheSameTitle()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void ItShouldNotBeTheSameAsTheURLForTheExistingPost()
     {
         throw new NotImplementedException();
     }

@@ -13,9 +13,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B79E7473
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Tests", "Blog.Tests\Blog.Tests.csproj", "{322EE1E6-8B78-45BB-8381-F3AA8433581D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yeast.EventStore", "..\EventStore\Yeast\Yeast.EventStore\Yeast.EventStore.csproj", "{A9C47E7F-EEDA-40F8-BF71-638308949636}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yeast.EventStore.Azure", "..\EventStore\Yeast\Yeast.EventStore.Azure\Yeast.EventStore.Azure.csproj", "{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yeast.EventStore.Serialization.Json", "..\EventStore\Yeast\Yeast.EventStore.Serialization.Json\Yeast.EventStore.Serialization.Json.csproj", "{2143436A-BBF3-4555-AE98-8681AA8C591A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReadModel", "ReadModel", "{A3FBA701-4935-49E1-AA37-1F2D2D5FA734}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ReadModel.Projectors", "Blog.ReadModel.Projectors\Blog.ReadModel.Projectors.csproj", "{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ReadModel.Repository", "Blog.ReadModel.Repository\Blog.ReadModel.Repository.csproj", "{14E3AF96-0B9D-4E9E-88F6-99B76A6EE768}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ReadModel.Data", "Blog.ReadModel.Data\Blog.ReadModel.Data.csproj", "{E20DC2C1-33FC-4F6A-B79C-FD79BED95DD8}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
+		SccNumberOfProjects = 11
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://chrispday.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -35,6 +49,27 @@ Global
 		SccProjectTopLevelParentUniqueName4 = Blog.sln
 		SccProjectName4 = Blog.Tests
 		SccLocalPath4 = Blog.Tests
+		SccProjectUniqueName5 = ..\\EventStore\\Yeast\\Yeast.EventStore\\Yeast.EventStore.csproj
+		SccProjectName5 = ../EventStore/Yeast/Yeast.EventStore
+		SccLocalPath5 = ..\\EventStore\\Yeast\\Yeast.EventStore
+		SccProjectUniqueName6 = ..\\EventStore\\Yeast\\Yeast.EventStore.Azure\\Yeast.EventStore.Azure.csproj
+		SccProjectName6 = ../EventStore/Yeast/Yeast.EventStore.Azure
+		SccLocalPath6 = ..\\EventStore\\Yeast\\Yeast.EventStore.Azure
+		SccProjectUniqueName7 = ..\\EventStore\\Yeast\\Yeast.EventStore.Serialization.Json\\Yeast.EventStore.Serialization.Json.csproj
+		SccProjectName7 = ../EventStore/Yeast/Yeast.EventStore.Serialization.Json
+		SccLocalPath7 = ..\\EventStore\\Yeast\\Yeast.EventStore.Serialization.Json
+		SccProjectUniqueName8 = Blog.ReadModel.Projectors\\Blog.ReadModel.Projectors.csproj
+		SccProjectTopLevelParentUniqueName8 = Blog.sln
+		SccProjectName8 = Blog.ReadModel.Projectors
+		SccLocalPath8 = Blog.ReadModel.Projectors
+		SccProjectUniqueName9 = Blog.ReadModel.Repository\\Blog.ReadModel.Repository.csproj
+		SccProjectTopLevelParentUniqueName9 = Blog.sln
+		SccProjectName9 = Blog.ReadModel.Repository
+		SccLocalPath9 = Blog.ReadModel.Repository
+		SccProjectUniqueName10 = Blog.ReadModel.Data\\Blog.ReadModel.Data.csproj
+		SccProjectTopLevelParentUniqueName10 = Blog.sln
+		SccProjectName10 = Blog.ReadModel.Data
+		SccLocalPath10 = Blog.ReadModel.Data
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +92,30 @@ Global
 		{322EE1E6-8B78-45BB-8381-F3AA8433581D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{322EE1E6-8B78-45BB-8381-F3AA8433581D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{322EE1E6-8B78-45BB-8381-F3AA8433581D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14E3AF96-0B9D-4E9E-88F6-99B76A6EE768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14E3AF96-0B9D-4E9E-88F6-99B76A6EE768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14E3AF96-0B9D-4E9E-88F6-99B76A6EE768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14E3AF96-0B9D-4E9E-88F6-99B76A6EE768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E20DC2C1-33FC-4F6A-B79C-FD79BED95DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E20DC2C1-33FC-4F6A-B79C-FD79BED95DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E20DC2C1-33FC-4F6A-B79C-FD79BED95DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E20DC2C1-33FC-4F6A-B79C-FD79BED95DD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,5 +125,8 @@ Global
 		{069BBD1D-AADF-4DF8-9429-FECF3068ADEE} = {F687A690-4464-4ABF-B021-F3236AA1C182}
 		{0710E810-4024-4424-82C7-D98C08D6F91D} = {F687A690-4464-4ABF-B021-F3236AA1C182}
 		{322EE1E6-8B78-45BB-8381-F3AA8433581D} = {B79E7473-C29E-4EA8-A4E5-7DAB256E83D3}
+		{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4} = {A3FBA701-4935-49E1-AA37-1F2D2D5FA734}
+		{14E3AF96-0B9D-4E9E-88F6-99B76A6EE768} = {A3FBA701-4935-49E1-AA37-1F2D2D5FA734}
+		{E20DC2C1-33FC-4F6A-B79C-FD79BED95DD8} = {A3FBA701-4935-49E1-AA37-1F2D2D5FA734}
 	EndGlobalSection
 EndGlobal

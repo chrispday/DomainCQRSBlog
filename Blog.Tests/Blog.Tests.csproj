@@ -71,7 +71,7 @@
     <Compile Include="Blogger\Posts\CommentIsntSpam.cs" />
     <Compile Include="Blogger\Posts\EditPublishedPost.cs" />
     <Compile Include="Blogger\Posts\HowAReaderFoundPost.cs" />
-    <Compile Include="Blogger\Posts\PIcturesInPost.cs" />
+    <Compile Include="Blogger\Posts\PicturesInPost.cs" />
     <Compile Include="Blogger\Posts\PopularPosts.cs" />
     <Compile Include="Blogger\Posts\PublishPosts.cs" />
     <Compile Include="Blogger\Posts\RelatedPosts.cs" />
@@ -98,6 +98,44 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EventStore\Yeast\Yeast.EventStore.Azure\Yeast.EventStore.Azure.csproj">
+      <Project>{9b6cfd63-addc-4c3c-8c23-9bc7dbee2521}</Project>
+      <Name>Yeast.EventStore.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EventStore\Yeast\Yeast.EventStore.Serialization.Json\Yeast.EventStore.Serialization.Json.csproj">
+      <Project>{2143436a-bbf3-4555-ae98-8681aa8c591a}</Project>
+      <Name>Yeast.EventStore.Serialization.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EventStore\Yeast\Yeast.EventStore\Yeast.EventStore.csproj">
+      <Project>{a9c47e7f-eeda-40f8-bf71-638308949636}</Project>
+      <Name>Yeast.EventStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Domain.AggregateRoots\Blog.Domain.AggregateRoots.csproj">
+      <Project>{0710e810-4024-4424-82c7-d98c08d6f91d}</Project>
+      <Name>Blog.Domain.AggregateRoots</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Domain.Commands\Blog.Domain.Commands.csproj">
+      <Project>{e6015574-7338-466b-8288-7d13806856ac}</Project>
+      <Name>Blog.Domain.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Domain.Events\Blog.Domain.Events.csproj">
+      <Project>{069bbd1d-aadf-4df8-9429-fecf3068adee}</Project>
+      <Name>Blog.Domain.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.ReadModel.Data\Blog.ReadModel.Data.csproj">
+      <Project>{e20dc2c1-33fc-4f6a-b79c-fd79bed95dd8}</Project>
+      <Name>Blog.ReadModel.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.ReadModel.Projectors\Blog.ReadModel.Projectors.csproj">
+      <Project>{2d3874f5-b67c-4eb6-be15-b280ab6dc9b4}</Project>
+      <Name>Blog.ReadModel.Projectors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.ReadModel.Repository\Blog.ReadModel.Repository.csproj">
+      <Project>{14e3af96-0b9d-4e9e-88f6-99b76a6ee768}</Project>
+      <Name>Blog.ReadModel.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
