@@ -9,6 +9,7 @@ using Blog.Domain.Events;
 using Blog.ReadModel.Projectors;
 using System.Threading;
 using Blog.ReadModel.Repository;
+using Blog.Domain.Errors;
 
 [TestClass]
 public class WritePosts_
@@ -20,127 +21,149 @@ public class WritePosts_
 		.JsonSerializer()
 		.EventStore()
 		.NoAggregateRootCache()
-		.MessageReceiver()
+		.MessageReceiver("Id")
 			.Register<CreatePost, Post>()
+			.Register<EditPost, Post>()
 		.EventPublisher()
-			.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId);
+			.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId)
+			.Subscribe<DraftPostProjector, PostEdited>(DraftPostProjector.SubscriptionId);
 
-	Guid id = Guid.NewGuid();
-	IDraftPostRepository draftPostRepo = new DraftPostRepository();
-	IPublishedPostRepository publishedPostRepo = new PublishedPostRepository();
-		
-    [TestMethod]
-    public void WritePosts()
-    {
-        new Story("Write Posts")
-            .InOrderTo("write and refine posts.")
-            .AsA("Blogger")
-            .IWant("to edit drafts of a Post.")
+	Guid createdId = Guid.NewGuid();
+	string createdTitle = "Created title " + Guid.NewGuid().ToString();
 
-                    .WithScenario("Create Post")
-                        .Given(Nothing)
-                        .When(APostIsCreated)
-                        .Then(ItShouldAppearInTheListOfDraftPosts)
-                            .And(WithTheDateTimeItWasCreated)
-                            .And(ItShouldNotBeSeenByReaders)
+	Guid draftId = Guid.NewGuid();
+	string draftContent = "Draft content " + Guid.NewGuid().ToString();
+	string draftTitle = "Draft title " + Guid.NewGuid().ToString();
 
-                    .WithScenario("Edit Post")
-                        .Given(ADraftPost)
-                        .When(ThePostIsEdited)
-                        .Then(ThePostShouldBeUpdatedWithThenTheNewContents)
-                            .And(WithTheDateTimeItWasEdited)
-                            .And(ItShouldNotBeSeenByReaders2)
+	Guid draftContentId = Guid.NewGuid();
+	string draftContent2 = "Draft content " + Guid.NewGuid().ToString();
 
-                    .WithScenario("Post Must Have Title")
-                        .Given(Nothing)
-                        .When(APostIsCreated)
-                            .And(ThePostHasAnEmptyTitle)
-                        .Then(APostMustHaveTitleErrorIsRaised)
+	Guid createdIdNoTitle = Guid.NewGuid();
+	Exception exceptionNoTitle;
 
-                    .WithScenario("Post Must Have a unique URL based on Title")
-                        .Given(Nothing)
-                        .When(APostIsCreated)
-                        .Then(TheURLForThePostShouldContainTheTitle)
+	[TestMethod]
+	public void WritePosts()
+	{
+		new Story("Write Posts")
+			 .InOrderTo("write and refine posts.")
+			 .AsA("Blogger")
+			 .IWant("to edit drafts of a Post.")
 
-                    .WithScenario("Two Posts with the same Title Should Not Have a URL Clash")
-                        .Given(APostWithATitle)
-                        .When(AnotherPostIsSavedWithTheSameTitle)
-                        .Then(TheURLForThePostShouldContainTheTitle)
-                            .And(ItShouldNotBeTheSameAsTheURLForTheExistingPost)
-            .Execute();
-    }
+						.WithScenario("Create Post")
+							 .Given(Nothing)
+							 .When(APostIsCreated)
+							 .Then(ItShouldAppearInTheListOfDraftPosts)
+								 .And(WithTheTitleGiven)
+								  .And(WithTheDateTimeItWasCreated)
+								  .And(TheDateTimeEditedIsTheSameAsWhenItWasCreated)
+								  .And(ItShouldNotBeSeenByReaders, createdId)
 
-    private void Nothing()
-    {
-    }
+						.WithScenario("Edit Post")
+							 .Given(ADraftPost, draftId, draftTitle)
+							 .When(ThePostIsEdited)
+							 .Then(ThePostShouldBeUpdatedWithTheNewContents, draftId, draftContent)
+								 .And(ThePostShouldBeUpdatedWithTheNewTitle)
+								  .And(WithTheDateTimeItWasEdited, draftId, new DateTime(2001, 1, 1))
+								  .And(ItShouldNotBeSeenByReaders, draftId)
 
-    private void APostIsCreated()
-    {
-		 config.GetMessageReceiver.Receive(new CreatePost() { AggregateRootId = id, WhenCreated = new DateTime(2000, 1, 1) });
-    }
+						.WithScenario("Edit Post Content")
+							 .Given(ADraftPost, draftContentId, draftTitle)
+							 .When(ThePostContentIsEdited)
+							 .Then(ThePostShouldBeUpdatedWithTheNewContents, draftContentId, draftContent2)
+								 .And(ThePostTitleShouldNotBeUpdated)
+								  .And(WithTheDateTimeItWasEdited, draftContentId, new DateTime(2002, 1, 1))
+								  .And(ItShouldNotBeSeenByReaders, draftContentId)
 
-    private void ItShouldAppearInTheListOfDraftPosts()
-    {
-		 Assert.IsTrue(draftPostRepo.Get().Any(dp => dp.Id == id));
-    }
+						.WithScenario("Post Must Have Title")
+							 .Given(Nothing)
+							 .When(APostIsCreatedWithAnEmptyTitle)
+							 .Then(APostMustHaveTitleErrorIsRaised)
+			 .Execute();
+	}
 
-    private void WithTheDateTimeItWasCreated()
-    {
-		 Assert.AreEqual(new DateTime(2000, 1, 1), draftPostRepo.Get(id).WhenCreated);
-    }
+	private void Nothing()
+	{
+	}
 
-    private void ItShouldNotBeSeenByReaders()
-    {
-		 Assert.IsTrue(!publishedPostRepo.Get().Any(pp => pp.Id == id));
-    }
+	private void APostIsCreated()
+	{
+		config.GetMessageReceiver.Receive(new CreatePost() { Id = createdId, WhenCreated = new DateTime(2000, 1, 1), Title = createdTitle });
+	}
 
-    private void ADraftPost()
-    {
-        throw new NotImplementedException();
-    }
+	private void ItShouldAppearInTheListOfDraftPosts()
+	{
+		Assert.IsTrue(Repositories.DraftPosts.Get().Any(dp => dp.Id == createdId));
+	}
 
-    private void ThePostIsEdited()
-    {
-        throw new NotImplementedException();
-    }
+	private void WithTheTitleGiven()
+	{
+		Assert.AreEqual(createdTitle, Repositories.DraftPosts.Get(createdId).Title);
+	}
 
-    private void ThePostShouldBeUpdatedWithThenTheNewContents()
-    {
-        throw new NotImplementedException();
-    }
+	private void WithTheDateTimeItWasCreated()
+	{
+		Assert.AreEqual(new DateTime(2000, 1, 1), Repositories.DraftPosts.Get(createdId).WhenCreated);
+	}
 
-    private void WithTheDateTimeItWasEdited()
-    {
-        throw new NotImplementedException();
-    }
+	private void TheDateTimeEditedIsTheSameAsWhenItWasCreated()
+	{
+		Assert.AreEqual(new DateTime(2000, 1, 1), Repositories.DraftPosts.Get(createdId).WhenEdited);
+	}
 
-	 private void ItShouldNotBeSeenByReaders2()
-	 {
-		 throw new NotImplementedException();
-	 }
+	private void ItShouldNotBeSeenByReaders(Guid arg1)
+	{
+		Assert.IsTrue(!Repositories.PublishedPosts.Get().Any(pp => pp.Id == arg1));
+	}
 
-    private void ThePostHasAnEmptyTitle()
-    {
-        throw new NotImplementedException();
-    }
+	private void ADraftPost(Guid id, string title)
+	{
+		config.GetMessageReceiver.Receive(new CreatePost() { Id = id, WhenCreated = DateTime.Now, Title = title });
+	}
 
-    private void APostMustHaveTitleErrorIsRaised()
-    {
-        throw new NotImplementedException();
-    }
+	private void ThePostIsEdited()
+	{
+		config.GetMessageReceiver.Receive(new EditPost() { Id = draftId, Content = draftContent, WhenEdited = new DateTime(2001, 1, 1), Title = draftTitle });
+	}
 
-    private void TheURLForThePostShouldContainTheTitle()
-    {
-        throw new NotImplementedException();
-    }
+	private void ThePostShouldBeUpdatedWithTheNewContents(Guid id, string content)
+	{
+		Assert.AreEqual(content, Repositories.DraftPosts.Get(id).Content);
+	}
 
-    private void APostWithATitle()
-    {
-        throw new NotImplementedException();
-    }
+	private void ThePostShouldBeUpdatedWithTheNewTitle()
+	{
+		Assert.AreEqual(draftTitle, Repositories.DraftPosts.Get(draftId).Title);
+	}
 
-    private void AnotherPostIsSavedWithTheSameTitle()
-    {
-        throw new NotImplementedException();
-    }
+	private void WithTheDateTimeItWasEdited(Guid id, DateTime dt)
+	{
+		Assert.AreEqual(dt, Repositories.DraftPosts.Get(id).WhenEdited);
+	}
+
+	private void ThePostContentIsEdited()
+	{
+		config.GetMessageReceiver.Receive(new EditPost() { Id = draftContentId, Content = draftContent2, WhenEdited = new DateTime(2002, 1, 1) });
+	}
+
+	private void ThePostTitleShouldNotBeUpdated()
+	{
+		Assert.AreEqual(draftTitle, Repositories.DraftPosts.Get(draftContentId).Title);
+	}
+
+	private void APostIsCreatedWithAnEmptyTitle()
+	{
+		try
+		{
+			config.GetMessageReceiver.Receive(new CreatePost() { Id = createdIdNoTitle, WhenCreated = DateTime.Now });
+		}
+		catch (Exception ex)
+		{
+			exceptionNoTitle = ex;
+		}
+	}
+
+	private void APostMustHaveTitleErrorIsRaised()
+	{
+		Assert.IsInstanceOfType(exceptionNoTitle, typeof(PostMustHaveTitleError));
+	}
 }

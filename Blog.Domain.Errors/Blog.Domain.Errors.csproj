@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E20DC2C1-33FC-4F6A-B79C-FD79BED95DD8}</ProjectGuid>
+    <ProjectGuid>{06241FB9-CD4E-43E7-B579-414421DC0BFB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blog.ReadModel.Data</RootNamespace>
-    <AssemblyName>Blog.ReadModel.Data</AssemblyName>
+    <RootNamespace>Blog.Domain.Errors</RootNamespace>
+    <AssemblyName>Blog.Domain.Errors</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -37,8 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PublishedPost.cs" />
-    <Compile Include="DraftPost.cs" />
+    <Compile Include="PostMustHaveTitleError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

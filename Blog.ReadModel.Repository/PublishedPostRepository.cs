@@ -12,7 +12,7 @@ namespace Blog.ReadModel.Repository
 	{
 	}
 
-	public class PublishedPostRepository : IPublishedPostRepository
+	internal class PublishedPostRepository : IPublishedPostRepository
 	{
 		private CloudTable _table = Azure.GetTableReference("PublishedPosts");
 

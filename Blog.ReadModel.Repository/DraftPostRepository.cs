@@ -12,7 +12,7 @@ namespace Blog.ReadModel.Repository
 	{
 	}
 
-	public class DraftPostRepository : IDraftPostRepository
+	internal class DraftPostRepository : IDraftPostRepository
 	{
 		private CloudTable _table = Azure.GetTableReference("DraftPosts");
 
@@ -20,6 +20,9 @@ namespace Blog.ReadModel.Repository
 		{
 			var entity = new DynamicTableEntity(item.Id.ToString(), "");
 			entity.Properties["WhenCreated"] = new EntityProperty(item.WhenCreated);
+			entity.Properties["Content"] = new EntityProperty(item.Content ?? "");
+			entity.Properties["WhenEdited"] = new EntityProperty(item.WhenEdited);
+			entity.Properties["Title"] = new EntityProperty(item.Title);
 
 			_table.Execute(TableOperation.InsertOrMerge(entity));
 		}
@@ -44,7 +47,14 @@ namespace Blog.ReadModel.Repository
 
 		private DraftPost CreateDraftPost(DynamicTableEntity entity)
 		{
-			return new DraftPost() { Id = new Guid(entity.PartitionKey), WhenCreated = entity.Properties["WhenCreated"].DateTimeOffsetValue.Value.DateTime };
+			return new DraftPost()
+				{
+					Id = new Guid(entity.PartitionKey),
+					WhenCreated = entity.Properties["WhenCreated"].DateTimeOffsetValue.Value.DateTime,
+					Content = entity.Properties["Content"].StringValue,
+					WhenEdited = entity.Properties["WhenEdited"].DateTimeOffsetValue.Value.DateTime,
+					Title = entity.Properties["Title"].StringValue,
+				};
 		}
 
 		public void Delete(Guid id)

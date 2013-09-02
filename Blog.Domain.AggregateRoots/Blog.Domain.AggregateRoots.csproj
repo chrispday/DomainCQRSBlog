@@ -45,9 +45,17 @@
       <Project>{e6015574-7338-466b-8288-7d13806856ac}</Project>
       <Name>Blog.Domain.Commands</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Blog.Domain.Errors\Blog.Domain.Errors.csproj">
+      <Project>{06241fb9-cd4e-43e7-b579-414421dc0bfb}</Project>
+      <Name>Blog.Domain.Errors</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blog.Domain.Events\Blog.Domain.Events.csproj">
       <Project>{069bbd1d-aadf-4df8-9429-fecf3068adee}</Project>
       <Name>Blog.Domain.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.ReadModel.Repository\Blog.ReadModel.Repository.csproj">
+      <Project>{14e3af96-0b9d-4e9e-88f6-99b76a6ee768}</Project>
+      <Name>Blog.ReadModel.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

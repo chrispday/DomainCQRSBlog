@@ -8,7 +8,8 @@ namespace Blog.Domain.Commands
 {
 	public class CreatePost
 	{
-		public Guid AggregateRootId { get; set; }
+		public Guid Id { get; set; }
 		public DateTime WhenCreated { get; set; }
+		public string Title { get; set; }
 	}
 }
