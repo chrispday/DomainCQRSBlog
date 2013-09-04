@@ -32,7 +32,6 @@ public class IdentifyAsBlogger_
 
     private void Nothing()
     {
-        throw new NotImplementedException();
     }
 
     private void LoggedInWithTheCorrectUsernameAndPassword()

@@ -76,7 +76,8 @@ namespace Blog.Domain.AggregateRoots
 			{
 				Id = publishPost.Id,
 				WhenPublished = publishPost.WhenPublished,
-				Title = Title
+				Title = Title,
+				Content = Content
 			};
 		}
 

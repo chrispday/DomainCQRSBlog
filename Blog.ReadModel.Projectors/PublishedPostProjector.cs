@@ -19,6 +19,7 @@ namespace Blog.ReadModel.Projectors
 			var publishedPost = Repositories.PublishedPosts.Get(postPublished.Id) ?? new PublishedPost() { Id = postPublished.Id };
 			publishedPost.WhenPublished = postPublished.WhenPublished;
 			publishedPost.Url = CreateUrl(postPublished.Title);
+			publishedPost.Content = postPublished.Content;
 			Repositories.PublishedPosts.Save(publishedPost);
 		}
 
