@@ -19,9 +19,9 @@ namespace Blog.ReadModel.Repository
 		public void Save(DraftPost item)
 		{
 			var entity = new DynamicTableEntity(item.Id.ToString(), "");
-			entity.Properties["WhenCreated"] = new EntityProperty(item.WhenCreated);
+			entity.Properties["WhenCreated"] = new EntityProperty(item.WhenCreated.ToUniversalTime().Ticks);
 			entity.Properties["Content"] = new EntityProperty(item.Content ?? "");
-			entity.Properties["WhenEdited"] = new EntityProperty(item.WhenEdited);
+			entity.Properties["WhenEdited"] = new EntityProperty(item.WhenEdited.ToUniversalTime().Ticks);
 			entity.Properties["Title"] = new EntityProperty(item.Title);
 
 			_table.Execute(TableOperation.InsertOrMerge(entity));
@@ -50,9 +50,9 @@ namespace Blog.ReadModel.Repository
 			return new DraftPost()
 				{
 					Id = new Guid(entity.PartitionKey),
-					WhenCreated = entity.Properties["WhenCreated"].DateTimeOffsetValue.Value.DateTime,
+					WhenCreated = new DateTime(entity.Properties["WhenCreated"].Int64Value.Value).ToLocalTime(),
 					Content = entity.Properties["Content"].StringValue,
-					WhenEdited = entity.Properties["WhenEdited"].DateTimeOffsetValue.Value.DateTime,
+					WhenEdited = new DateTime(entity.Properties["WhenEdited"].Int64Value.Value).ToLocalTime(),
 					Title = entity.Properties["Title"].StringValue,
 				};
 		}

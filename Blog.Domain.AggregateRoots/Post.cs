@@ -12,11 +12,11 @@ namespace Blog.Domain.AggregateRoots
 	public class Post
 	{
 		private Guid Id { get; set; }
-		private bool Published { get; set; }
 		private DateTime WhenCreated { get; set; }
 		private string Content { get; set; }
 		private DateTime WhenEdited { get; set; }
 		private string Title { get; set; }
+		public DateTime WhenPublished { get; set; }
 
 		public object Apply(Commands.CreatePost createPost)
 		{
@@ -51,9 +51,9 @@ namespace Blog.Domain.AggregateRoots
 			return new Events.PostEdited()
 			{
 				Id = editPost.Id,
-				Content = editPost.Content,
+				Content = editPost.Content ?? Content,
 				WhenEdited = editPost.WhenEdited,
-				Title = editPost.Title,
+				Title = editPost.Title ?? Title,
 			};
 		}
 
@@ -64,5 +64,27 @@ namespace Blog.Domain.AggregateRoots
 			WhenEdited = postEdited.WhenEdited;
 			Title = postEdited.Title;
 		}
+
+		public object Apply(Commands.PublishPost publishPost)
+		{
+			if (string.IsNullOrWhiteSpace(Content))
+			{
+				throw new Errors.PostMustHaveContentError();
+			}
+
+			return new Events.PostPublished()
+			{
+				Id = publishPost.Id,
+				WhenPublished = publishPost.WhenPublished,
+				Title = Title
+			};
+		}
+
+		public void Apply(Events.PostPublished postPublished)
+		{
+			Id = postPublished.Id;
+			WhenPublished = postPublished.WhenPublished;
+		}
+
 	}
 }

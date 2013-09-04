@@ -37,6 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PostMustHaveContentError.cs" />
     <Compile Include="PostMustHaveTitleError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blog.ReadModel.Data
+namespace Blog.Domain.Commands
 {
-	public class PublishedPost
+	public class PublishPost
 	{
 		public Guid Id { get; set; }
 		public DateTime WhenPublished { get; set; }
-		public string Url { get; set; }
 	}
 }

@@ -10,24 +10,11 @@ using Blog.ReadModel.Projectors;
 using System.Threading;
 using Blog.ReadModel.Repository;
 using Blog.Domain.Errors;
+using Blog.Tests;
 
 [TestClass]
 public class WritePosts_
 {
-	IConfigure config = Configure.With()
-		.Synchrounous()
-		.DebugLogger()
-		.AzureEventStoreProvider("UseDevelopmentStorage=true")
-		.JsonSerializer()
-		.EventStore()
-		.NoAggregateRootCache()
-		.MessageReceiver("Id")
-			.Register<CreatePost, Post>()
-			.Register<EditPost, Post>()
-		.EventPublisher()
-			.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId)
-			.Subscribe<DraftPostProjector, PostEdited>(DraftPostProjector.SubscriptionId);
-
 	Guid createdId = Guid.NewGuid();
 	string createdTitle = "Created title " + Guid.NewGuid().ToString();
 
@@ -87,7 +74,7 @@ public class WritePosts_
 
 	private void APostIsCreated()
 	{
-		config.GetMessageReceiver.Receive(new CreatePost() { Id = createdId, WhenCreated = new DateTime(2000, 1, 1), Title = createdTitle });
+		_.Config.GetMessageReceiver.Receive(new CreatePost() { Id = createdId, WhenCreated = new DateTime(2000, 1, 1), Title = createdTitle });
 	}
 
 	private void ItShouldAppearInTheListOfDraftPosts()
@@ -117,12 +104,12 @@ public class WritePosts_
 
 	private void ADraftPost(Guid id, string title)
 	{
-		config.GetMessageReceiver.Receive(new CreatePost() { Id = id, WhenCreated = DateTime.Now, Title = title });
+		_.Config.GetMessageReceiver.Receive(new CreatePost() { Id = id, WhenCreated = DateTime.Now, Title = title });
 	}
 
 	private void ThePostIsEdited()
 	{
-		config.GetMessageReceiver.Receive(new EditPost() { Id = draftId, Content = draftContent, WhenEdited = new DateTime(2001, 1, 1), Title = draftTitle });
+		_.Config.GetMessageReceiver.Receive(new EditPost() { Id = draftId, Content = draftContent, WhenEdited = new DateTime(2001, 1, 1), Title = draftTitle });
 	}
 
 	private void ThePostShouldBeUpdatedWithTheNewContents(Guid id, string content)
@@ -142,7 +129,7 @@ public class WritePosts_
 
 	private void ThePostContentIsEdited()
 	{
-		config.GetMessageReceiver.Receive(new EditPost() { Id = draftContentId, Content = draftContent2, WhenEdited = new DateTime(2002, 1, 1) });
+		_.Config.GetMessageReceiver.Receive(new EditPost() { Id = draftContentId, Content = draftContent2, WhenEdited = new DateTime(2002, 1, 1) });
 	}
 
 	private void ThePostTitleShouldNotBeUpdated()
@@ -154,7 +141,7 @@ public class WritePosts_
 	{
 		try
 		{
-			config.GetMessageReceiver.Receive(new CreatePost() { Id = createdIdNoTitle, WhenCreated = DateTime.Now });
+			_.Config.GetMessageReceiver.Receive(new CreatePost() { Id = createdIdNoTitle, WhenCreated = DateTime.Now });
 		}
 		catch (Exception ex)
 		{

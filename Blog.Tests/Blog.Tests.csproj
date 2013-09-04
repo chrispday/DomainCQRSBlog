@@ -89,6 +89,7 @@
     <Compile Include="Commenter\NewComments.cs" />
     <Compile Include="Commenter\PostHasComments.cs" />
     <Compile Include="Commenter\ReplyToComment.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reader\PaginatePosts.cs" />
     <Compile Include="Reader\ReadAPost.cs" />
