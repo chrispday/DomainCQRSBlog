@@ -74,7 +74,7 @@ public class WritePosts_
 
 	private void APostIsCreated()
 	{
-		_.Config.GetMessageReceiver.Receive(new CreatePost() { Id = createdId, WhenCreated = new DateTime(2000, 1, 1), Title = createdTitle });
+		_.Receive(new CreatePost() { Id = createdId, WhenCreated = new DateTime(2000, 1, 1), Title = createdTitle, SessionId = _.SessionId });
 	}
 
 	private void ItShouldAppearInTheListOfDraftPosts()
@@ -104,12 +104,12 @@ public class WritePosts_
 
 	private void ADraftPost(Guid id, string title)
 	{
-		_.Config.GetMessageReceiver.Receive(new CreatePost() { Id = id, WhenCreated = DateTime.Now, Title = title });
+		_.Receive(new CreatePost() { Id = id, WhenCreated = DateTime.Now, Title = title, SessionId = _.SessionId });
 	}
 
 	private void ThePostIsEdited()
 	{
-		_.Config.GetMessageReceiver.Receive(new EditPost() { Id = draftId, Content = draftContent, WhenEdited = new DateTime(2001, 1, 1), Title = draftTitle });
+		_.Receive(new EditPost() { Id = draftId, Content = draftContent, WhenEdited = new DateTime(2001, 1, 1), Title = draftTitle, SessionId = _.SessionId });
 	}
 
 	private void ThePostShouldBeUpdatedWithTheNewContents(Guid id, string content)
@@ -129,7 +129,7 @@ public class WritePosts_
 
 	private void ThePostContentIsEdited()
 	{
-		_.Config.GetMessageReceiver.Receive(new EditPost() { Id = draftContentId, Content = draftContent2, WhenEdited = new DateTime(2002, 1, 1) });
+		_.Receive(new EditPost() { Id = draftContentId, Content = draftContent2, WhenEdited = new DateTime(2002, 1, 1), SessionId = _.SessionId });
 	}
 
 	private void ThePostTitleShouldNotBeUpdated()
@@ -141,7 +141,7 @@ public class WritePosts_
 	{
 		try
 		{
-			_.Config.GetMessageReceiver.Receive(new CreatePost() { Id = createdIdNoTitle, WhenCreated = DateTime.Now });
+			_.Receive(new CreatePost() { Id = createdIdNoTitle, WhenCreated = DateTime.Now, SessionId = _.SessionId });
 		}
 		catch (Exception ex)
 		{

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Blog.Domain.Commands
 {
-	public class PublishPost
+	public class CreateUser
 	{
 		public Guid Id { get; set; }
-		public DateTime WhenPublished { get; set; }
-		public Guid SessionId { get; set; }
+		public string Username { get; set; }
+		public Guid Salt { get; set; }
+		public string Password { get; set; }
 	}
 }

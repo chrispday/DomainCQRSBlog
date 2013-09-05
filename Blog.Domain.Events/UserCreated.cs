@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Blog.Domain.Events
 {
-	public class PostCreated
+	public class UserCreated
 	{
 		public Guid Id { get; set; }
-		public DateTime WhenCreated { get; set; }
-		public string Title { get; set; }
-		public Guid SessionId { get; set; }
+		public string Username { get; set; }
+		public Guid Salt { get; set; }
+		public byte[] Password { get; set; }
 	}
 }

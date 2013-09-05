@@ -11,5 +11,6 @@ namespace Blog.Domain.Commands
 		public Guid Id { get; set; }
 		public DateTime WhenCreated { get; set; }
 		public string Title { get; set; }
+		public Guid SessionId { get; set; }
 	}
 }

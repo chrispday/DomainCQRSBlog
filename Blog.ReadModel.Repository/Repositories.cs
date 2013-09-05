@@ -10,5 +10,7 @@ namespace Blog.ReadModel.Repository
 	{
 		public static readonly IDraftPostRepository DraftPosts = new DraftPostRepository();
 		public static readonly IPublishedPostRepository PublishedPosts = new PublishedPostRepository();
+		public static readonly IUserRepository Users = new UserRepository();
+		public static readonly ISessionRepository Sessions = new SessionRepository();
 	}
 }

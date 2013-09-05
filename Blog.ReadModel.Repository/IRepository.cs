@@ -13,4 +13,9 @@ namespace Blog.ReadModel.Repository
 		IEnumerable<T> Get();
 		void Delete(Guid id);
 	}
+
+	public interface IRepository<T, K> : IRepository<T>
+	{
+		T Get(K id);
+	}
 }

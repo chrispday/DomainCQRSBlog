@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blog.Domain.Commands
+namespace Blog.ReadModel.Data
 {
-	public class PublishPost
+	public class Session
 	{
 		public Guid Id { get; set; }
-		public DateTime WhenPublished { get; set; }
-		public Guid SessionId { get; set; }
+		public Guid UserId { get; set; }
 	}
 }

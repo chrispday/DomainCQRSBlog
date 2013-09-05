@@ -9,7 +9,7 @@ using Blog.ReadModel.Repository;
 
 namespace Blog.Domain.AggregateRoots
 {
-	public class Post
+	public class Post : AggregateRootBase
 	{
 		private Guid Id { get; set; }
 		private DateTime WhenCreated { get; set; }
@@ -20,6 +20,7 @@ namespace Blog.Domain.AggregateRoots
 
 		public object Apply(Commands.CreatePost createPost)
 		{
+			ValidateSession(createPost.SessionId);
 			if (string.IsNullOrWhiteSpace(createPost.Title))
 			{
 				throw new Errors.PostMustHaveTitleError();
@@ -30,6 +31,7 @@ namespace Blog.Domain.AggregateRoots
 				Id = createPost.Id,
 				WhenCreated = createPost.WhenCreated,
 				Title = createPost.Title,
+				SessionId = createPost.SessionId
 			};
 		}
 
@@ -42,6 +44,7 @@ namespace Blog.Domain.AggregateRoots
 
 		public object Apply(Commands.EditPost editPost)
 		{
+			ValidateSession(editPost.SessionId);
 			if (null == Title
 				&& string.IsNullOrWhiteSpace(editPost.Title))
 			{
@@ -54,6 +57,7 @@ namespace Blog.Domain.AggregateRoots
 				Content = editPost.Content ?? Content,
 				WhenEdited = editPost.WhenEdited,
 				Title = editPost.Title ?? Title,
+				SessionId = editPost.SessionId
 			};
 		}
 
@@ -67,6 +71,7 @@ namespace Blog.Domain.AggregateRoots
 
 		public object Apply(Commands.PublishPost publishPost)
 		{
+			ValidateSession(publishPost.SessionId);
 			if (string.IsNullOrWhiteSpace(Content))
 			{
 				throw new Errors.PostMustHaveContentError();
@@ -77,7 +82,8 @@ namespace Blog.Domain.AggregateRoots
 				Id = publishPost.Id,
 				WhenPublished = publishPost.WhenPublished,
 				Title = Title,
-				Content = Content
+				Content = Content,
+				SessionId = publishPost.SessionId
 			};
 		}
 
@@ -86,6 +92,5 @@ namespace Blog.Domain.AggregateRoots
 			Id = postPublished.Id;
 			WhenPublished = postPublished.WhenPublished;
 		}
-
 	}
 }

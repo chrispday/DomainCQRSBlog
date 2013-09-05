@@ -12,5 +12,6 @@ namespace Blog.Domain.Events
 		public DateTime WhenPublished { get; set; }
 		public string Title { get; set; }
 		public string Content { get; set; }
+		public Guid SessionId { get; set; }
 	}
 }

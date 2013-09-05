@@ -56,17 +56,17 @@ public class PublishPosts_
 
     private void AnUnpublishedPost(Guid id)
     {
-		 _.Config.GetMessageReceiver.Receive(new CreatePost() { Id = id, Title = "Title" + id.ToString(), WhenCreated = DateTime.Now });
+		 _.Receive(new CreatePost() { Id = id, Title = "Title" + id.ToString(), WhenCreated = DateTime.Now, SessionId = _.SessionId });
     }
 
 	 private void WithTheContent(Guid id, string content)
 	 {
-		 _.Config.GetMessageReceiver.Receive(new EditPost() { Id = id, WhenEdited = DateTime.Now, Content = content });
+		 _.Receive(new EditPost() { Id = id, WhenEdited = DateTime.Now, Content = content, SessionId = _.SessionId });
 	 }
 
 	 private void ThePostIsPublished(Guid id)
     {
-		 _.Config.GetMessageReceiver.Receive(new PublishPost() { Id = id, WhenPublished = new DateTime(2000, 1, 1) });
+		 _.Receive(new PublishPost() { Id = id, WhenPublished = new DateTime(2000, 1, 1), SessionId = _.SessionId });
 	 }
 
 	 private void ItShouldBeAvailableToReaders(Guid id)
@@ -86,14 +86,14 @@ public class PublishPosts_
 
 	 private void ThePostContentIsEmpty(Guid id)
     {
-		 _.Config.GetMessageReceiver.Receive(new EditPost() { Id = id, WhenEdited = DateTime.Now, Content = "" });
+		 _.Receive(new EditPost() { Id = id, WhenEdited = DateTime.Now, Content = "", SessionId = _.SessionId });
     }
 
 	private void ThePostIsPublishedWithoutContent(Guid id)
 	{
 		try
 		{
-			_.Config.GetMessageReceiver.Receive(new PublishPost() { Id = id, WhenPublished = new DateTime(2000, 1, 1) });
+			_.Receive(new PublishPost() { Id = id, WhenPublished = new DateTime(2000, 1, 1), SessionId = _.SessionId });
 		}
 		catch (Exception ex)
 		{
@@ -114,16 +114,16 @@ public class PublishPosts_
 
 	 private void APublishedPostWithATitle(Guid id)
 	 {
-		 _.Config.GetMessageReceiver.Receive(new CreatePost() { Id = id, WhenCreated = DateTime.Now, Title = "Title" + id.ToString() });
-		 _.Config.GetMessageReceiver.Receive(new EditPost() { Id = id, WhenEdited = DateTime.Now, Content = "Content" + id.ToString() });
-		 _.Config.GetMessageReceiver.Receive(new PublishPost() { Id = id, WhenPublished = DateTime.Now });
+		 _.Receive(new CreatePost() { Id = id, WhenCreated = DateTime.Now, Title = "Title" + id.ToString(), SessionId = _.SessionId });
+		 _.Receive(new EditPost() { Id = id, WhenEdited = DateTime.Now, Content = "Content" + id.ToString(), SessionId = _.SessionId });
+		 _.Receive(new PublishPost() { Id = id, WhenPublished = DateTime.Now, SessionId = _.SessionId });
 	 }
 
 	 private void AnotherPostIsPublishedWithTheSameTitle(Guid id, Guid otherId)
 	 {
-		 _.Config.GetMessageReceiver.Receive(new CreatePost() { Id = id, WhenCreated = DateTime.Now, Title = "Title" + otherId.ToString() });
-		 _.Config.GetMessageReceiver.Receive(new EditPost() { Id = id, WhenEdited = DateTime.Now, Content = "Content" + id.ToString() });
-		 _.Config.GetMessageReceiver.Receive(new PublishPost() { Id = id, WhenPublished = DateTime.Now });
+		 _.Receive(new CreatePost() { Id = id, WhenCreated = DateTime.Now, Title = "Title" + otherId.ToString(), SessionId = _.SessionId });
+		 _.Receive(new EditPost() { Id = id, WhenEdited = DateTime.Now, Content = "Content" + id.ToString(), SessionId = _.SessionId });
+		 _.Receive(new PublishPost() { Id = id, WhenPublished = DateTime.Now, SessionId = _.SessionId });
 	 }
 
 	 private void ItShouldNotBeTheSameAsTheUrlForTheExistingPost(Guid id, Guid id2)

@@ -38,7 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreatePost.cs" />
+    <Compile Include="CreateUser.cs" />
     <Compile Include="EditPost.cs" />
+    <Compile Include="Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublishPost.cs" />
   </ItemGroup>

@@ -31,10 +31,7 @@ namespace Blog.ReadModel.Repository
 		{
 			return _table
 				.ExecuteQuery(new TableQuery<DynamicTableEntity>()
-				.Where(TableQuery.CombineFilters(
-					TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id.ToString()),
-					TableOperators.And,
-					TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, ""))))
+				.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id.ToString())))
 				.Select(entity => CreateDraftPost(entity))
 				.FirstOrDefault();
 		}
