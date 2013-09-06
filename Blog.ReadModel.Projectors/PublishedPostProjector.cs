@@ -14,18 +14,30 @@ namespace Blog.ReadModel.Projectors
 	{
 		public static readonly Guid SubscriptionId = new Guid("59FBFA16-DD60-4CF0-920E-63B07BE9CE65");
 
+		private readonly IPublishedPostRepository PublishedPosts;
+		public PublishedPostProjector() : this(Repositories.PublishedPosts) { }
+		public PublishedPostProjector(IPublishedPostRepository publishedPosts)
+		{
+			if (null == publishedPosts)
+			{
+				throw new ArgumentNullException();
+			}
+
+			PublishedPosts = publishedPosts;
+		}
+
 		public void Receive(PostPublished postPublished)
 		{
-			var publishedPost = Repositories.PublishedPosts.Get(postPublished.Id) ?? new PublishedPost() { Id = postPublished.Id };
+			var publishedPost = PublishedPosts.Get(postPublished.Id) ?? new PublishedPost() { Id = postPublished.Id };
 			publishedPost.WhenPublished = postPublished.WhenPublished;
 			publishedPost.Url = CreateUrl(postPublished.Title);
 			publishedPost.Content = postPublished.Content;
 			Repositories.PublishedPosts.Save(publishedPost);
 		}
 
-		private static string CreateUrl(string title)
+		private string CreateUrl(string title)
 		{
-			var existingUrls = Repositories.PublishedPosts.Get().Select(p => p.Url);
+			var existingUrls = PublishedPosts.Get().Select(p => p.Url);
 			var url = new string(title.Select(c => Char.IsLetterOrDigit(c) ? c : '-').ToArray());
 
 			while (existingUrls.Contains(url))

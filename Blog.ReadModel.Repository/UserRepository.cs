@@ -11,8 +11,20 @@ namespace Blog.ReadModel.Repository
 	public interface IUserRepository : IRepository<User, string> { }
 	internal class UserRepository : IUserRepository
 	{
-		private CloudTable _table = Azure.GetTableReference("Users");
-		private CloudTable _tableByUsername = Azure.GetTableReference("UsersByUsername");
+		private readonly CloudTable Users;
+		private readonly CloudTable UsersByUsername;
+		public UserRepository(CloudTableClient cloudTableClient)
+		{
+			if (null == cloudTableClient)
+			{
+				throw new ArgumentNullException();
+			}
+
+			Users = cloudTableClient.GetTableReference("Users");
+			Users.CreateIfNotExists();
+			UsersByUsername = cloudTableClient.GetTableReference("UsersByUsername");
+			UsersByUsername.CreateIfNotExists();
+		}
 
 		public void Save(User item)
 		{
@@ -20,15 +32,15 @@ namespace Blog.ReadModel.Repository
 			entity.Properties["Username"] = new EntityProperty(item.Username);
 			entity.Properties["Salt"] = new EntityProperty(item.Salt);
 			entity.Properties["Password"] = new EntityProperty(item.Password);
-			_table.Execute(TableOperation.InsertOrMerge(entity));
+			Users.Execute(TableOperation.InsertOrMerge(entity));
 
 			entity = new DynamicTableEntity(item.Username, item.Id.ToString());
-			_tableByUsername.Execute(TableOperation.InsertOrMerge(entity));
+			UsersByUsername.Execute(TableOperation.InsertOrMerge(entity));
 		}
 
 		public User Get(Guid id)
 		{
-			return _table
+			return Users
 				.ExecuteQuery(new TableQuery<DynamicTableEntity>()
 				.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id.ToString())))
 				.Select(entity => CreateUser(entity))
@@ -37,7 +49,7 @@ namespace Blog.ReadModel.Repository
 
 		public User Get(string id)
 		{
-			return Get(_tableByUsername
+			return Get(UsersByUsername
 				.ExecuteQuery(new TableQuery<DynamicTableEntity>()
 				.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id)))
 				.Select(entity => new Guid(entity.RowKey))
@@ -46,7 +58,7 @@ namespace Blog.ReadModel.Repository
 
 		public IEnumerable<User> Get()
 		{
-			return _table.ExecuteQuery(new TableQuery<DynamicTableEntity>())
+			return Users.ExecuteQuery(new TableQuery<DynamicTableEntity>())
 				.Select(entity => CreateUser(entity));
 		}
 

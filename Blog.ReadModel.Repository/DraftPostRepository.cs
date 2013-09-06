@@ -8,13 +8,20 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Blog.ReadModel.Repository
 {
-	public interface IDraftPostRepository : IRepository<DraftPost>
-	{
-	}
-
+	public interface IDraftPostRepository : IRepository<DraftPost> {}
 	internal class DraftPostRepository : IDraftPostRepository
 	{
-		private CloudTable _table = Azure.GetTableReference("DraftPosts");
+		private readonly CloudTable DraftPostsTable;
+		public DraftPostRepository(CloudTableClient cloudTableClient)
+		{
+			if (null == cloudTableClient)
+			{
+				throw new ArgumentNullException();
+			}
+
+			DraftPostsTable = cloudTableClient.GetTableReference("DraftPosts");
+			DraftPostsTable.CreateIfNotExists();
+		}
 
 		public void Save(DraftPost item)
 		{
@@ -24,12 +31,12 @@ namespace Blog.ReadModel.Repository
 			entity.Properties["WhenEdited"] = new EntityProperty(item.WhenEdited.ToUniversalTime().Ticks);
 			entity.Properties["Title"] = new EntityProperty(item.Title);
 
-			_table.Execute(TableOperation.InsertOrMerge(entity));
+			DraftPostsTable.Execute(TableOperation.InsertOrMerge(entity));
 		}
 
 		public DraftPost Get(Guid id)
 		{
-			return _table
+			return DraftPostsTable
 				.ExecuteQuery(new TableQuery<DynamicTableEntity>()
 				.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id.ToString())))
 				.Select(entity => CreateDraftPost(entity))
@@ -38,7 +45,7 @@ namespace Blog.ReadModel.Repository
 
 		public IEnumerable<DraftPost> Get()
 		{
-			return _table.ExecuteQuery(new TableQuery<DynamicTableEntity>())
+			return DraftPostsTable.ExecuteQuery(new TableQuery<DynamicTableEntity>())
 				.Select(entity => CreateDraftPost(entity));
 		}
 

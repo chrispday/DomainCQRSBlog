@@ -12,9 +12,21 @@ namespace Blog.ReadModel.Projectors
 	{
 		public static readonly Guid SubscriptionId = new Guid("94DE00B6-2BFF-4066-AC1D-0BE5434A8657");
 
+		private readonly IDraftPostRepository DraftPosts;
+		public DraftPostProjector() : this(Repositories.DraftPosts) { }
+		public DraftPostProjector(IDraftPostRepository draftPosts)
+		{
+			if (null == draftPosts)
+			{
+				throw new ArgumentNullException();
+			}
+
+			DraftPosts = draftPosts;
+		}
+
 		public void Receive(PostCreated postCreated)
 		{
-			var draftPost = Repositories.DraftPosts.Get(postCreated.Id) ?? new Data.DraftPost() { Id = postCreated.Id };
+			var draftPost = DraftPosts.Get(postCreated.Id) ?? new Data.DraftPost() { Id = postCreated.Id };
 			draftPost.WhenCreated = postCreated.WhenCreated;
 			draftPost.WhenEdited = postCreated.WhenCreated;
 			draftPost.Title = postCreated.Title;
@@ -23,7 +35,7 @@ namespace Blog.ReadModel.Projectors
 
 		public void Receive(PostEdited postEdited)
 		{
-			var draftPost = Repositories.DraftPosts.Get(postEdited.Id) ?? new Data.DraftPost { Id = postEdited.Id };
+			var draftPost = DraftPosts.Get(postEdited.Id) ?? new Data.DraftPost { Id = postEdited.Id };
 			draftPost.Content = postEdited.Content;
 			draftPost.WhenEdited = postEdited.WhenEdited;
 			draftPost.Title = postEdited.Title;

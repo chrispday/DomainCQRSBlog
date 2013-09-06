@@ -10,9 +10,20 @@ namespace Blog.Domain.AggregateRoots
 {
 	public class AggregateRootBase
 	{
+		protected readonly ISessionRepository Sessions;
+		public AggregateRootBase(ISessionRepository sessions)
+		{
+			if (null == sessions)
+			{
+				throw new ArgumentNullException();
+			}
+
+			Sessions = sessions;
+		}
+
 		protected void ValidateSession(Guid sessionId)
 		{
-			var session = Repositories.Sessions.Get(sessionId);
+			var session = Sessions.Get(sessionId);
 			if (null == session)
 			{
 				throw new Errors.NotLoggedInError();

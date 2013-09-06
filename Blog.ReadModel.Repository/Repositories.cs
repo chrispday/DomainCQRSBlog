@@ -8,9 +8,9 @@ namespace Blog.ReadModel.Repository
 {
 	public static class Repositories
 	{
-		public static readonly IDraftPostRepository DraftPosts = new DraftPostRepository();
-		public static readonly IPublishedPostRepository PublishedPosts = new PublishedPostRepository();
-		public static readonly IUserRepository Users = new UserRepository();
-		public static readonly ISessionRepository Sessions = new SessionRepository();
+		public static readonly IDraftPostRepository DraftPosts = new DraftPostRepository(Azure.TableClient);
+		public static readonly IPublishedPostRepository PublishedPosts = new PublishedPostRepository(Azure.TableClient);
+		public static readonly IUserRepository Users = new UserRepository(Azure.TableClient);
+		public static readonly ISessionRepository Sessions = new SessionRepository(Azure.TableClient);
 	}
 }

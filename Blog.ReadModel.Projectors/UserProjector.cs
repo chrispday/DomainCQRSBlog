@@ -12,9 +12,21 @@ namespace Blog.ReadModel.Projectors
 	{
 		public static readonly Guid SubscriptionId = new Guid("AAFDF246-76E7-419E-8BB1-08A6DCE7BE4B");
 
+		private readonly IUserRepository Users;
+		public UserProjector() : this(Repositories.Users) { }
+		public UserProjector(IUserRepository users)
+		{
+			if (null == users)
+			{
+				throw new ArgumentNullException();
+			}
+
+			Users = users;
+		}
+
 		public void Receive(UserCreated userCreated)
 		{
-			Repositories.Users.Save(new Data.User()
+			Users.Save(new Data.User()
 			{
 				Id = userCreated.Id,
 				Username = userCreated.Username,

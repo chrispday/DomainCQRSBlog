@@ -18,6 +18,9 @@ namespace Blog.Domain.AggregateRoots
 		private string Title { get; set; }
 		public DateTime WhenPublished { get; set; }
 
+		public Post(ISessionRepository sessions) : base(sessions) { }
+		public Post() : this(Repositories.Sessions) { }
+
 		public object Apply(Commands.CreatePost createPost)
 		{
 			ValidateSession(createPost.SessionId);

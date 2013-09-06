@@ -11,18 +11,28 @@ namespace Blog.ReadModel.Repository
 	public interface ISessionRepository : IRepository<Session> { }
 	public class SessionRepository : ISessionRepository
 	{
-		private CloudTable _table = Azure.GetTableReference("Sessions");
+		private readonly CloudTable Sessions;
+		public SessionRepository(CloudTableClient cloudTableClient)
+		{
+			if (null == cloudTableClient)
+			{
+				throw new ArgumentNullException();
+			}
+
+			Sessions = cloudTableClient.GetTableReference("Sessions");
+			Sessions.CreateIfNotExists();
+		}
 
 		public void Save(Session item)
 		{
 			var entity = new DynamicTableEntity(item.Id.ToString(), "");
 			entity.Properties["UserId"] = new EntityProperty(item.UserId);
-			_table.Execute(TableOperation.InsertOrMerge(entity));
+			Sessions.Execute(TableOperation.InsertOrMerge(entity));
 		}
 
 		public Session Get(Guid id)
 		{
-			return _table
+			return Sessions
 				.ExecuteQuery(new TableQuery<DynamicTableEntity>()
 				.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id.ToString())))
 				.Select(entity => CreateSession(entity))
@@ -31,7 +41,7 @@ namespace Blog.ReadModel.Repository
 
 		public IEnumerable<Session> Get()
 		{
-			return _table.ExecuteQuery(new TableQuery<DynamicTableEntity>())
+			return Sessions.ExecuteQuery(new TableQuery<DynamicTableEntity>())
 				.Select(entity => CreateSession(entity));
 		}
 

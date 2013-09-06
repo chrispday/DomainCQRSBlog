@@ -15,7 +15,17 @@ namespace Blog.ReadModel.Repository
 
 	internal class PublishedPostRepository : IPublishedPostRepository
 	{
-		private CloudTable _table = Azure.GetTableReference("PublishedPosts");
+		private readonly CloudTable PublishedPosts;
+		public PublishedPostRepository(CloudTableClient cloudTableClient)
+		{
+			if (null == cloudTableClient)
+			{
+				throw new ArgumentNullException();
+			}
+
+			PublishedPosts = cloudTableClient.GetTableReference("PublishedPosts");
+			PublishedPosts.CreateIfNotExists();
+		}
 
 		public void Save(PublishedPost item)
 		{
@@ -25,12 +35,12 @@ namespace Blog.ReadModel.Repository
 			entity.Properties["Url"] = new EntityProperty(item.Url ?? "");
 			entity.Properties["Content"] = new EntityProperty(item.Content ?? "");
 
-			_table.Execute(TableOperation.InsertOrMerge(entity));
+			PublishedPosts.Execute(TableOperation.InsertOrMerge(entity));
 		}
 
 		public PublishedPost Get(Guid id)
 		{
-			return _table
+			return PublishedPosts
 				.ExecuteQuery(new TableQuery<DynamicTableEntity>()
 				.Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id.ToString())))
 				.Select(entity => CreatePublishedPost(entity))
@@ -39,13 +49,13 @@ namespace Blog.ReadModel.Repository
 
 		public IEnumerable<PublishedPost> Get()
 		{
-			return _table.ExecuteQuery(new TableQuery<DynamicTableEntity>())
+			return PublishedPosts.ExecuteQuery(new TableQuery<DynamicTableEntity>())
 				.Select(entity => CreatePublishedPost(entity));
 		}
 
 		public IEnumerable<PublishedPost> MostRecentPosts(int page, int pageSize, bool withOneMore)
 		{
-			return _table.ExecuteQuery(new TableQuery<DynamicTableEntity>())
+			return PublishedPosts.ExecuteQuery(new TableQuery<DynamicTableEntity>())
 				.Skip((page - 1) * pageSize)
 				.Take(pageSize + (withOneMore ? 1 : 0))
 				.Select(entity => CreatePublishedPost(entity));

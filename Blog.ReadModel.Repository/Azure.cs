@@ -11,18 +11,10 @@ namespace Blog.ReadModel.Repository
 {
 	public static class Azure
 	{
-		public static string ConnectionString { get { return "UseDevelopmentStorage=true"; } }
-
+		static string ConnectionString { get { return "UseDevelopmentStorage=true"; } }
 		static CloudStorageAccount _storageAccount;
 		static CloudStorageAccount StorageAccount { get { if (null == _storageAccount) _storageAccount = CloudStorageAccount.Parse(ConnectionString); return _storageAccount; } }
 		static CloudTableClient _tableClient;
-		static CloudTableClient TableClient { get { if (null == _tableClient) _tableClient = StorageAccount.CreateCloudTableClient(); return _tableClient; } }
-
-		public static CloudTable GetTableReference(string tableName)
-		{
-			var _table = TableClient.GetTableReference(tableName);
-			_table.CreateIfNotExists();
-			return _table;
-		}
+		public static CloudTableClient TableClient { get { if (null == _tableClient) _tableClient = StorageAccount.CreateCloudTableClient(); return _tableClient; } }
 	}
 }
