@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Services.Client;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Blog.ReadModel.Repository
 {
 	public static class Azure
 	{
-		static string ConnectionString { get { return "UseDevelopmentStorage=true"; } }
+		static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["Azure"].ConnectionString; } }
 		static CloudStorageAccount _storageAccount;
 		static CloudStorageAccount StorageAccount { get { if (null == _storageAccount) _storageAccount = CloudStorageAccount.Parse(ConnectionString); return _storageAccount; } }
 		static CloudTableClient _tableClient;

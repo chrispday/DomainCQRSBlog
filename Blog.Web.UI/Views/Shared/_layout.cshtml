@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title</title>
+	<link rel="stylesheet" href="~/Content/bootstrap/bootstrap.min.css" />
+</head>
+<body>
+	<p />
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="jumbotron">
+					<div class="container">
+						<h1>Yeast Blog</h1>
+						<p>CQRS + Event Sourcing + Domain Driven Design + Behaviour Driven Development</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+				@RenderBody()
+			</div>
+			<div class="col-md-3">
+
+			</div>
+		</div>
+	</div>
+	<script src="~/Scripts/jquery-2.0.3.js"></script>
+	<script src="~/Scripts/bootstrap.js"></script>
+</body>
+</html>

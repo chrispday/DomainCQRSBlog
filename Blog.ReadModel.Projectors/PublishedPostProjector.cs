@@ -32,6 +32,7 @@ namespace Blog.ReadModel.Projectors
 			publishedPost.WhenPublished = postPublished.WhenPublished;
 			publishedPost.Url = CreateUrl(postPublished.Title);
 			publishedPost.Content = postPublished.Content;
+			publishedPost.Title = postPublished.Title;
 			Repositories.PublishedPosts.Save(publishedPost);
 		}
 

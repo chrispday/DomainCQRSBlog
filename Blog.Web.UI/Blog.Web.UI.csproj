@@ -112,7 +112,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -122,7 +122,21 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\bootstrap.css" />
+    <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -131,20 +145,60 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="Scripts\jquery-2.0.3.min.map" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\_layout.cshtml" />
+    <Content Include="Views\Shared\_layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Index\Index.cshtml" />
+    <ProjectReference Include="..\..\EventStore\Yeast\Yeast.EventStore.Azure\Yeast.EventStore.Azure.csproj">
+      <Project>{9b6cfd63-addc-4c3c-8c23-9bc7dbee2521}</Project>
+      <Name>Yeast.EventStore.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EventStore\Yeast\Yeast.EventStore.Serialization.Json\Yeast.EventStore.Serialization.Json.csproj">
+      <Project>{2143436a-bbf3-4555-ae98-8681aa8c591a}</Project>
+      <Name>Yeast.EventStore.Serialization.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EventStore\Yeast\Yeast.EventStore\Yeast.EventStore.csproj">
+      <Project>{a9c47e7f-eeda-40f8-bf71-638308949636}</Project>
+      <Name>Yeast.EventStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Domain.AggregateRoots\Blog.Domain.AggregateRoots.csproj">
+      <Project>{0710e810-4024-4424-82c7-d98c08d6f91d}</Project>
+      <Name>Blog.Domain.AggregateRoots</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Domain.Commands\Blog.Domain.Commands.csproj">
+      <Project>{e6015574-7338-466b-8288-7d13806856ac}</Project>
+      <Name>Blog.Domain.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Domain.Errors\Blog.Domain.Errors.csproj">
+      <Project>{06241fb9-cd4e-43e7-b579-414421dc0bfb}</Project>
+      <Name>Blog.Domain.Errors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Domain.Events\Blog.Domain.Events.csproj">
+      <Project>{069bbd1d-aadf-4df8-9429-fecf3068adee}</Project>
+      <Name>Blog.Domain.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.ReadModel.Data\Blog.ReadModel.Data.csproj">
+      <Project>{e20dc2c1-33fc-4f6a-b79c-fd79bed95dd8}</Project>
+      <Name>Blog.ReadModel.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.ReadModel.Projectors\Blog.ReadModel.Projectors.csproj">
+      <Project>{2d3874f5-b67c-4eb6-be15-b280ab6dc9b4}</Project>
+      <Name>Blog.ReadModel.Projectors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.ReadModel.Repository\Blog.ReadModel.Repository.csproj">
+      <Project>{14e3af96-0b9d-4e9e-88f6-99b76a6ee768}</Project>
+      <Name>Blog.ReadModel.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -162,7 +216,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>2530</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:2101/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

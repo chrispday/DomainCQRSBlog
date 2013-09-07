@@ -33,6 +33,7 @@ public class PublishPosts_
 								.Then(ItShouldBeAvailableToReaders, unpublishedId)
 									 .And(WithTheDatetimeIsWasPublished, unpublishedId)
 									 .And(WithTheContent, unpublishedId)
+									 .And(WithTheTitle, unpublishedId)
 
                     .WithScenario("Published Post Must Have Content")
 								.Given(AnUnpublishedPost, unpublishedIdNoContent)
@@ -82,6 +83,11 @@ public class PublishPosts_
 	 private void WithTheContent(Guid id)
 	 {
 		 Assert.AreEqual("Content" + id.ToString(), Repositories.PublishedPosts.Get(id).Content);
+	 }
+
+	 private void WithTheTitle(Guid id)
+	 {
+		 Assert.AreEqual("Title" + id.ToString(), Repositories.PublishedPosts.Get(id).Title);
 	 }
 
 	 private void ThePostContentIsEmpty(Guid id)

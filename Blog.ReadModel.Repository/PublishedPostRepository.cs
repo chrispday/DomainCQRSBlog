@@ -34,6 +34,7 @@ namespace Blog.ReadModel.Repository
 			entity.Properties["WhenPublished"] = new EntityProperty(item.WhenPublished.ToUniversalTime().Ticks);
 			entity.Properties["Url"] = new EntityProperty(item.Url ?? "");
 			entity.Properties["Content"] = new EntityProperty(item.Content ?? "");
+			entity.Properties["Title"] = new EntityProperty(item.Title ?? "");
 
 			PublishedPosts.Execute(TableOperation.InsertOrMerge(entity));
 		}
@@ -73,7 +74,8 @@ namespace Blog.ReadModel.Repository
 				Id = new Guid(entity.RowKey), 
 				WhenPublished = new DateTime(entity.Properties["WhenPublished"].Int64Value.Value).ToLocalTime(),
 				Url = entity.Properties["Url"].StringValue,
-				Content = entity.Properties["Content"].StringValue
+				Content = entity.Properties["Content"].StringValue,
+				Title = entity.Properties["Title"].StringValue
 			};
 		}
 	}

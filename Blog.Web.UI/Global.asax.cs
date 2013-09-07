@@ -5,6 +5,11 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Blog.Domain.AggregateRoots;
+using Blog.Domain.Commands;
+using Blog.Domain.Events;
+using Blog.ReadModel.Projectors;
+using Yeast.EventStore;
 
 namespace Blog.Web.UI
 {
@@ -19,6 +24,30 @@ namespace Blog.Web.UI
 			WebApiConfig.Register(GlobalConfiguration.Configuration);
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+			YeastConfig = Configure.With()
+			.Synchrounous()
+			.DebugLogger()
+			.AzureEventStoreProvider("UseDevelopmentStorage=true")
+			.JsonSerializer()
+			.EventStore()
+			.NoAggregateRootCache()
+			.MessageReceiver("Id")
+				.Register<CreatePost, Post>()
+				.Register<EditPost, Post>()
+				.Register<PublishPost, Post>()
+				.Register<CreateUser, User>()
+				.Register<Login, User>()
+			.EventPublisher()
+				.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId)
+				.Subscribe<DraftPostProjector, PostEdited>(DraftPostProjector.SubscriptionId)
+				.Subscribe<PublishedPostProjector, PostPublished>(PublishedPostProjector.SubscriptionId)
+				.Subscribe<UserProjector, UserCreated>(UserProjector.SubscriptionId)
+				;
+			MessageReceiver = YeastConfig.GetMessageReceiver;
 		}
+
+		public IConfigure YeastConfig;
+		public IMessageReceiver MessageReceiver;
 	}
 }
