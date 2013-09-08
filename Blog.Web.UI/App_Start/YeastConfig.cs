@@ -46,21 +46,5 @@ namespace Blog.Web.UI
 
 		private static IConfigure Config;
 		public static IMessageReceiver MessageReceiver;
-
-		public static Guid SessionId(HttpCookieCollection cookies)
-		{
-			var sessionId = default(Guid);
-			var sessionCookie = cookies["SessionId"];
-			if (null != sessionCookie)
-			{
-				sessionId = new Guid(sessionCookie.Value);
-			}
-			return sessionId;
-		}
-
-		public static Blog.ReadModel.Data.Session Session(Guid sessionId)
-		{
-			return Repositories.Sessions.Get(sessionId);
-		}
 	}
 }

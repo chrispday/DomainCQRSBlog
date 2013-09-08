@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Blog.ReadModel.Repository;
 
 namespace Blog.Web.UI.Controllers
 {
+	[Authorize]
 	public class DraftsController : Controller
 	{
 		//
@@ -14,10 +16,6 @@ namespace Blog.Web.UI.Controllers
 
 		public ActionResult Index()
 		{
-			if (Request.QueryString.AllKeys.Contains("SessionId"))
-			{
-				Response.Cookies.Add(new HttpCookie("SessionId", Request.QueryString["SessionId"]));
-			}
 			return View(Repositories.DraftPosts.Get());
 		}
 
@@ -45,7 +43,7 @@ namespace Blog.Web.UI.Controllers
 					Id = id,
 					Title = draftPost.Title,
 					WhenCreated = DateTime.Now,
-					SessionId = YeastConfig.SessionId(Request.Cookies)
+					SessionId = new Guid(User.Identity.Name)
 				});
 			}
 
@@ -55,7 +53,7 @@ namespace Blog.Web.UI.Controllers
 				Title = draftPost.Title,
 				Content = draftPost.Content,
 				WhenEdited = DateTime.Now,
-				SessionId = YeastConfig.SessionId(Request.Cookies)
+				SessionId = new Guid(User.Identity.Name)
 			});
 
 			RedirectToAction("Index");
@@ -65,9 +63,8 @@ namespace Blog.Web.UI.Controllers
 		public void Index(string id)
 		{
 			var postId = new Guid(id);
-			var sessionId = YeastConfig.SessionId(Request.Cookies);
 
-			YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.PublishPost() { Id = postId, WhenPublished = DateTime.Now, SessionId = sessionId });
+			YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.PublishPost() { Id = postId, WhenPublished = DateTime.Now, SessionId = new Guid(User.Identity.Name) });
 			Redirect("/");
 		}
 	}
