@@ -37,6 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangePassword.cs" />
     <Compile Include="CreatePost.cs" />
     <Compile Include="CreateUser.cs" />
     <Compile Include="EditPost.cs" />

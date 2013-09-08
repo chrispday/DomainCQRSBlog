@@ -8,7 +8,11 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Blog.ReadModel.Repository
 {
-	public interface ISessionRepository : IRepository<Session> { }
+	public interface ISessionRepository : IRepository<Session>
+	{
+		Session GetByUser(Guid userId);
+	}
+
 	public class SessionRepository : ISessionRepository
 	{
 		private readonly CloudTable Sessions;
@@ -26,15 +30,20 @@ namespace Blog.ReadModel.Repository
 		public void Save(Session item)
 		{
 			var entity = new DynamicTableEntity(item.UserId.ToString(), "");
-			entity.Properties["SessionId"] = new EntityProperty(item.Id);
+			entity.Properties["Id"] = new EntityProperty(item.Id);
 			Sessions.Execute(TableOperation.InsertOrMerge(entity));
 		}
 
 		public Session Get(Guid id)
 		{
+			return Get().Where(s => s.Id == id).FirstOrDefault();
+		}
+
+		public Session GetByUser(Guid userId)
+		{
 			return Sessions
 				.ExecuteQuery(new TableQuery<DynamicTableEntity>()
-				.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id.ToString())))
+				.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, userId.ToString())))
 				.Select(entity => CreateSession(entity))
 				.FirstOrDefault();
 		}
@@ -54,7 +63,7 @@ namespace Blog.ReadModel.Repository
 		{
 			return new Session()
 			{
-				Id = entity.Properties["SessionId"].GuidValue.Value,
+				Id = entity.Properties["Id"].GuidValue.Value,
 				UserId = new Guid(entity.PartitionKey)
 			};
 		}

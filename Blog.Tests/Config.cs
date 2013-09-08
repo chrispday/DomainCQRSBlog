@@ -27,11 +27,13 @@ namespace Blog.Tests
 				.Register<PublishPost, Post>()
 				.Register<CreateUser, User>()
 				.Register<Login, User>()
+				.Register<ChangePassword, User>()
 			.EventPublisher()
 				.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId)
 				.Subscribe<DraftPostProjector, PostEdited>(DraftPostProjector.SubscriptionId)
 				.Subscribe<PublishedPostProjector, PostPublished>(PublishedPostProjector.SubscriptionId)
 				.Subscribe<UserProjector, UserCreated>(UserProjector.SubscriptionId)
+				.Subscribe<UserProjector, PasswordChanged>(UserProjector.SubscriptionId)
 				;
 
 		private static Guid? _sessionId;

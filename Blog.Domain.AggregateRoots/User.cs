@@ -55,7 +55,7 @@ namespace Blog.Domain.AggregateRoots
 			{
 				throw new WrongUsernameOrPasswordError();
 			}
-			var password = new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes(login.Password + user.Salt.ToString()));
+			var password = ComputePasswordHash(login.Password, user.Salt);
 			if (!password.SequenceEqual(user.Password))
 			{
 				throw new WrongUsernameOrPasswordError();
@@ -64,6 +64,31 @@ namespace Blog.Domain.AggregateRoots
 			Repositories.Sessions.Save(new Session() { Id = Guid.NewGuid(), UserId = user.Id });
 
 			return Enumerable.Empty<object>();
+		}
+
+		private static byte[] ComputePasswordHash(string password, Guid salt)
+		{
+			return new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes(password + salt.ToString()));
+		}
+
+		public object Apply(Commands.ChangePassword changePassword)
+		{
+			var user = Repositories.Users.Get(changePassword.Id);
+			if (null == user)
+			{
+				throw new WrongUsernameOrPasswordError();
+			}
+			var oldPassword = ComputePasswordHash(changePassword.OldPassword, user.Salt);
+			if (!oldPassword.SequenceEqual(user.Password))
+			{
+				throw new WrongUsernameOrPasswordError();
+			}
+
+			return new Events.PasswordChanged()
+			{
+				Id = changePassword.Id,
+				NewPassword = ComputePasswordHash(changePassword.NewPassword, user.Salt)
+			};
 		}
 	}
 }

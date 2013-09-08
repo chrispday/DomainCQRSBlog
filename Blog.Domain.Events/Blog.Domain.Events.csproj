@@ -37,6 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PasswordChanged.cs" />
     <Compile Include="PostCreated.cs" />
     <Compile Include="PostEdited.cs" />
     <Compile Include="PostPublished.cs" />

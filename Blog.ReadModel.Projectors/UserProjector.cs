@@ -34,5 +34,12 @@ namespace Blog.ReadModel.Projectors
 				Password = userCreated.Password
 			});
 		}
+
+		public void Receive(PasswordChanged passwordChanged)
+		{
+			var user = Users.Get(passwordChanged.Id);
+			user.Password = passwordChanged.NewPassword;
+			Users.Save(user);
+		}
 	}
 }

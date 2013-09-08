@@ -15,6 +15,7 @@ public class IdentifyAsBlogger_
 {
 	Guid createdUser = Guid.NewGuid();
 	Guid sameUser = Guid.NewGuid();
+	Guid changePwdUser = Guid.NewGuid();
 
 	[TestMethod]
 	public void IdentifyAsBlogger()
@@ -53,6 +54,12 @@ public class IdentifyAsBlogger_
 							 .Given(BloggerIsNotLoggedIn)
 							 .When(AnyCommandIsProcessedForTheBlogger)
 							 .Then(ANotLoggedInErrorShouldBeRaised)
+
+						.WithScenario("Change Password")
+							 .Given(AUserIsCreated, changePwdUser)
+							 .When(TheyChangeTheirPassword)
+							 .Then(TheyCanLoginWithTheNewPassword)
+							 .And(TheyCantLoginWithTheOldPassword)
 			 .Execute();
 	}
 
@@ -190,5 +197,28 @@ public class IdentifyAsBlogger_
 	{
 		Assert.AreEqual(3, exNotLoggedIn.Count);
 		Assert.IsTrue(exNotLoggedIn.All(e => e is NotLoggedInError));
+	}
+
+	private void TheyChangeTheirPassword()
+	{
+		_.Receive(new ChangePassword() { Id = changePwdUser, OldPassword = changePwdUser.ToString(), NewPassword = new string(changePwdUser.ToString().Reverse().ToArray()) });
+	}
+
+	private void TheyCanLoginWithTheNewPassword()
+	{
+		_.Receive(new Login() { Username = changePwdUser.ToString(), Password = new string(changePwdUser.ToString().Reverse().ToArray()) });
+	}
+
+	private void TheyCantLoginWithTheOldPassword()
+	{
+		try
+		{
+			_.Receive(new Login() { Username = changePwdUser.ToString(), Password = changePwdUser.ToString() });
+			Assert.Fail();
+		}
+		catch (Exception ex)
+		{
+			Assert.IsInstanceOfType(ex, typeof(WrongUsernameOrPasswordError));
+		}
 	}
 }
