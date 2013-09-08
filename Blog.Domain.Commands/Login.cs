@@ -12,5 +12,6 @@ namespace Blog.Domain.Commands
 		public Guid Id { get { return _id; } }
 		public string Username { get; set; }
 		public string Password { get; set; }
+		public Guid SessionId { get; set; }
 	}
 }

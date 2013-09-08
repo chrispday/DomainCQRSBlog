@@ -34,6 +34,7 @@ namespace Blog.Tests
 				.Subscribe<PublishedPostProjector, PostPublished>(PublishedPostProjector.SubscriptionId)
 				.Subscribe<UserProjector, UserCreated>(UserProjector.SubscriptionId)
 				.Subscribe<UserProjector, PasswordChanged>(UserProjector.SubscriptionId)
+				.Subscribe<SessionProjector, LoggedIn>(SessionProjector.SubscriptionId)
 				;
 
 		private static Guid? _sessionId;

@@ -38,7 +38,7 @@ namespace Blog.Web.UI
 				;
 			MessageReceiver = Config.GetMessageReceiver;
 
-			if (0 == Repositories.Users.Get().Count())
+			if (null == Repositories.Users.Get("admin"))
 			{
 				MessageReceiver.Receive(new CreateUser() { Id = Guid.NewGuid(), Username = "admin", Password = "admin", Salt = Guid.NewGuid() });
 			}
@@ -56,6 +56,11 @@ namespace Blog.Web.UI
 				sessionId = new Guid(sessionCookie.Value);
 			}
 			return sessionId;
+		}
+
+		public static Blog.ReadModel.Data.Session Session(Guid sessionId)
+		{
+			return Repositories.Sessions.Get(sessionId);
 		}
 	}
 }

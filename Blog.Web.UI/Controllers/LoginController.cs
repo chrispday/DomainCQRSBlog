@@ -18,14 +18,12 @@ namespace Blog.Web.UI.Controllers
 		}
 
 		[HttpPost]
-		public void Login(string username, string password, string referrerUrl)
+		public ActionResult Index(string username, string password, string referrerUrl)
 		{
 			YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.Login() { Username = username, Password = password });
-			var _referrerUrl = new UriBuilder(referrerUrl);
-			var query = HttpUtility.ParseQueryString(_referrerUrl.Query ?? string.Empty);
-			query["SessionId"] = Repositories.Sessions.Get(Repositories.Users.Get(username).Id).Id.ToString();
-			_referrerUrl.Query = query.ToString();
-			Redirect(_referrerUrl.ToString());
+			referrerUrl = referrerUrl ?? "/";
+			referrerUrl += (referrerUrl.Contains("?") ? "&" : "?") + "SessionId=" + Repositories.Sessions.GetByUser(Repositories.Users.Get(username).Id).Id.ToString();
+			return Redirect(referrerUrl);
 		}
 	}
 }

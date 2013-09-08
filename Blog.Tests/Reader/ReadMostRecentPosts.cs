@@ -33,8 +33,7 @@ public class ReadMostRecentPosts_
 	private void SomePublishedPosts()
 	{
 		_.Receive(new CreateUser() { Id = userId, Password = userId.ToString(), Salt = userId, Username = userId.ToString() });
-		_.Receive(new Login() { Username = userId.ToString(), Password = userId.ToString() } );
-		sessionId = Repositories.Sessions.Get().Where(s => s.UserId == userId).Select(s => s.Id).First();
+		_.Receive(new Login() { Username = userId.ToString(), Password = userId.ToString(), SessionId = userId } );
 
 		CreateAndPublishPost(Guid.NewGuid());
 		CreateAndPublishPost(Guid.NewGuid());
@@ -49,9 +48,9 @@ public class ReadMostRecentPosts_
 
 	private void CreateAndPublishPost(Guid postId1)
 	{
-		_.Receive(new CreatePost() { Id = postId1, SessionId = sessionId, Title = postId1.ToString(), WhenCreated = DateTime.Now });
-		_.Receive(new EditPost() { Id = postId1, SessionId = sessionId, Content = postId1.ToString(), WhenEdited = DateTime.Now });
-		_.Receive(new PublishPost() { Id = postId1, SessionId = sessionId, WhenPublished = DateTime.Now });
+		_.Receive(new CreatePost() { Id = postId1, SessionId = userId, Title = postId1.ToString(), WhenCreated = DateTime.Now });
+		_.Receive(new EditPost() { Id = postId1, SessionId = userId, Content = postId1.ToString(), WhenEdited = DateTime.Now });
+		_.Receive(new PublishPost() { Id = postId1, SessionId = userId, WhenPublished = DateTime.Now });
 		Thread.Sleep(100);
 	}
 

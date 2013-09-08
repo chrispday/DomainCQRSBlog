@@ -48,7 +48,7 @@ namespace Blog.Domain.AggregateRoots
 			Password = userCreated.Password;
 		}
 
-		public IEnumerable<object> Apply(Commands.Login login)
+		public object Apply(Commands.Login login)
 		{
 			var user = Repositories.Users.Get(login.Username);
 			if (null == user)
@@ -60,10 +60,21 @@ namespace Blog.Domain.AggregateRoots
 			{
 				throw new WrongUsernameOrPasswordError();
 			}
+			if (Guid.Empty == login.SessionId
+				|| null != Repositories.Sessions.Get(login.SessionId))
+			{
+				throw new BadSessionIdError();
+			}
 
-			Repositories.Sessions.Save(new Session() { Id = Guid.NewGuid(), UserId = user.Id });
+			return new Events.LoggedIn()
+			{
+				Id = user.Id,
+				SessionId = login.SessionId
+			};
+		}
 
-			return Enumerable.Empty<object>();
+		public void Apply(Events.LoggedIn loggedIn)
+		{
 		}
 
 		private static byte[] ComputePasswordHash(string password, Guid salt)

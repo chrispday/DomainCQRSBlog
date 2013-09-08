@@ -60,6 +60,16 @@ public class IdentifyAsBlogger_
 							 .When(TheyChangeTheirPassword)
 							 .Then(TheyCanLoginWithTheNewPassword)
 							 .And(TheyCantLoginWithTheOldPassword)
+
+						.WithScenario("Bad Session")
+							 .Given(Nothing)
+							 .When(LoggedInWithNoSessionId)
+							 .Then(ABadSessionIdErrorIsRaised)
+
+						.WithScenario("Duplicate Session")
+							 .Given(AUserLoggedInWithASessionId)
+							 .When(LoggingInWithTheSameSessionId)
+							 .Then(ABadSessionIdErrorIsRaised)
 			 .Execute();
 	}
 
@@ -120,16 +130,15 @@ public class IdentifyAsBlogger_
 
 	private void LoggedInWithTheCorrectUsernameAndPassword()
 	{
-		_.Receive(new Login() { Username = createdUser.ToString(), Password = createdUser.ToString() });
+		_.Receive(new Login() { Username = createdUser.ToString(), Password = createdUser.ToString(), SessionId = createdUser });
 	}
 
 	private void FunctionsThatOnlyABloggerCanDoCanBePerformed()
 	{
 		var id = Guid.NewGuid();
-		var sessionId = Repositories.Sessions.Get().Where(s => s.UserId == createdUser).Select(s => s.Id).First();
-		_.Receive(new CreatePost() { Id = id, Title = "Title", WhenCreated = DateTime.Now, SessionId = sessionId });
-		_.Receive(new EditPost() { Id = id, Content = "Content", WhenEdited = DateTime.Now, SessionId = sessionId });
-		_.Receive(new PublishPost() { Id = id, WhenPublished = DateTime.Now, SessionId = sessionId });
+		_.Receive(new CreatePost() { Id = id, Title = "Title", WhenCreated = DateTime.Now, SessionId = createdUser });
+		_.Receive(new EditPost() { Id = id, Content = "Content", WhenEdited = DateTime.Now, SessionId = createdUser });
+		_.Receive(new PublishPost() { Id = id, WhenPublished = DateTime.Now, SessionId = createdUser });
 	}
 
 	Exception ex1;
@@ -138,7 +147,7 @@ public class IdentifyAsBlogger_
 	{
 		try
 		{
-			_.Receive(new Login() { Username = Guid.NewGuid().ToString(), Password = "doesn't matter" });
+			_.Receive(new Login() { Username = Guid.NewGuid().ToString(), Password = "doesn't matter", SessionId = Guid.NewGuid() });
 		}
 		catch (Exception ex)
 		{
@@ -206,19 +215,55 @@ public class IdentifyAsBlogger_
 
 	private void TheyCanLoginWithTheNewPassword()
 	{
-		_.Receive(new Login() { Username = changePwdUser.ToString(), Password = new string(changePwdUser.ToString().Reverse().ToArray()) });
+		_.Receive(new Login() { Username = changePwdUser.ToString(), Password = new string(changePwdUser.ToString().Reverse().ToArray()), SessionId = changePwdUser });
 	}
 
 	private void TheyCantLoginWithTheOldPassword()
 	{
 		try
 		{
-			_.Receive(new Login() { Username = changePwdUser.ToString(), Password = changePwdUser.ToString() });
+			_.Receive(new Login() { Username = changePwdUser.ToString(), Password = changePwdUser.ToString(), SessionId = Guid.NewGuid() });
 			Assert.Fail();
 		}
 		catch (Exception ex)
 		{
 			Assert.IsInstanceOfType(ex, typeof(WrongUsernameOrPasswordError));
+		}
+	}
+
+	Exception badSession;
+	private void LoggedInWithNoSessionId()
+	{
+		try
+		{
+			_.Receive(new Login() { Username = createdUser.ToString(), Password = createdUser.ToString() });
+		}
+		catch (Exception ex)
+		{
+			badSession = ex;
+		}
+	}
+
+	private void ABadSessionIdErrorIsRaised()
+	{
+		Assert.IsInstanceOfType(badSession, typeof(BadSessionIdError));
+	}
+
+	Guid sameSession = Guid.NewGuid();
+	private void AUserLoggedInWithASessionId()
+	{
+		_.Receive(new Login() { Username = createdUser.ToString(), Password = createdUser.ToString(), SessionId = sameSession });
+	}
+
+	private void LoggingInWithTheSameSessionId()
+	{
+		try
+		{
+			_.Receive(new Login() { Username = createdUser.ToString(), Password = createdUser.ToString(), SessionId = sameSession });
+		}
+		catch (Exception ex)
+		{
+			badSession = ex;
 		}
 	}
 }

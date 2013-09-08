@@ -20,7 +20,7 @@
 		<div class="col-md-12">
 			<nav class="navbar navbar-default" role="navigation">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="Drafts/Edit/@post.Title">@post.Title</a>
+					<a class="navbar-brand" href="Drafts/Edit/@post.Id">@post.Title</a>
 				</div>
 				<div class="nav navbar-nav navbar-right">
 					<form method="post" class="navbar-form">
@@ -36,5 +36,5 @@
 }
 @section Login
 {
-	@Html.Partial("_login")
+	@Html.Partial("_login", Blog.ReadModel.Repository.Repositories.Users.Get(Blog.Web.UI.YeastConfig.Session(Blog.Web.UI.YeastConfig.SessionId(Request.Cookies)).UserId))
 }

@@ -1,13 +1,16 @@
-﻿@using (var form = Html.BeginForm("Login", "Login"))
+﻿@model Blog.ReadModel.Data.User
+@if (null == Model)
 {
-	<div class="form-group">
-		<label for="username">Username</label>
-		<input type="text" class="form-control" id="username" placeholder="Username" />
-	</div>
-	<div class="form-group">
-		<label for="password">Password</label>
-		<input type="password" class="form-control" id="password" placeholder="Password" />
-	</div>
-	@Html.Hidden("referrerUrl", @Request.Url)
-	<button id="login" type="submit" class="btn btn-default">Login</button>
+	<form method="post" action="/Login">
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+		</div>
+		@Html.Hidden("referrerUrl", @Request.Url)
+		<button id="login" type="submit" class="btn btn-default">Login</button>
+	</form>
 }
