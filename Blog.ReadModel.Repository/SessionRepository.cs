@@ -25,8 +25,8 @@ namespace Blog.ReadModel.Repository
 
 		public void Save(Session item)
 		{
-			var entity = new DynamicTableEntity(item.Id.ToString(), "");
-			entity.Properties["UserId"] = new EntityProperty(item.UserId);
+			var entity = new DynamicTableEntity(item.UserId.ToString(), "");
+			entity.Properties["SessionId"] = new EntityProperty(item.Id);
 			Sessions.Execute(TableOperation.InsertOrMerge(entity));
 		}
 
@@ -54,8 +54,8 @@ namespace Blog.ReadModel.Repository
 		{
 			return new Session()
 			{
-				Id = new Guid(entity.PartitionKey),
-				UserId = entity.Properties["UserId"].GuidValue.Value
+				Id = entity.Properties["SessionId"].GuidValue.Value,
+				UserId = new Guid(entity.PartitionKey)
 			};
 		}
 	}

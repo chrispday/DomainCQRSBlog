@@ -1,0 +1,24 @@
+﻿@model Blog.ReadModel.Data.DraftPost
+@{
+	ViewBag.Title = Model.Title;
+	Layout = "~/Views/Shared/_layout.cshtml";
+}
+<form method="post" role="form">
+	<div class="form-group">
+		<label for="title">Title</label>
+		<input type="text" class="form-control" id="title" name="Title" placeholder="Title" value="@Model.Title" />
+	</div>
+	<div class="form-group">
+		<textarea id="content" name="Content">@Model.Content</textarea>
+	</div>
+	@Html.Hidden("Id", @Model.Id)
+	<button type="submit" class="btn btn-default">Save</button>
+</form>
+@section Scripts
+{
+	<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+	<script src="~/Scripts/ckeditor/adapters/jquery.js"></script>
+	<script type="text/javascript">
+		$('#content').ckeditor();
+	</script>
+}

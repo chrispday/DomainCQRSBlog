@@ -14,8 +14,8 @@ namespace Blog.ReadModel.Repository
 		void Delete(Guid id);
 	}
 
-	public interface IRepository<T, K> : IRepository<T>
+	public interface IRepository<T, Key> : IRepository<T>
 	{
-		T Get(K id);
+		T Get(Key id);
 	}
 }

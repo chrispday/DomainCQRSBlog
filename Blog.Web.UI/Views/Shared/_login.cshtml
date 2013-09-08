@@ -1,0 +1,13 @@
+﻿@using (var form = Html.BeginForm("Login", "Login"))
+{
+	<div class="form-group">
+		<label for="username">Username</label>
+		<input type="text" class="form-control" id="username" placeholder="Username" />
+	</div>
+	<div class="form-group">
+		<label for="password">Password</label>
+		<input type="password" class="form-control" id="password" placeholder="Password" />
+	</div>
+	@Html.Hidden("referrerUrl", @Request.Url)
+	<button id="login" type="submit" class="btn btn-default">Login</button>
+}

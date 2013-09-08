@@ -7,14 +7,14 @@ using Blog.ReadModel.Repository;
 
 namespace Blog.Web.UI.Controllers
 {
-    public class HomeController : Controller
-    {
-        //
-        // GET: /Home/
+	public class HomeController : Controller
+	{
+		//
+		// GET: /Home/
 
-        public ActionResult Index()
-        {
-            return View(Repositories.PublishedPosts.MostRecentPosts(1, 5, false));
-        }
-    }
+		public ActionResult Index()
+		{
+			return View(Repositories.PublishedPosts.MostRecentPosts(1, 5, false));
+		}
+	}
 }

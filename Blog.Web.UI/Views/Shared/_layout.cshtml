@@ -4,6 +4,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewBag.Title</title>
 	<link rel="stylesheet" href="~/Content/bootstrap/bootstrap.min.css" />
+	@RenderSection("Styles", false)
 </head>
 <body>
 	<p />
@@ -23,11 +24,12 @@
 				@RenderBody()
 			</div>
 			<div class="col-md-3">
-
+				@RenderSection("Login", false)
 			</div>
 		</div>
 	</div>
 	<script src="~/Scripts/jquery-2.0.3.js"></script>
 	<script src="~/Scripts/bootstrap.js"></script>
+	@RenderSection("Scripts", false)
 </body>
 </html>
