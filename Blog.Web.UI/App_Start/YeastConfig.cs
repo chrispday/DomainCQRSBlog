@@ -10,11 +10,11 @@ using Yeast.EventStore;
 
 namespace Blog.Web.UI
 {
-	public static class Config
+	public static class YeastConfig
 	{
 		public static void Register()
 		{
-			Conf = Configure.With()
+			Config = Configure.With()
 			.Synchrounous()
 			.DebugLogger()
 			.AzureEventStoreProvider("UseDevelopmentStorage=true")
@@ -33,10 +33,10 @@ namespace Blog.Web.UI
 				.Subscribe<PublishedPostProjector, PostPublished>(PublishedPostProjector.SubscriptionId)
 				.Subscribe<UserProjector, UserCreated>(UserProjector.SubscriptionId)
 				;
-			MessageReceiver = Conf.GetMessageReceiver;
+			MessageReceiver = Config.GetMessageReceiver;
 		}
 
-		private static IConfigure Conf;
+		private static IConfigure Config;
 		public static IMessageReceiver MessageReceiver;
 
 		public static Guid SessionId(HttpCookieCollection cookies)

@@ -40,22 +40,22 @@ namespace Blog.Web.UI.Controllers
 			if (Guid.Empty == id)
 			{
 				id = Guid.NewGuid();
-				Config.MessageReceiver.Receive(new Blog.Domain.Commands.CreatePost()
+				YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.CreatePost()
 				{
 					Id = id,
 					Title = draftPost.Title,
 					WhenCreated = DateTime.Now,
-					SessionId = Config.SessionId(Request.Cookies)
+					SessionId = YeastConfig.SessionId(Request.Cookies)
 				});
 			}
 
-			Config.MessageReceiver.Receive(new Blog.Domain.Commands.EditPost()
+			YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.EditPost()
 			{
 				Id = id,
 				Title = draftPost.Title,
 				Content = draftPost.Content,
 				WhenEdited = DateTime.Now,
-				SessionId = Config.SessionId(Request.Cookies)
+				SessionId = YeastConfig.SessionId(Request.Cookies)
 			});
 
 			RedirectToAction("Index");
@@ -65,9 +65,9 @@ namespace Blog.Web.UI.Controllers
 		public void Index(string id)
 		{
 			var postId = new Guid(id);
-			var sessionId = Config.SessionId(Request.Cookies);
+			var sessionId = YeastConfig.SessionId(Request.Cookies);
 
-			Config.MessageReceiver.Receive(new Blog.Domain.Commands.PublishPost() { Id = postId, WhenPublished = DateTime.Now, SessionId = sessionId });
+			YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.PublishPost() { Id = postId, WhenPublished = DateTime.Now, SessionId = sessionId });
 			Redirect("/");
 		}
 	}
