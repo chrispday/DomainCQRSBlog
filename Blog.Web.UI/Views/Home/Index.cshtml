@@ -11,7 +11,7 @@
 				<h3><a href="@post.Url">@post.Title</a></h3>
 				<p><small><span class="glyphicon glyphicon-time"></span> @post.WhenPublished.ToString("d MMMM yyyy")</small></p>
 			</div>
-			<p>@post.Content</p>
+			<div>@Html.Raw(post.Content)</div>
 		</div>
 	</div>
 }

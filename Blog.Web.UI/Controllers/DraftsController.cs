@@ -32,7 +32,7 @@ namespace Blog.Web.UI.Controllers
 
 		[HttpPost]
 		[ValidateInput(false)]
-		public void Edit(Blog.ReadModel.Data.DraftPost draftPost)
+		public ActionResult Edit(Blog.ReadModel.Data.DraftPost draftPost)
 		{
 			var id = draftPost.Id;
 			if (Guid.Empty == id)
@@ -56,16 +56,15 @@ namespace Blog.Web.UI.Controllers
 				SessionId = new Guid(User.Identity.Name)
 			});
 
-			RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 
 		[HttpPost]
-		public void Index(string id)
+		public ActionResult Index(string id)
 		{
 			var postId = new Guid(id);
-
 			YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.PublishPost() { Id = postId, WhenPublished = DateTime.Now, SessionId = new Guid(User.Identity.Name) });
-			Redirect("/");
+			return Redirect("/");
 		}
 	}
 }
