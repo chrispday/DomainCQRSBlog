@@ -10,7 +10,7 @@
 			<label for="password">Password</label>
 			<input type="password" class="form-control" id="password" name="password" placeholder="Password" />
 		</div>
-		@Html.Hidden("referrerUrl", @Request.Url)
-		<button id="login" type="submit" class="btn btn-default">Login</button>
+		@Html.Hidden("returnUrl", @Request.Url)
+		<button id="login" type="submit" class="btn btn-primary">Login</button>
 	</form>
 }

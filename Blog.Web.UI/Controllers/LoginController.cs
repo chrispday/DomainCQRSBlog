@@ -20,7 +20,7 @@ namespace Blog.Web.UI.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Index(string username, string password, string referrerUrl)
+		public ActionResult Index(string username, string password, string returnUrl)
 		{
 			var sessionId = Guid.NewGuid();
 			try
@@ -33,21 +33,16 @@ namespace Blog.Web.UI.Controllers
 				return View();
 			}
 			FormsAuthentication.SetAuthCookie(sessionId.ToString(), false);
-			referrerUrl = referrerUrl ?? "/";
-			return Redirect(referrerUrl);
+			returnUrl = returnUrl ?? "/";
+			return Redirect(returnUrl);
 		}
 
-		public ActionResult Logout(string referrerUrl)
+		public ActionResult Signout(string returnUrl)
 		{
 			FormsAuthentication.SignOut();
 
-			if (!Request.IsAjaxRequest())
-			{
-				return new HttpStatusCodeResult((int)HttpStatusCode.OK);
-			}
-
-			referrerUrl = referrerUrl ?? "/";
-			return Redirect(referrerUrl);
+			returnUrl = returnUrl ?? "/";
+			return Redirect(returnUrl);
 		}
 	}
 }

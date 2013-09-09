@@ -34,7 +34,3 @@
 		</div>
 	</div>
 }
-@section Login
-{
-	@Html.Partial("_login", Blog.ReadModel.Repository.Repositories.Users.Get(Blog.Web.UI.YeastConfig.Session(Blog.Web.UI.YeastConfig.SessionId(Request.Cookies)).UserId))
-}
