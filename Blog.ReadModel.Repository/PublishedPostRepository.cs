@@ -11,11 +11,13 @@ namespace Blog.ReadModel.Repository
 	public interface IPublishedPostRepository : IRepository<PublishedPost>
 	{
 		IEnumerable<PublishedPost> MostRecentPosts(int page, int pageSize, bool withOneMore);
+		PublishedPost GetByUrl(string url);
 	}
 
 	internal class PublishedPostRepository : IPublishedPostRepository
 	{
-		private readonly CloudTable PublishedPosts;
+		private readonly CloudTable PublishedPostsByDatePublishedDesc;
+		private readonly CloudTable PublishedPostsByUrl;
 		public PublishedPostRepository(CloudTableClient cloudTableClient)
 		{
 			if (null == cloudTableClient)
@@ -23,8 +25,10 @@ namespace Blog.ReadModel.Repository
 				throw new ArgumentNullException();
 			}
 
-			PublishedPosts = cloudTableClient.GetTableReference("PublishedPosts");
-			PublishedPosts.CreateIfNotExists();
+			PublishedPostsByDatePublishedDesc = cloudTableClient.GetTableReference("PublishedPostsByDatePublishedDesc");
+			PublishedPostsByDatePublishedDesc.CreateIfNotExists();
+			PublishedPostsByUrl = cloudTableClient.GetTableReference("PublishedPostsByUrl");
+			PublishedPostsByUrl.CreateIfNotExists();
 		}
 
 		public void Save(PublishedPost item)
@@ -36,27 +40,46 @@ namespace Blog.ReadModel.Repository
 			entity.Properties["Content"] = new EntityProperty(item.Content ?? "");
 			entity.Properties["Title"] = new EntityProperty(item.Title ?? "");
 
-			PublishedPosts.Execute(TableOperation.InsertOrMerge(entity));
+			PublishedPostsByDatePublishedDesc.Execute(TableOperation.InsertOrMerge(entity));
+
+			if (!string.IsNullOrWhiteSpace(item.Url))
+			{
+				entity = new DynamicTableEntity(item.Url, item.Id.ToString());
+				entity.Properties["WhenPublished"] = new EntityProperty(item.WhenPublished.ToUniversalTime().Ticks);
+				entity.Properties["Url"] = new EntityProperty(item.Url ?? "");
+				entity.Properties["Content"] = new EntityProperty(item.Content ?? "");
+				entity.Properties["Title"] = new EntityProperty(item.Title ?? "");
+				PublishedPostsByUrl.Execute(TableOperation.InsertOrMerge(entity));
+			}
 		}
 
 		public PublishedPost Get(Guid id)
 		{
-			return PublishedPosts
+			return PublishedPostsByDatePublishedDesc
 				.ExecuteQuery(new TableQuery<DynamicTableEntity>()
 				.Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id.ToString())))
 				.Select(entity => CreatePublishedPost(entity))
 				.FirstOrDefault();
 		}
 
+		public PublishedPost GetByUrl(string url)
+		{
+			return PublishedPostsByUrl
+				.ExecuteQuery(new TableQuery<DynamicTableEntity>()
+				.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, url)))
+				.Select(entity => CreatePublishedPost(entity))
+				.FirstOrDefault();
+		}
+
 		public IEnumerable<PublishedPost> Get()
 		{
-			return PublishedPosts.ExecuteQuery(new TableQuery<DynamicTableEntity>())
+			return PublishedPostsByDatePublishedDesc.ExecuteQuery(new TableQuery<DynamicTableEntity>())
 				.Select(entity => CreatePublishedPost(entity));
 		}
 
 		public IEnumerable<PublishedPost> MostRecentPosts(int page, int pageSize, bool withOneMore)
 		{
-			return PublishedPosts.ExecuteQuery(new TableQuery<DynamicTableEntity>())
+			return PublishedPostsByDatePublishedDesc.ExecuteQuery(new TableQuery<DynamicTableEntity>())
 				.Skip((page - 1) * pageSize)
 				.Take(pageSize + (withOneMore ? 1 : 0))
 				.Select(entity => CreatePublishedPost(entity));
