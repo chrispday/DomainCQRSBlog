@@ -42,6 +42,35 @@ namespace Blog.Web.UI.Controllers
 			return Redirect(returnUrl);
 		}
 
+		[Authorize, HttpGet]
+		public ActionResult Edit()
+		{
+			return View(Repositories.Users.Get(Repositories.Sessions.Get(new Guid(User.Identity.Name)).UserId));
+		}
+
+		[Authorize, HttpPost]
+		public ActionResult Edit(string currentPassword, string newPassword, string confirmPassword, Guid? userId, string returnUrl)
+		{
+			if (newPassword != confirmPassword)
+			{
+				ModelState.AddModelError("", "Passwords must match.");
+				return Edit();
+			}
+
+			try
+			{
+				YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.ChangePassword() { Id = userId.Value, NewPassword = newPassword, OldPassword = currentPassword });
+			}
+			catch (Blog.Domain.Errors.WrongUsernameOrPasswordError)
+			{
+				ModelState.AddModelError("", "Wrong username or password.");
+				return Edit();
+			}
+
+			returnUrl = returnUrl ?? "/";
+			return Redirect(returnUrl);
+		}
+
 		public ActionResult Signout(string returnUrl)
 		{
 			FormsAuthentication.SignOut();

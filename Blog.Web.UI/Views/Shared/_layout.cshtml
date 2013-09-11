@@ -7,12 +7,12 @@
 	@RenderSection("Styles", false)
 	@if (Request.IsAuthenticated)
  {
-	<style>
-		body
-		{
-			padding-top: 70px;
-		}
-	</style> 
+		<style>
+			body
+			{
+				padding-top: 70px;
+			}
+		</style> 
  }
 
 </head>
@@ -46,12 +46,16 @@
 	</div>
 	@if (Request.IsAuthenticated)
  {
-	 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		 <form class="navbar-form navbar-right" method="post" action="/Login/Signout">
-			 @Html.Hidden("ReturnUrl", Request.Url)
-			 <button type="submit" class="btn btn-default">Signout</button>
-		 </form>
-	 </nav>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<form class="navbar-form navbar-right" method="post" action="/Login/Signout">
+				@Html.Hidden("ReturnUrl", Request.Url)
+				<button type="submit" class="btn btn-default">Signout</button>
+			</form>
+			<form class="navbar-form navbar-right" method="get" action="/Login/Edit">
+				@Html.Hidden("ReturnUrl", Request.Url)
+				<button type="submit" class="btn btn-default">Change Password</button>
+			</form>
+		</nav>
  }
 	<script src="~/Scripts/jquery-2.0.3.js"></script>
 	<script src="~/Scripts/bootstrap.js"></script>

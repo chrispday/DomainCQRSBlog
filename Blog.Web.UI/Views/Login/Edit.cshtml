@@ -1,0 +1,30 @@
+﻿@model Blog.ReadModel.Data.User
+@{
+    ViewBag.Title = "Change Password";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-6">
+		<form method="post" action="/Login/Edit">
+			<div class="form-group">
+				<label for="username">Username</label>
+				<p class="form-control-static">@Model.Username</p>
+			</div>
+			<div class="form-group">
+				<label for="currentPassword">Current Password</label>
+				<input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Current Password" />
+			</div>
+			<div class="form-group">
+				<label for="newPassword">New Password</label>
+				<input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password" />
+			</div>
+			<div class="form-group">
+				<label for="confirmPassword">Confirm Password</label>
+				<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" />
+			</div>
+			@Html.Hidden("userId", @Model.Id)
+			@Html.Hidden("returnUrl", @Request.QueryString["ReturnUrl"])
+			<button type="submit" class="btn btn-primary">Change Password</button>
+		</form>
+	</div>
+</div>
