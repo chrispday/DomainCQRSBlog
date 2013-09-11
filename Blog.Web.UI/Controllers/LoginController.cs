@@ -16,6 +16,11 @@ namespace Blog.Web.UI.Controllers
 
 		public ActionResult Index()
 		{
+			if (Request.IsAuthenticated)
+			{
+				return Redirect("/");
+			}
+
 			return View();
 		}
 
