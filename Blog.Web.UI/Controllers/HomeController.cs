@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using Blog.ReadModel.Repository;
-using DevTrends.MvcDonutCaching;
 
 namespace Blog.Web.UI.Controllers
 {

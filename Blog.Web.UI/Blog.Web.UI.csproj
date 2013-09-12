@@ -600,7 +600,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>2530</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2101/</IISUrl>
+          <IISUrl>http://192.168.1.7:2101/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
