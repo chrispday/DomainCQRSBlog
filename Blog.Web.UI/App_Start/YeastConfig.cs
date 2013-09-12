@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using Blog.Domain.AggregateRoots;
@@ -18,7 +19,7 @@ namespace Blog.Web.UI
 			Config = Configure.With()
 			.Synchrounous()
 			.DebugLogger()
-			.AzureEventStoreProvider("UseDevelopmentStorage=true")
+			.AzureEventStoreProvider(ConfigurationManager.ConnectionStrings["Azure"].ConnectionString)
 			.JsonSerializer()
 			.EventStore()
 			.NoAggregateRootCache()
