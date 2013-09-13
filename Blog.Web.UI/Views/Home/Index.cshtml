@@ -1,17 +1,21 @@
 ﻿@model IEnumerable<Blog.ReadModel.Data.PublishedPost>
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_layout.cshtml";
 }
-@foreach (var post in Model)
-{
-	<div class="row">
-		<div class="col-md-12">
-			<div class="page-header">
-				<h3><a href="/Post/@post.Url">@post.Title</a></h3>
-				<p><small><span class="glyphicon glyphicon-time"></span> @post.WhenPublished.ToString("d MMMM yyyy")</small></p>
+<div class="row">
+	<div class="col-md-9">
+		@foreach (var post in Model)
+  {
+			<div class="row">
+				<div class="col-md-12">
+					<div class="page-header">
+						<h3><a href="/Post/@post.Url">@post.Title</a></h3>
+						<p><small><span class="glyphicon glyphicon-time"></span>@post.WhenPublished.ToString("d MMMM yyyy")</small></p>
+					</div>
+					<div>@Html.Raw(post.Content)</div>
+				</div>
 			</div>
-			<div>@Html.Raw(post.Content)</div>
-		</div>
+  }
 	</div>
-}
+</div>

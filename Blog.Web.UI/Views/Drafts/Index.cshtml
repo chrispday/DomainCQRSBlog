@@ -3,32 +3,36 @@
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_layout.cshtml";
 }
-@foreach (var post in Model)
-{
-	<div class="row">
-		<div class="col-md-12">
-			<nav class="navbar navbar-default">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="Drafts/Edit/@post.Id">@post.Title</a>
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex-collapse-@post.Id.ToString()">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
+<div class="row">
+	<div class="col-md-9">
+		@foreach (var post in Model)
+  {
+			<div class="row">
+				<div class="col-md-12">
+					<nav class="navbar navbar-default">
+						<div class="navbar-header">
+							<a class="navbar-brand" href="Drafts/Edit/@post.Id">@post.Title</a>
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex-collapse-@post.Id.ToString()">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="collapse navbar-collapse navbar-ex-collapse-@post.Id.ToString()">
+							<form method="post" class="navbar-right">
+								@Html.Hidden("Id", post.Id)
+								<button type="submit" class="btn btn-default navbar-btn">Publish</button>
+							</form>
+						</div>
+					</nav>
+					<div>@Html.Raw(post.Content)</div>
+					<p>&nbsp;</p>
 				</div>
-				<div class="collapse navbar-collapse navbar-ex-collapse-@post.Id.ToString()">
-					<form method="post" class="navbar-right">
-						@Html.Hidden("Id", post.Id)
-						<button type="submit" class="btn btn-default navbar-btn">Publish</button>
-					</form>
-				</div>
-			</nav>
-			<div>@Html.Raw(post.Content)</div>
-			<p>&nbsp;</p>
-		</div>
+			</div>
+  }
 	</div>
-}
+</div>
 @section Menu
 {
 	<li>
