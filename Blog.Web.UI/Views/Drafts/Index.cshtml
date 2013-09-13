@@ -3,29 +3,24 @@
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_layout.cshtml";
 }
-<div class="row">
-	<div class="col-md-12">
-		<nav class="navbar navbar-default" role="navigation">
-			<div class="nav navbar-nav navbar-right">
-				<form class="navbar-form">
-					<a class="btn btn-default" href="/Drafts/Edit">New</a>
-				</form>
-			</div>
-		</nav>
-	</div>
-</div>
 @foreach (var post in Model)
 {
 	<div class="row">
 		<div class="col-md-12">
-			<nav class="navbar navbar-default" role="navigation">
+			<nav class="navbar navbar-default">
 				<div class="navbar-header">
 					<a class="navbar-brand" href="Drafts/Edit/@post.Id">@post.Title</a>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex-collapse-@post.Id.ToString()">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
 				</div>
-				<div class="nav navbar-nav navbar-right">
-					<form method="post" class="navbar-form">
+				<div class="collapse navbar-collapse navbar-ex-collapse-@post.Id.ToString()">
+					<form method="post" class="navbar-right">
 						@Html.Hidden("Id", post.Id)
-						<button type="submit" class="btn btn-default">Publish</button>
+						<button type="submit" class="btn btn-default navbar-btn">Publish</button>
 					</form>
 				</div>
 			</nav>
@@ -33,4 +28,10 @@
 			<p>&nbsp;</p>
 		</div>
 	</div>
+}
+@section Menu
+{
+	<li>
+		<a href="/Drafts/Edit">New Post</a>
+	</li>
 }
