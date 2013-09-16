@@ -29,7 +29,6 @@ public class ReadMostRecentPosts_
 	}
 
 	Guid userId = Guid.NewGuid();
-	Guid sessionId;
 	private void SomePublishedPosts()
 	{
 		_.Receive(new CreateUser() { Id = userId, Password = userId.ToString(), Salt = userId, Username = userId.ToString() });

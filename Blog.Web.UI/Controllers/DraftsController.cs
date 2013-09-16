@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Blog.ReadModel.Repository;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Blog.Web.UI.Controllers
 {
@@ -65,6 +68,22 @@ namespace Blog.Web.UI.Controllers
 			var postId = new Guid(id);
 			YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.PublishPost() { Id = postId, WhenPublished = DateTime.Now, SessionId = new Guid(User.Identity.Name) });
 			return Redirect("/");
+		}
+
+		[HttpPost]
+		public void FileUpload(HttpPostedFileBase file)
+		{
+			if (null != file
+				&& file.ContentLength > 0)
+			{
+				var blobClient = Azure.StorageAccount.CreateCloudBlobClient();
+				var container = blobClient.GetContainerReference("public");
+				container.CreateIfNotExists();
+				var blob = container.GetBlockBlobReference("/public/" + Path.GetFileName(file.FileName));
+				blob.UploadFromStream(file.InputStream);
+				blob.Properties.CacheControl = "public,max-age=31536000";
+				blob.SetProperties();
+			}
 		}
 	}
 }

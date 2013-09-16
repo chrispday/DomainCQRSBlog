@@ -14,7 +14,7 @@ namespace Blog.ReadModel.Repository
 	{
 		static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["Azure"].ConnectionString; } }
 		static CloudStorageAccount _storageAccount;
-		static CloudStorageAccount StorageAccount { get { if (null == _storageAccount) _storageAccount = CloudStorageAccount.Parse(ConnectionString); return _storageAccount; } }
+		public static CloudStorageAccount StorageAccount { get { if (null == _storageAccount) _storageAccount = CloudStorageAccount.Parse(ConnectionString); return _storageAccount; } }
 		static CloudTableClient _tableClient;
 		public static CloudTableClient TableClient { get { if (null == _tableClient) _tableClient = StorageAccount.CreateCloudTableClient(); return _tableClient; } }
 	}
