@@ -79,7 +79,7 @@ namespace Blog.Web.UI.Controllers
 				var blobClient = Azure.StorageAccount.CreateCloudBlobClient();
 				var container = blobClient.GetContainerReference("public");
 				container.CreateIfNotExists();
-				var blob = container.GetBlockBlobReference("/public/" + Path.GetFileName(file.FileName));
+				var blob = container.GetBlockBlobReference(Path.GetFileName(file.FileName));
 				blob.UploadFromStream(file.InputStream);
 				blob.Properties.CacheControl = "public,max-age=31536000";
 				blob.SetProperties();
