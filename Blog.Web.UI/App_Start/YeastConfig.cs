@@ -8,7 +8,7 @@ using Blog.Domain.Commands;
 using Blog.Domain.Events;
 using Blog.ReadModel.Projectors;
 using Blog.ReadModel.Repository;
-using Yeast.EventStore;
+using DomainCQRS;
 
 namespace Blog.Web.UI
 {

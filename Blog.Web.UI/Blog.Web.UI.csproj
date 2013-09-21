@@ -318,17 +318,17 @@
     <Content Include="Views\Shared\_layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EventStore\Yeast\Yeast.EventStore.Azure\Yeast.EventStore.Azure.csproj">
+    <ProjectReference Include="..\..\EventStore\DomainCQRS\DomainCQRS.Azure\DomainCQRS.Azure.csproj">
       <Project>{9b6cfd63-addc-4c3c-8c23-9bc7dbee2521}</Project>
-      <Name>Yeast.EventStore.Azure</Name>
+      <Name>DomainCQRS.Azure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\EventStore\Yeast\Yeast.EventStore.Serialization.Json\Yeast.EventStore.Serialization.Json.csproj">
+    <ProjectReference Include="..\..\EventStore\DomainCQRS\DomainCQRS.Serialization.Json\DomainCQRS.Serialization.Json.csproj">
       <Project>{2143436a-bbf3-4555-ae98-8681aa8c591a}</Project>
-      <Name>Yeast.EventStore.Serialization.Json</Name>
+      <Name>DomainCQRS.Serialization.Json</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\EventStore\Yeast\Yeast.EventStore\Yeast.EventStore.csproj">
+    <ProjectReference Include="..\..\EventStore\DomainCQRS\DomainCQRS\DomainCQRS.csproj">
       <Project>{a9c47e7f-eeda-40f8-bf71-638308949636}</Project>
-      <Name>Yeast.EventStore</Name>
+      <Name>DomainCQRS %28DomainCQRS\DomainCQRS%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blog.Domain.AggregateRoots\Blog.Domain.AggregateRoots.csproj">
       <Project>{0710e810-4024-4424-82c7-d98c08d6f91d}</Project>

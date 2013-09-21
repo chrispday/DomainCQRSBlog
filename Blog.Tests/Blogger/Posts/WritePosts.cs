@@ -3,7 +3,7 @@ using System.Linq;
 using StoryQ;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blog.Domain.Commands;
-using Yeast.EventStore;
+using DomainCQRS;
 using Blog.Domain.AggregateRoots;
 using Blog.Domain.Events;
 using Blog.ReadModel.Projectors;

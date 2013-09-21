@@ -13,12 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B79E7473
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Tests", "Blog.Tests\Blog.Tests.csproj", "{322EE1E6-8B78-45BB-8381-F3AA8433581D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yeast.EventStore", "..\EventStore\Yeast\Yeast.EventStore\Yeast.EventStore.csproj", "{A9C47E7F-EEDA-40F8-BF71-638308949636}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yeast.EventStore.Azure", "..\EventStore\Yeast\Yeast.EventStore.Azure\Yeast.EventStore.Azure.csproj", "{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yeast.EventStore.Serialization.Json", "..\EventStore\Yeast\Yeast.EventStore.Serialization.Json\Yeast.EventStore.Serialization.Json.csproj", "{2143436A-BBF3-4555-AE98-8681AA8C591A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReadModel", "ReadModel", "{A3FBA701-4935-49E1-AA37-1F2D2D5FA734}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ReadModel.Projectors", "Blog.ReadModel.Projectors\Blog.ReadModel.Projectors.csproj", "{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4}"
@@ -34,6 +28,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Web.UI", "Blog.Web.UI\Blog.Web.UI.csproj", "{D676FC1A-1B46-476A-9E03-FD77CBDBCDA6}"
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureBlog", "AzureBlog\AzureBlog.ccproj", "{01C951A0-B7A6-4353-BF7B-DB48D2D6EA3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DomainCQRS", "DomainCQRS", "{19AD1EA1-71AE-445F-A0FD-E651D2BAA628}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainCQRS", "..\EventStore\DomainCQRS\DomainCQRS\DomainCQRS.csproj", "{A9C47E7F-EEDA-40F8-BF71-638308949636}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainCQRS.Serialization.Json", "..\EventStore\DomainCQRS\DomainCQRS.Serialization.Json\DomainCQRS.Serialization.Json.csproj", "{2143436A-BBF3-4555-AE98-8681AA8C591A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainCQRS.Azure", "..\EventStore\DomainCQRS\DomainCQRS.Azure\DomainCQRS.Azure.csproj", "{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -57,39 +59,42 @@ Global
 		SccProjectTopLevelParentUniqueName4 = Blog.sln
 		SccProjectName4 = Blog.Tests
 		SccLocalPath4 = Blog.Tests
-		SccProjectUniqueName5 = ..\\EventStore\\Yeast\\Yeast.EventStore\\Yeast.EventStore.csproj
-		SccProjectName5 = ../EventStore/Yeast/Yeast.EventStore
-		SccLocalPath5 = ..\\EventStore\\Yeast\\Yeast.EventStore
-		SccProjectUniqueName6 = ..\\EventStore\\Yeast\\Yeast.EventStore.Azure\\Yeast.EventStore.Azure.csproj
-		SccProjectName6 = ../EventStore/Yeast/Yeast.EventStore.Azure
-		SccLocalPath6 = ..\\EventStore\\Yeast\\Yeast.EventStore.Azure
-		SccProjectUniqueName7 = ..\\EventStore\\Yeast\\Yeast.EventStore.Serialization.Json\\Yeast.EventStore.Serialization.Json.csproj
-		SccProjectName7 = ../EventStore/Yeast/Yeast.EventStore.Serialization.Json
-		SccLocalPath7 = ..\\EventStore\\Yeast\\Yeast.EventStore.Serialization.Json
-		SccProjectUniqueName8 = Blog.ReadModel.Projectors\\Blog.ReadModel.Projectors.csproj
+		SccProjectUniqueName5 = Blog.ReadModel.Projectors\\Blog.ReadModel.Projectors.csproj
+		SccProjectTopLevelParentUniqueName5 = Blog.sln
+		SccProjectName5 = Blog.ReadModel.Projectors
+		SccLocalPath5 = Blog.ReadModel.Projectors
+		SccProjectUniqueName6 = Blog.ReadModel.Repository\\Blog.ReadModel.Repository.csproj
+		SccProjectTopLevelParentUniqueName6 = Blog.sln
+		SccProjectName6 = Blog.ReadModel.Repository
+		SccLocalPath6 = Blog.ReadModel.Repository
+		SccProjectUniqueName7 = Blog.ReadModel.Data\\Blog.ReadModel.Data.csproj
+		SccProjectTopLevelParentUniqueName7 = Blog.sln
+		SccProjectName7 = Blog.ReadModel.Data
+		SccLocalPath7 = Blog.ReadModel.Data
+		SccProjectUniqueName8 = Blog.Domain.Errors\\Blog.Domain.Errors.csproj
 		SccProjectTopLevelParentUniqueName8 = Blog.sln
-		SccProjectName8 = Blog.ReadModel.Projectors
-		SccLocalPath8 = Blog.ReadModel.Projectors
-		SccProjectUniqueName9 = Blog.ReadModel.Repository\\Blog.ReadModel.Repository.csproj
+		SccProjectName8 = Blog.Domain.Errors
+		SccLocalPath8 = Blog.Domain.Errors
+		SccProjectUniqueName9 = Blog.Web.UI\\Blog.Web.UI.csproj
 		SccProjectTopLevelParentUniqueName9 = Blog.sln
-		SccProjectName9 = Blog.ReadModel.Repository
-		SccLocalPath9 = Blog.ReadModel.Repository
-		SccProjectUniqueName10 = Blog.ReadModel.Data\\Blog.ReadModel.Data.csproj
+		SccProjectName9 = Blog.Web.UI
+		SccLocalPath9 = Blog.Web.UI
+		SccProjectUniqueName10 = AzureBlog\\AzureBlog.ccproj
 		SccProjectTopLevelParentUniqueName10 = Blog.sln
-		SccProjectName10 = Blog.ReadModel.Data
-		SccLocalPath10 = Blog.ReadModel.Data
-		SccProjectUniqueName11 = Blog.Domain.Errors\\Blog.Domain.Errors.csproj
+		SccProjectName10 = AzureBlog
+		SccLocalPath10 = AzureBlog
+		SccProjectUniqueName11 = ..\\EventStore\\DomainCQRS\\DomainCQRS\\DomainCQRS.csproj
 		SccProjectTopLevelParentUniqueName11 = Blog.sln
-		SccProjectName11 = Blog.Domain.Errors
-		SccLocalPath11 = Blog.Domain.Errors
-		SccProjectUniqueName12 = Blog.Web.UI\\Blog.Web.UI.csproj
+		SccProjectName11 = ../EventStore/DomainCQRS/DomainCQRS
+		SccLocalPath11 = ..\\EventStore\\DomainCQRS\\DomainCQRS
+		SccProjectUniqueName12 = ..\\EventStore\\DomainCQRS\\DomainCQRS.Serialization.Json\\DomainCQRS.Serialization.Json.csproj
 		SccProjectTopLevelParentUniqueName12 = Blog.sln
-		SccProjectName12 = Blog.Web.UI
-		SccLocalPath12 = Blog.Web.UI
-		SccProjectUniqueName13 = AzureBlog\\AzureBlog.ccproj
+		SccProjectName12 = ../EventStore/DomainCQRS/DomainCQRS.Serialization.Json
+		SccLocalPath12 = ..\\EventStore\\DomainCQRS\\DomainCQRS.Serialization.Json
+		SccProjectUniqueName13 = ..\\EventStore\\DomainCQRS\\DomainCQRS.Azure\\DomainCQRS.Azure.csproj
 		SccProjectTopLevelParentUniqueName13 = Blog.sln
-		SccProjectName13 = AzureBlog
-		SccLocalPath13 = AzureBlog
+		SccProjectName13 = ../EventStore/DomainCQRS/DomainCQRS.Azure
+		SccLocalPath13 = ..\\EventStore\\DomainCQRS\\DomainCQRS.Azure
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -112,18 +117,6 @@ Global
 		{322EE1E6-8B78-45BB-8381-F3AA8433581D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{322EE1E6-8B78-45BB-8381-F3AA8433581D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{322EE1E6-8B78-45BB-8381-F3AA8433581D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D3874F5-B67C-4EB6-BE15-B280AB6DC9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -148,6 +141,18 @@ Global
 		{01C951A0-B7A6-4353-BF7B-DB48D2D6EA3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01C951A0-B7A6-4353-BF7B-DB48D2D6EA3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01C951A0-B7A6-4353-BF7B-DB48D2D6EA3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9C47E7F-EEDA-40F8-BF71-638308949636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2143436A-BBF3-4555-AE98-8681AA8C591A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,5 +168,8 @@ Global
 		{E20DC2C1-33FC-4F6A-B79C-FD79BED95DD8} = {A3FBA701-4935-49E1-AA37-1F2D2D5FA734}
 		{D676FC1A-1B46-476A-9E03-FD77CBDBCDA6} = {C5F73A3A-75C1-477E-8278-94DF051AF3E0}
 		{01C951A0-B7A6-4353-BF7B-DB48D2D6EA3F} = {C5F73A3A-75C1-477E-8278-94DF051AF3E0}
+		{A9C47E7F-EEDA-40F8-BF71-638308949636} = {19AD1EA1-71AE-445F-A0FD-E651D2BAA628}
+		{2143436A-BBF3-4555-AE98-8681AA8C591A} = {19AD1EA1-71AE-445F-A0FD-E651D2BAA628}
+		{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521} = {19AD1EA1-71AE-445F-A0FD-E651D2BAA628}
 	EndGlobalSection
 EndGlobal
