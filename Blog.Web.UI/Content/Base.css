@@ -2,3 +2,9 @@
 {
 	margin: 0 auto;
 }
+
+.syntaxhighlighter
+{
+	overflow-y: hidden !important;
+	overflow-x: auto !important;
+}

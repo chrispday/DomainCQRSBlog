@@ -11,7 +11,7 @@
 				<div class="col-md-12">
 					<div class="page-header">
 						<h3><a href="/Post/@post.Url">@post.Title</a></h3>
-						<p><small><span class="glyphicon glyphicon-time"></span>@post.WhenPublished.ToString("d MMMM yyyy")</small></p>
+						<span class="glyphicon glyphicon-time"></span> @post.WhenPublished.ToString("dddd, dd" + Blog.Web.UI.Helper.TwoLetterSuffix(post.WhenPublished) + " MMMM yyyy")
 					</div>
 					<div>@Html.Raw(post.Content)</div>
 				</div>
@@ -33,11 +33,4 @@
 {
 	<link rel="stylesheet" href="~/Scripts/syntaxhighlighter/styles/shCore.css">
 	<link rel="stylesheet" href="~/Scripts/syntaxhighlighter/styles/shThemeDefault.css">
-	<style type="text/css">
-		.syntaxhighlighter
-		{
-			overflow-y: hidden !important;
-			overflow-x: auto !important;
-		}
-	</style>
 }
