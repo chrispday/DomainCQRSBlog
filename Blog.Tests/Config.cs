@@ -14,7 +14,7 @@ namespace Blog.Tests
 {
 	public static class _
 	{
-		public static IConfigure Config = Configure.With()
+		public static IBuiltConfigure Config = Configure.With()
 			.Synchrounous()
 			.DebugLogger()
 			.AzureEventStoreProvider("UseDevelopmentStorage=true")
@@ -22,13 +22,14 @@ namespace Blog.Tests
 			.EventStore()
 			.NoAggregateRootCache()
 			.MessageReceiver("Id")
+			.EventPublisher()
+			.Build()
 				.Register<CreatePost, Post>()
 				.Register<EditPost, Post>()
 				.Register<PublishPost, Post>()
 				.Register<CreateUser, User>()
 				.Register<Login, User>()
 				.Register<ChangePassword, User>()
-			.EventPublisher()
 				.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId)
 				.Subscribe<DraftPostProjector, PostEdited>(DraftPostProjector.SubscriptionId)
 				.Subscribe<PublishedPostProjector, PostPublished>(PublishedPostProjector.SubscriptionId)
@@ -61,7 +62,7 @@ namespace Blog.Tests
 
 		public static void Receive(object command)
 		{
-			Config.GetMessageReceiver.Receive(command);
+			Config.MessageReceiver.Receive(command);
 		}
 	}
 }

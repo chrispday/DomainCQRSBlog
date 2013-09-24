@@ -24,13 +24,14 @@ namespace Blog.Web.UI
 			.EventStore()
 			.NoAggregateRootCache()
 			.MessageReceiver("Id")
+			.EventPublisher()
+			.Build()
 				.Register<CreatePost, Post>()
 				.Register<EditPost, Post>()
 				.Register<PublishPost, Post>()
 				.Register<CreateUser, User>()
 				.Register<Login, User>()
 				.Register<ChangePassword, User>()
-			.EventPublisher()
 				.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId)
 				.Subscribe<DraftPostProjector, PostEdited>(DraftPostProjector.SubscriptionId)
 				.Subscribe<PublishedPostProjector, PostPublished>(PublishedPostProjector.SubscriptionId)
@@ -38,7 +39,7 @@ namespace Blog.Web.UI
 				.Subscribe<UserProjector, PasswordChanged>(UserProjector.SubscriptionId)
 				.Subscribe<SessionProjector, LoggedIn>(SessionProjector.SubscriptionId)
 				;
-			MessageReceiver = Config.GetMessageReceiver;
+			MessageReceiver = Config.MessageReceiver;
 
 			if (null == Repositories.Users.Get("admin"))
 			{
@@ -46,7 +47,7 @@ namespace Blog.Web.UI
 			}
 		}
 
-		private static IConfigure Config;
+		private static IBuiltConfigure Config;
 		public static IMessageReceiver MessageReceiver;
 	}
 }
