@@ -11,7 +11,7 @@
 				<div class="col-md-12">
 					<div class="page-header">
 						<h3><a href="/Post/@post.Url">@post.Title</a></h3>
-						<span class="glyphicon glyphicon-time"></span> @post.WhenPublished.ToString("dddd, dd" + Blog.Web.UI.Helper.TwoLetterSuffix(post.WhenPublished) + " MMMM yyyy")
+						<i class="icon-time"></i> @post.WhenPublished.ToString("dddd, dd" + Blog.Web.UI.Helper.TwoLetterSuffix(post.WhenPublished) + " MMMM yyyy")
 					</div>
 					<div>@Html.Raw(post.Content)</div>
 				</div>
