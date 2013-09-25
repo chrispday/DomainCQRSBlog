@@ -32,6 +32,7 @@ namespace Blog.Tests
 				.Register<ChangePassword, User>()
 				.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId)
 				.Subscribe<DraftPostProjector, PostEdited>(DraftPostProjector.SubscriptionId)
+				.Subscribe<DraftPostProjector, PostPublished>(DraftPostProjector.SubscriptionId)
 				.Subscribe<PublishedPostProjector, PostPublished>(PublishedPostProjector.SubscriptionId)
 				.Subscribe<UserProjector, UserCreated>(UserProjector.SubscriptionId)
 				.Subscribe<UserProjector, PasswordChanged>(UserProjector.SubscriptionId)

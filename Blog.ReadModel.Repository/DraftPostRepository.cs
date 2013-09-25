@@ -25,7 +25,7 @@ namespace Blog.ReadModel.Repository
 
 		public void Save(DraftPost item)
 		{
-			var entity = new DynamicTableEntity(item.Id.ToString(), "");
+			var entity = CreateEntity(item.Id);
 			entity.Properties["WhenCreated"] = new EntityProperty(item.WhenCreated.ToUniversalTime().Ticks);
 			entity.Properties["Content"] = new EntityProperty(item.Content ?? "");
 			entity.Properties["WhenEdited"] = new EntityProperty(item.WhenEdited.ToUniversalTime().Ticks);
@@ -49,21 +49,28 @@ namespace Blog.ReadModel.Repository
 				.Select(entity => CreateDraftPost(entity));
 		}
 
+		public void Delete(Guid id)
+		{
+			var entity = CreateEntity(id);
+			entity.ETag = "*";
+			DraftPostsTable.Execute(TableOperation.Delete(entity));
+		}
+
+		private DynamicTableEntity CreateEntity(Guid id)
+		{
+			return new DynamicTableEntity(id.ToString(), "");
+		}
+
 		private DraftPost CreateDraftPost(DynamicTableEntity entity)
 		{
 			return new DraftPost()
-				{
-					Id = new Guid(entity.PartitionKey),
-					WhenCreated = new DateTime(entity.Properties["WhenCreated"].Int64Value.Value).ToLocalTime(),
-					Content = entity.Properties["Content"].StringValue,
-					WhenEdited = new DateTime(entity.Properties["WhenEdited"].Int64Value.Value).ToLocalTime(),
-					Title = entity.Properties["Title"].StringValue,
-				};
-		}
-
-		public void Delete(Guid id)
-		{
-			throw new NotImplementedException();
+			{
+				Id = new Guid(entity.PartitionKey),
+				WhenCreated = new DateTime(entity.Properties["WhenCreated"].Int64Value.Value).ToLocalTime(),
+				Content = entity.Properties["Content"].StringValue,
+				WhenEdited = new DateTime(entity.Properties["WhenEdited"].Int64Value.Value).ToLocalTime(),
+				Title = entity.Properties["Title"].StringValue,
+			};
 		}
 	}
 }

@@ -34,6 +34,7 @@ public class PublishPosts_
 									 .And(WithTheDatetimeIsWasPublished, unpublishedId)
 									 .And(WithTheContent, unpublishedId)
 									 .And(WithTheTitle, unpublishedId)
+									 .And(ItShouldNotBeInTheDrafts, unpublishedId)
 
                     .WithScenario("Published Post Must Have Content")
 								.Given(AnUnpublishedPost, unpublishedIdNoContent)
@@ -54,6 +55,11 @@ public class PublishPosts_
 									 .And(ItShouldNotBeTheSameAsTheUrlForTheExistingPost, publishedId, publishedIdAnother)
 				.Execute();
     }
+
+	private void ItShouldNotBeInTheDrafts(Guid id)
+	{
+		Assert.IsFalse(Repositories.DraftPosts.Get().Any(p => p.Id == id));
+	}
 
     private void AnUnpublishedPost(Guid id)
     {

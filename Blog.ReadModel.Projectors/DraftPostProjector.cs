@@ -41,5 +41,10 @@ namespace Blog.ReadModel.Projectors
 			draftPost.Title = postEdited.Title;
 			Repositories.DraftPosts.Save(draftPost);
 		}
+
+		public void Receive(PostPublished postPublished)
+		{
+			Repositories.DraftPosts.Delete(postPublished.Id);
+		}
 	}
 }
