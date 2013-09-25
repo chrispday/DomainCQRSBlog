@@ -5,8 +5,21 @@
 	<title>@ViewBag.Title</title>
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/flatly/bootstrap.min.css" />
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" />
-	<link rel="stylesheet" href="~/Content/Base.css" />
+	<!-- Inlining stylesheet due to PageSpeed suggestion
+	<link rel="stylesheet" href="~/Content/Base.css" />-->
 	@RenderSection("Styles", false)
+	<style>
+		.img-responsive-center
+		{
+			margin: 0 auto;
+		}
+
+		.syntaxhighlighter
+		{
+			overflow-y: hidden !important;
+			overflow-x: auto !important;
+		}
+	</style>
 </head>
 <body>
 	@if (Request.IsAuthenticated)
