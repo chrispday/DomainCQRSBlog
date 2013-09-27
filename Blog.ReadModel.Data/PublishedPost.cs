@@ -13,5 +13,8 @@ namespace Blog.ReadModel.Data
 		public string Url { get; set; }
 		public string Content { get; set; }
 		public string Title { get; set; }
+		public int TotalComments { get; set; }
+		public string MostRecentCommentBy { get; set; }
+		public DateTime MostRecentCommentWhen { get; set; }
 	}
 }

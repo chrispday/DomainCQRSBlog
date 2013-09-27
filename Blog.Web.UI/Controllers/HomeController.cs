@@ -13,11 +13,21 @@ namespace Blog.Web.UI.Controllers
 		//
 		// GET: /Home/
 
+		private readonly int PageSize = 5;
+
 		[AuthorisedNotCached]
 		[OutputCache(Duration = 300, Location = OutputCacheLocation.Server)]
-		public ActionResult Index()
+		public ActionResult Index(int? page)
 		{
-			return View(Repositories.PublishedPosts.MostRecentPosts(1, 5, false));
+			if (!page.HasValue)
+			{
+				page = 1;
+			}
+
+			var posts = Repositories.PublishedPosts.MostRecentPosts(page.Value, PageSize, true);
+			ViewBag.MorePosts = (5 < posts.Count());
+			ViewBag.PageNumber = page.Value;
+			return View(posts.Take(5));
 		}
 	}
 }

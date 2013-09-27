@@ -30,13 +30,16 @@ namespace Blog.Tests
 				.Register<CreateUser, User>()
 				.Register<Login, User>()
 				.Register<ChangePassword, User>()
+				.Register<AddCommentToPost, Post>()
 				.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId)
 				.Subscribe<DraftPostProjector, PostEdited>(DraftPostProjector.SubscriptionId)
 				.Subscribe<DraftPostProjector, PostPublished>(DraftPostProjector.SubscriptionId)
 				.Subscribe<PublishedPostProjector, PostPublished>(PublishedPostProjector.SubscriptionId)
+				.Subscribe<PublishedPostProjector, CommentAddedToPost>(PublishedPostProjector.SubscriptionId)
 				.Subscribe<UserProjector, UserCreated>(UserProjector.SubscriptionId)
 				.Subscribe<UserProjector, PasswordChanged>(UserProjector.SubscriptionId)
 				.Subscribe<SessionProjector, LoggedIn>(SessionProjector.SubscriptionId)
+				.Subscribe<CommentProjector, CommentAddedToPost>(CommentProjector.SubscriptionId)
 				;
 
 		private static Guid? _sessionId;

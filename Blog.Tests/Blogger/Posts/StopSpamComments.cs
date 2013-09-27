@@ -1,6 +1,8 @@
 ﻿using System;
 using StoryQ;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Blog.Tests;
+using Blog.Domain.Commands;
 
 [TestClass]
 public class StopSpamComments_
@@ -54,25 +56,25 @@ public class StopSpamComments_
         throw new NotImplementedException();
     }
 
-    private void APost()
+	 private void APost()
     {
-        throw new NotImplementedException();
-    }
+		 throw new NotImplementedException();
+	 }
 
     private void ACommentIsAdded()
     {
-        throw new NotImplementedException();
-    }
+		 throw new NotImplementedException();
+	 }
 
     private void TheCAPTCHAIsNotPassed()
     {
-        throw new NotImplementedException();
-    }
+		 throw new NotImplementedException();
+	 }
 
     private void TheCommentIsRejected()
     {
-        throw new NotImplementedException();
-    }
+		 throw new NotImplementedException();
+	 }
 
     private void APostAndCommentsAreToBeModerated()
     {

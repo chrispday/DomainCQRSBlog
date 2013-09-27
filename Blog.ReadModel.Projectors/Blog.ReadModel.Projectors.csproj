@@ -37,6 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentProjector.cs" />
     <Compile Include="DraftPostProjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublishedPostProjector.cs" />

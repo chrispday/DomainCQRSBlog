@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Blog.Domain;
@@ -47,6 +48,29 @@ namespace Blog.ReadModel.Projectors
 			}
 
 			return url;
+		}
+
+		public void Receive(CommentAddedToPost commentAddedToPost)
+		{
+			var publishedPost = PublishedPosts.Get(commentAddedToPost.Id);
+			if (publishedPost.TotalComments < commentAddedToPost.TotalComments)
+			{
+				publishedPost.TotalComments = commentAddedToPost.TotalComments;
+				publishedPost.MostRecentCommentBy = commentAddedToPost.Name;
+				publishedPost.MostRecentCommentWhen = commentAddedToPost.WhenCommented;
+			}
+
+			Repositories.PublishedPosts.SaveForRecentComment(publishedPost, new Data.Comment()
+			{
+				Id = commentAddedToPost.CommentId,
+				PostId = commentAddedToPost.Id,
+				Name = commentAddedToPost.Name,
+				Email = commentAddedToPost.Email,
+				EmailHash = new MD5Cng().ComputeHash(Encoding.UTF8.GetBytes(commentAddedToPost.Email)),
+				CommentText = commentAddedToPost.Comment,
+				ShowEmail = commentAddedToPost.ShowEmail,
+				WhenCommented = commentAddedToPost.WhenCommented
+			});
 		}
 	}
 }

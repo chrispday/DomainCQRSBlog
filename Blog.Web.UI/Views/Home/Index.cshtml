@@ -17,6 +17,20 @@
 				</div>
 			</div>
   }
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="pager">
+					@if (ViewBag.MorePosts)
+	  {
+						<li class="previous"><a href="/Posts/@(ViewBag.PageNumber + 1)">&larr; Older</a></li>
+	  }
+					@if (1 != ViewBag.PageNumber)
+	  {
+						<li class="next"><a href="@((2 == ViewBag.PageNumber) ? "/" : "/Posts/" + (ViewBag.PageNumber - 1))">Newer &rarr;</a></li>
+	  }
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>
 @section Scripts
@@ -33,4 +47,4 @@
 {
 	<link rel="stylesheet" href="~/Scripts/syntaxhighlighter/styles/shCore.css">
 	<link rel="stylesheet" href="~/Scripts/syntaxhighlighter/styles/shThemeDefault.css">
-}	
+}

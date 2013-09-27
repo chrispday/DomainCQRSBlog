@@ -38,6 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BadSessionIdError.cs" />
+    <Compile Include="CommentIsEmptyError.cs" />
+    <Compile Include="EmailIsEmptyError.cs" />
+    <Compile Include="NameIsEmptyError.cs" />
     <Compile Include="NotLoggedInError.cs" />
     <Compile Include="PostMustHaveContentError.cs" />
     <Compile Include="PostMustHaveTitleError.cs" />

@@ -12,5 +12,7 @@ namespace Blog.ReadModel.Repository
 		public static readonly IPublishedPostRepository PublishedPosts = new PublishedPostRepository(Azure.TableClient);
 		public static readonly IUserRepository Users = new UserRepository(Azure.TableClient);
 		public static readonly ISessionRepository Sessions = new SessionRepository(Azure.TableClient);
+		public static readonly ICommentRepository Comments = new CommentRepository(Azure.TableClient);
+		public static readonly IReferrerRepository Referrers = new ReferrerRepository(Azure.TableClient);
 	}
 }

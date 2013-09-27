@@ -1,6 +1,13 @@
 ﻿using System;
+using System.Linq;
 using StoryQ;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Blog.Tests;
+using Blog.Domain.Commands;
+using Blog.ReadModel.Data;
+using Blog.ReadModel.Repository;
+using System.Collections.Generic;
+using System.Threading;
 
 [TestClass]
 public class NewComments_
@@ -23,21 +30,46 @@ public class NewComments_
 
 	private void SomePostsWithSomeComments()
 	{
-		throw new NotImplementedException();
+		CreatePostAndComments();
+		Thread.Sleep(100);
+		CreatePostAndComments();
+		Thread.Sleep(100);
+		CreatePostAndComments();
+		Thread.Sleep(100);
+		CreatePostAndComments();
+		Thread.Sleep(100);
+		CreatePostAndComments();
+		Thread.Sleep(100);
+		CreatePostAndComments();
+	}
+
+	private void CreatePostAndComments()
+	{
+		var id = Guid.NewGuid();
+		_.Receive(new CreatePost() { Id = id, SessionId = _.SessionId, Title = id.ToString(), WhenCreated = DateTime.Now });
+		_.Receive(new EditPost() { Id = id, SessionId = _.SessionId, Content = id.ToString(), WhenEdited = DateTime.Now });
+		_.Receive(new PublishPost() { Id = id, SessionId = _.SessionId, WhenPublished = DateTime.Now });
+		_.Receive(new AddCommentToPost() { Id = id, CommentId = Guid.NewGuid(), Name = id.ToString(), Email = id.ToString(), Comment = id.ToString(), ShowEmail = true, WhenCommented = DateTime.Now });
 	}
 
 	private void Nothing()
 	{
-		throw new NotImplementedException();
 	}
 
+	IEnumerable<PublishedPost> posts;
 	private void PostsShouldBeShownInOrderOfWhichHasMostRecentlyBeenCommentedOn()
 	{
-		throw new NotImplementedException();
+		posts = Repositories.PublishedPosts.GetByMostRecentComments(1, 5, true);
+		var when = posts.First().MostRecentCommentWhen;
+		foreach (var post in posts.Skip(1))
+		{
+			Assert.IsTrue(post.MostRecentCommentWhen < when);
+			when = post.MostRecentCommentWhen;
+		}
 	}
 
 	private void TheyArePaginated()
 	{
-		throw new NotImplementedException();
+		Assert.AreEqual(6, posts.Count());
 	}
 }

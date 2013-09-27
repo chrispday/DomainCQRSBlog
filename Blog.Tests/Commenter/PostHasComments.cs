@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Linq;
 using StoryQ;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Blog.Domain.Commands;
+using Blog.Tests;
+using Blog.ReadModel.Repository;
+using Blog.ReadModel.Data;
 
 [TestClass]
 public class PostHasComments_
@@ -20,18 +25,29 @@ public class PostHasComments_
 			 .Execute();
 	}
 
+	Guid postId = Guid.NewGuid();
 	private void APostWithComments()
 	{
-		throw new NotImplementedException();
+		_.Receive(new CreatePost() { Id = postId, SessionId = _.SessionId, Title = postId.ToString(), WhenCreated = DateTime.Now });
+		_.Receive(new EditPost() { Id = postId, SessionId = _.SessionId, Content = postId.ToString(), WhenEdited = DateTime.Now });
+		_.Receive(new PublishPost() { Id = postId, SessionId = _.SessionId, WhenPublished = DateTime.Now });
+
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 3), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 5), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 2), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 4), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 1), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 6), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
 	}
 
+	PublishedPost post;
 	private void ThePostIsViewed()
 	{
-		throw new NotImplementedException();
+		post = Repositories.PublishedPosts.Get(postId);
 	}
 
 	private void TheNumberOfConmentsShouldBeShown()
 	{
-		throw new NotImplementedException();
+		Assert.AreEqual(6, post.TotalComments);
 	}
 }

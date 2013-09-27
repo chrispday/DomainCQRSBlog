@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Linq;
 using StoryQ;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Blog.Tests;
+using Blog.Domain.Commands;
+using Blog.ReadModel.Repository;
+using Blog.ReadModel.Data;
 
 [TestClass]
 public class HowAReaderFoundPost_
@@ -20,18 +25,25 @@ public class HowAReaderFoundPost_
             .Execute();
     }
 
-    private void APost()
+	 Guid postId = Guid.NewGuid();
+	 private void APost()
     {
-        throw new NotImplementedException();
-    }
+		 _.Receive(new CreatePost() { Id = postId, SessionId = _.SessionId, Title = postId.ToString(), WhenCreated = DateTime.Now });
+		 _.Receive(new EditPost() { Id = postId, SessionId = _.SessionId, Content = postId.ToString(), WhenEdited = DateTime.Now });
+		 _.Receive(new PublishPost() { Id = postId, SessionId = _.SessionId, WhenPublished = DateTime.Now });
+	 }
 
     private void AReaderIsReferredFromAnotherPage()
     {
-        throw new NotImplementedException();
+		 Repositories.Referrers.Save(new Referrer() { PostId = postId, ReferrerUrl = postId.ToString(), RequestUrl = _.SessionId.ToString(), WhenReferred = new DateTime(2000, 1, 1) });
     }
 
     private void ThatReferrerIsAddedToThePost()
     {
-        throw new NotImplementedException();
+		 Assert.IsTrue(Repositories.Referrers.GetForPost(postId).Any(r =>
+			 r.PostId == postId
+			 && r.ReferrerUrl == postId.ToString()
+			 && r.RequestUrl == _.SessionId.ToString()
+			 && r.WhenReferred == new DateTime(2000, 1, 1)));
     }
 }

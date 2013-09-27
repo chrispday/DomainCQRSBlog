@@ -37,9 +37,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comment.cs" />
     <Compile Include="PublishedPost.cs" />
     <Compile Include="DraftPost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Referrer.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>

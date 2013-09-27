@@ -37,6 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentAddedToPost.cs" />
     <Compile Include="LoggedIn.cs" />
     <Compile Include="PasswordChanged.cs" />
     <Compile Include="PostCreated.cs" />

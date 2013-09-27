@@ -16,7 +16,8 @@ namespace Blog.Domain.AggregateRoots
 		private string Content { get; set; }
 		private DateTime WhenEdited { get; set; }
 		private string Title { get; set; }
-		public DateTime WhenPublished { get; set; }
+		private DateTime WhenPublished { get; set; }
+		private List<Events.CommentAddedToPost> Comments = new List<Events.CommentAddedToPost>();
 
 		public Post(ISessionRepository sessions) : base(sessions) { }
 		public Post() : this(Repositories.Sessions) { }
@@ -94,6 +95,39 @@ namespace Blog.Domain.AggregateRoots
 		{
 			Id = postPublished.Id;
 			WhenPublished = postPublished.WhenPublished;
+		}
+
+		public object Apply(Commands.AddCommentToPost addCommentToPost)
+		{
+			if (string.IsNullOrWhiteSpace(addCommentToPost.Name))
+			{
+				throw new Errors.NameIsEmptyError();
+			}
+			if (string.IsNullOrWhiteSpace(addCommentToPost.Email))
+			{
+				throw new Errors.EmailIsEmptyError();
+			}
+			if (string.IsNullOrWhiteSpace(addCommentToPost.Comment))
+			{
+				throw new Errors.CommentIsEmptyError();
+			}
+
+			return new Events.CommentAddedToPost()
+			{
+				Id = addCommentToPost.Id,
+				CommentId = addCommentToPost.CommentId,
+				Name = addCommentToPost.Name,
+				Email = addCommentToPost.Email,
+				Comment = addCommentToPost.Comment,
+				WhenCommented = addCommentToPost.WhenCommented,
+				ShowEmail = addCommentToPost.ShowEmail,
+				TotalComments = Comments.Count + 1
+			};
+		}
+
+		public void Apply(Events.CommentAddedToPost commentAddedToPost)
+		{
+			Comments.Add(commentAddedToPost);
 		}
 	}
 }
