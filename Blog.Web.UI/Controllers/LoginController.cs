@@ -30,7 +30,7 @@ namespace Blog.Web.UI.Controllers
 			var sessionId = Guid.NewGuid();
 			try
 			{
-				YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.Login() { Username = username, Password = password, SessionId = sessionId });
+				DomainCQRSConfig.MessageReceiver.Receive(new Blog.Domain.Commands.Login() { Username = username, Password = password, SessionId = sessionId });
 			}
 			catch (Blog.Domain.Errors.WrongUsernameOrPasswordError)
 			{
@@ -59,7 +59,7 @@ namespace Blog.Web.UI.Controllers
 
 			try
 			{
-				YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.ChangePassword() { Id = userId.Value, NewPassword = newPassword, OldPassword = currentPassword });
+				DomainCQRSConfig.MessageReceiver.Receive(new Blog.Domain.Commands.ChangePassword() { Id = userId.Value, NewPassword = newPassword, OldPassword = currentPassword });
 			}
 			catch (Blog.Domain.Errors.WrongUsernameOrPasswordError)
 			{

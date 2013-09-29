@@ -12,7 +12,7 @@ using DomainCQRS;
 
 namespace Blog.Web.UI
 {
-	public static class YeastConfig
+	public static class DomainCQRSConfig
 	{
 		public static void Register()
 		{
@@ -32,12 +32,16 @@ namespace Blog.Web.UI
 				.Register<CreateUser, User>()
 				.Register<Login, User>()
 				.Register<ChangePassword, User>()
+				.Register<AddCommentToPost, Post>()
 				.Subscribe<DraftPostProjector, PostCreated>(DraftPostProjector.SubscriptionId)
 				.Subscribe<DraftPostProjector, PostEdited>(DraftPostProjector.SubscriptionId)
+				.Subscribe<DraftPostProjector, PostPublished>(DraftPostProjector.SubscriptionId)
 				.Subscribe<PublishedPostProjector, PostPublished>(PublishedPostProjector.SubscriptionId)
+				.Subscribe<PublishedPostProjector, CommentAddedToPost>(PublishedPostProjector.SubscriptionId)
 				.Subscribe<UserProjector, UserCreated>(UserProjector.SubscriptionId)
 				.Subscribe<UserProjector, PasswordChanged>(UserProjector.SubscriptionId)
 				.Subscribe<SessionProjector, LoggedIn>(SessionProjector.SubscriptionId)
+				.Subscribe<CommentProjector, CommentAddedToPost>(CommentProjector.SubscriptionId)
 				;
 			MessageReceiver = Config.MessageReceiver;
 

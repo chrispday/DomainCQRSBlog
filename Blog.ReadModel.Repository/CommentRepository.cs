@@ -74,7 +74,7 @@ namespace Blog.ReadModel.Repository
 				PostId = new Guid(entity.PartitionKey),
 				Name = entity.Properties["Name"].StringValue,
 				Email = entity.Properties["Email"].StringValue,
-				EmailHash = entity.Properties["EmailHash"].BinaryValue,
+				EmailHash = entity.Properties["EmailHash"].StringValue,
 				CommentText = entity.Properties["Comment"].StringValue,
 				WhenCommented = new DateTime(entity.Properties["WhenCommented"].Int64Value.Value).ToLocalTime(),
 				ShowEmail = entity.Properties["ShowEmail"].BooleanValue.Value

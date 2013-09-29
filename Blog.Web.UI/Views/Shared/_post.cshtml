@@ -1,0 +1,71 @@
+﻿@model Blog.ReadModel.Data.PublishedPost
+<div class="post">
+	<div class="page-header">
+		<h3><a href="/Post/@Model.Url">@Model.Title</a></h3>
+		<div class="row">
+			<div class="col-md-6">
+				<i class="icon-time"></i>&nbsp;@Model.WhenPublished.ToString("dddd, dd" + Blog.Web.UI.Helper.TwoLetterSuffix(Model.WhenPublished) + " MMMM yyyy")
+			</div>
+			<div class="col-md-6">
+				<a href="#comments-@Model.Id"><i class="icon-comments-alt"></i>&nbsp;Comments <span class="badge postTotalComments">@Model.TotalComments</span></a>
+			</div>
+		</div>
+	</div>
+	<div>@Html.Raw(Model.Content)</div>
+	<div>&nbsp;</div>
+	<div class="panel panel-default postCommentsPanel">
+		<div class="panel-body">
+			<form role="form" class="form-horizontal addCommentForm">
+				<div class="form-group" style="display: none;">
+					<label for="Name" class="col-lg-1">Name</label>
+					<div class="col-lg-11">
+						<input type="text" class="form-control" id="Name" name="Name" placeholder="Name" />
+					</div>
+				</div>
+				<div class="form-group" style="display: none;">
+					<label for="Email" class="col-lg-1">Email</label>
+					<div class="col-lg-11">
+						<input type="text" class="form-control commentEmail" id="Email" name="Email" placeholder="Email" />
+					</div>
+				</div>
+				<div class="form-group" style="display: none;">
+					<div class="col-lg-offset-1 col-lg-11">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" id="ShowEmail" name="ShowEmail" /> Show Email</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-1">
+						<img class="img-thumbnail commentAvatar" src="http://www.gravatar.com/avatar/x?d=mm&s=60" height="60" width="60" style="min-width: 60px;" />
+					</div>
+					<div class="col-lg-11">
+						<textarea class="form-control commentText" id="CommentText" name="CommentText" rows="2" placeholder="Comment..."></textarea>
+					</div>
+				</div>
+				<div class="form-group" style="display:none;">
+					<div class="col-md-offset-1 col-md-11 commentRecaptcha" id="recaptcha-@Model.Id">
+
+					</div>
+				</div>
+				<div class="form-group" style="display: none;">
+					@Html.Hidden("Id", Guid.NewGuid())
+					@Html.Hidden("PostId", Model.Id)
+					@Html.Hidden("EmailHash")
+					@Html.Hidden("WhenCommented")
+					<div class="col-lg-offset-1 col-lg-11">
+						<button type="submit" class="btn btn-primary addComment">Add Comment</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="panel-heading">
+			<a id="comments-@Model.Id"></a>
+			<a class="viewComments" href="#"><i class="icon-comments-alt"></i>&nbsp;View Comments <span class="badge postTotalComments">@Model.TotalComments</span></a>
+			@Html.Hidden("postId", Model.Id, new { Class = "postId" })
+		</div>
+		<div style="display: none;" class="panel-body postComments">
+		</div>
+	</div>
+</div>

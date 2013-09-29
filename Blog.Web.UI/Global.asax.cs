@@ -19,7 +19,7 @@ namespace Blog.Web.UI
 			WebApiConfig.Register(GlobalConfiguration.Configuration);
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
-			YeastConfig.Register();
+			DomainCQRSConfig.Register();
 
 		}
 	}

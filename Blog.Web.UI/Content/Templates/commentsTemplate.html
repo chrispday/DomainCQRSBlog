@@ -1,0 +1,16 @@
+﻿{{#each this}}
+<div class="row">
+	<div class="col-md-1">
+		<img class="img-thumbnail" src="http://www.gravatar.com/avatar/{{EmailHash}}?d=mm&s=60" height="60" width="60" style="min-width:60px;" />
+	</div>
+	<div class="col-md-11">
+		<p>{{#if ShowEmail}}
+			<a href="mailto:{{Email}}">{{Name}}</a>
+		{{else}}
+			{{Name}}
+		{{/if}} at {{{momentFormat WhenCommented "D-MMM-YYYY h:mma"}}}</p>
+		<p>{{CommentText}}</p>
+		<p>&nbsp;</p>
+	</div>
+</div>
+{{/each}}

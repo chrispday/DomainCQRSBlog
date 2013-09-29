@@ -5,10 +5,6 @@
 }
 <div class="row">
 	<div class="col-md-9">
-		<div class="page-header">
-			<h3><a href="/Post/@Model.Url">@Model.Title</a></h3>
-			<p><small><span class="glyphicon glyphicon-time"></span> @Model.WhenPublished.ToString("d MMMM yyyy")</small></p>
-		</div>
-		<div>@Html.Raw(Model.Content)</div>
+		@Html.Partial("~/Views/Shared/_post.cshtml", Model)
 	</div>
 </div>

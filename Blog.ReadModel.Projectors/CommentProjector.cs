@@ -33,7 +33,7 @@ namespace Blog.ReadModel.Projectors
 				PostId = commentAddedToPost.Id,
 				Name = commentAddedToPost.Name,
 				Email = commentAddedToPost.Email,
-				EmailHash = new MD5Cng().ComputeHash(Encoding.UTF8.GetBytes(commentAddedToPost.Email)),
+				EmailHash = string.Join("", new MD5Cng().ComputeHash(Encoding.UTF8.GetBytes(commentAddedToPost.Email.ToLower().Trim())).Select(b => b.ToString("x2"))),
 				CommentText = commentAddedToPost.Comment,
 				ShowEmail = commentAddedToPost.ShowEmail,
 				WhenCommented = commentAddedToPost.WhenCommented

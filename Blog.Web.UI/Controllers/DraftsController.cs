@@ -41,7 +41,7 @@ namespace Blog.Web.UI.Controllers
 			if (Guid.Empty == id)
 			{
 				id = Guid.NewGuid();
-				YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.CreatePost()
+				DomainCQRSConfig.MessageReceiver.Receive(new Blog.Domain.Commands.CreatePost()
 				{
 					Id = id,
 					Title = draftPost.Title,
@@ -50,7 +50,7 @@ namespace Blog.Web.UI.Controllers
 				});
 			}
 
-			YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.EditPost()
+			DomainCQRSConfig.MessageReceiver.Receive(new Blog.Domain.Commands.EditPost()
 			{
 				Id = id,
 				Title = draftPost.Title,
@@ -66,7 +66,7 @@ namespace Blog.Web.UI.Controllers
 		public ActionResult Index(string id)
 		{
 			var postId = new Guid(id);
-			YeastConfig.MessageReceiver.Receive(new Blog.Domain.Commands.PublishPost() { Id = postId, WhenPublished = DateTime.Now, SessionId = new Guid(User.Identity.Name) });
+			DomainCQRSConfig.MessageReceiver.Receive(new Blog.Domain.Commands.PublishPost() { Id = postId, WhenPublished = DateTime.Now, SessionId = new Guid(User.Identity.Name) });
 			return Redirect("/");
 		}
 

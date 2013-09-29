@@ -27,6 +27,13 @@ namespace Blog.Web.UI.Controllers
 			var posts = Repositories.PublishedPosts.MostRecentPosts(page.Value, PageSize, true);
 			ViewBag.MorePosts = (5 < posts.Count());
 			ViewBag.PageNumber = page.Value;
+
+			ViewBag.Comments = new Dictionary<Guid, IEnumerable<Blog.ReadModel.Data.Comment>>();
+			foreach (var post in posts.Take(5))
+			{
+				ViewBag.Comments[post.Id] = (0 != post.TotalComments) ? Repositories.Comments.GetForPost(post.Id) : Enumerable.Empty<Blog.ReadModel.Data.Comment>();
+			}
+
 			return View(posts.Take(5));
 		}
 	}
