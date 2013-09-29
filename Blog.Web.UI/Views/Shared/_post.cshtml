@@ -17,19 +17,19 @@
 		<div class="panel-body">
 			<form role="form" class="form-horizontal addCommentForm">
 				<div class="form-group" style="display: none;">
-					<label for="Name" class="col-lg-1">Name</label>
-					<div class="col-lg-11">
+					<label for="Name" class="col-md-1">Name</label>
+					<div class="col-md-11">
 						<input type="text" class="form-control" id="Name" name="Name" placeholder="Name" />
 					</div>
 				</div>
 				<div class="form-group" style="display: none;">
-					<label for="Email" class="col-lg-1">Email</label>
-					<div class="col-lg-11">
+					<label for="Email" class="col-md-1">Email</label>
+					<div class="col-md-11">
 						<input type="text" class="form-control commentEmail" id="Email" name="Email" placeholder="Email" />
 					</div>
 				</div>
 				<div class="form-group" style="display: none;">
-					<div class="col-lg-offset-1 col-lg-11">
+					<div class="col-md-offset-1 col-md-11">
 						<div class="checkbox">
 							<label>
 								<input type="checkbox" id="ShowEmail" name="ShowEmail" /> Show Email</label>
@@ -37,16 +37,15 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-lg-1">
+					<div class="col-md-1">
 						<img class="img-thumbnail commentAvatar" src="http://www.gravatar.com/avatar/x?d=mm&s=60" height="60" width="60" style="min-width: 60px;" />
 					</div>
-					<div class="col-lg-11">
+					<div class="col-md-11">
 						<textarea class="form-control commentText" id="CommentText" name="CommentText" rows="2" placeholder="Comment..."></textarea>
 					</div>
 				</div>
 				<div class="form-group" style="display:none;">
 					<div class="col-md-offset-1 col-md-11 commentRecaptcha" id="recaptcha-@Model.Id">
-
 					</div>
 				</div>
 				<div class="form-group" style="display: none;">
@@ -54,7 +53,7 @@
 					@Html.Hidden("PostId", Model.Id)
 					@Html.Hidden("EmailHash")
 					@Html.Hidden("WhenCommented")
-					<div class="col-lg-offset-1 col-lg-11">
+					<div class="col-md-offset-1 col-md-11">
 						<button type="submit" class="btn btn-primary addComment">Add Comment</button>
 					</div>
 				</div>
