@@ -9,6 +9,7 @@ _gaq.push(['_trackPageview']);
 })();
 
 var comments = {
+
 	displayComments: function (postId, $postComments) {
 		var $spinner = $("<p class='text-center'><i class='icon-spinner icon-3x icon-spin'></i></p>");
 		$postComments.before($spinner);
@@ -50,14 +51,19 @@ var comments = {
 		$this.off("focusin");
 
 		var $commentForm = $this.parents("form.addCommentForm:first");
+		comments.createRecaptcha($commentForm);
+		$commentForm.children("div.form-group").show();
+		$commentForm.find("#Name").focus();
+	},
+
+	createRecaptcha: function($commentForm) {
 		$commentRecaptcha = $commentForm.find("div.commentRecaptcha:first");
 		$commentRecaptcha.children().remove();
+		$commentRecaptcha.parent().find("span.help-block").remove();
 		Recaptcha.destroy();
 		Recaptcha.create("6LdJ_-cSAAAAABSQ03vab49RBrBYXyiovv8ncnbp", $commentRecaptcha.attr("id"), {
-			theme: "clean",
-			callback: Recaptcha.focus_response_field
+			theme: "clean"
 		});
-		$commentForm.children("div.form-group").show();
 	},
 
 	displayCommentAvatar: function () {
@@ -68,53 +74,92 @@ var comments = {
 		$addCommentForm.find("img.commentAvatar:first").attr("src", "http://www.gravatar.com/avatar/" + emailHash + "?d=mm&s=60");
 	},
 
-	addComment: function () {
-		var $this = $(this);
-
-		var $post = $this.parents("div.post:first");
-		var $form = $this.parents("form.addCommentForm:first");
+	addComment: function (form) {
+		var $form = $(form);
+		var $post = $form.parents("div.post:first");
 		var formData = $form.serializeArray();
 
 		$.ajax({
 			type: "POST",
 			url: "/Comments/Add",
 			data: formData,
-			success: function (data) {
-				// increase post count
-				$post.find("span.postTotalComments").each(function (idx, item) {
-					var postTotalComments = parseInt($(item).html()) + 1;
-					$(item).html(postTotalComments);
-				});
-
-				// if posts not displayed get posts
-				var $postComments = $post.find("div.postComments:first");
-				if ($postComments.is(":hidden")) {
-					$post.find("a.viewComments").click();
-				}
-				else {
-					// add post content
-					var jsonFormData = $form.serializeObject();
-					jsonFormData.WhenCommented = Date.now();
-					$(templates.commentsTemplate([jsonFormData])).appendTo($postComments);
-				}
-
-				// reset form
-
-				var $commentText = $form.find("textarea.commentText:first");
-				$form.trigger("reset");
-				$form.find("#Id").val(generateGuid());
-				$form.find("img.commentAvatar:first").attr("href", "http://www.gravatar.com/avatar/x?d=mm&s=60");
-				$form.find("div.form-group").hide(0);
-				$commentText.parents("div.form-group:first").show(0);
-				$commentText.off("focusin");
-				$commentText.focusin(comments.displayCommentForm);
-			},
+			success: function (data) { comments.commentAdded(data, $post, $form); },
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);
 				alert(thrownError);
 			}
 		});
 		return false;
+	},
+
+	commentAdded: function (data, $post, $form) {
+		// check result
+		if (!data.IsValid) {
+			comments.createRecaptcha($form);
+			if (data.RecaptchaResponse !== undefined) {
+				var $recaptcha = $form.find("div.commentRecaptcha:first");
+				$recaptcha.parent().append($("<label class='text-danger'>" + data.RecaptchaResponse.ErrorMessage + "</label>"));
+			}
+			else if (data.Message !== undefined) {
+				var $button = $form.find("button.addComment:first");
+				$button.before($("<div class='text-danger'>" + data.Message + "</div>"));
+			}
+			else {
+				alert(JSON.stringify(data));
+			}
+		}
+		else {
+			// increase post count
+			$post.find("span.postTotalComments").each(function (idx, item) {
+				var postTotalComments = parseInt($(item).html()) + 1;
+				$(item).html(postTotalComments);
+			});
+
+			var $postComments = $post.find("div.postComments:first");
+			if ($postComments.is(":hidden")) {
+				// if comments not displayed, get them
+				$post.find("a.viewComments").click();
+			}
+			else {
+				// add post content
+				var jsonFormData = $form.serializeObject();
+				jsonFormData.WhenCommented = Date.now();
+				$(templates.commentsTemplate([jsonFormData])).appendTo($postComments);
+			}
+
+			// reset form
+			comments.resetCommentForm($form, true);
+		}
+	},
+
+	resetCommentForm: function($form, resetData) {
+		var $commentText = $form.find("textarea.commentText:first");
+		if (resetData) {
+			$form.trigger("reset");
+			$form.find("#Id").val(generateGuid());
+			$form.find("img.commentAvatar:first").attr("href", "http://www.gravatar.com/avatar/x?d=mm&s=60");
+		};
+		$form.find("div.form-group").hide(0);
+		$commentText.parents("div.form-group:first").show(0);
+		$commentText.off("focusin");
+		$commentText.focusin(comments.displayCommentForm);
+	},
+
+	validateCommentForm: function() {
+		return {
+			submitHandler: comments.addComment,
+			errorClass: "text-danger",
+			success: function (label, element) {
+				$(element).parents("div.form-group:first").removeClass("has-error").addClass("has-success");
+				$(label).remove();
+			},
+			highlight: function (element, errorClass, validClass) {
+				$(element).parents("div.form-group:first").removeClass("has-success").addClass("has-error");
+			},
+			unhighlight: function (element, errorClass, validClass) {
+				$(element).parents("div.form-group:first").removeClass("has-error").addClass("has-success");
+			}
+		};
 	}
 }
 

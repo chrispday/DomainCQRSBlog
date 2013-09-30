@@ -8,5 +8,12 @@ namespace Blog.Domain.Errors
 {
 	public class EmailIsEmptyError : Exception
 	{
+		public override string Message
+		{
+			get
+			{
+				return "Email is empty";
+			}
+		}
 	}
 }

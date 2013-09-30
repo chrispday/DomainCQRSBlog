@@ -8,5 +8,12 @@ namespace Blog.Domain.Errors
 {
 	public class NotLoggedInError : Exception
 	{
+		public override string Message
+		{
+			get
+			{
+				return "Not logged in";
+			}
+		}
 	}
 }

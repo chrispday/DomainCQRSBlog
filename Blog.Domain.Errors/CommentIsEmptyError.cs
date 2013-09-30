@@ -8,5 +8,12 @@ namespace Blog.Domain.Errors
 {
 	public class CommentIsEmptyError : Exception
 	{
+		public override string Message
+		{
+			get
+			{
+				return "Comment is empty";
+			}
+		}
 	}
 }

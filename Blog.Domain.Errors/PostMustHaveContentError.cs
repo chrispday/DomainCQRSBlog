@@ -8,5 +8,12 @@ namespace Blog.Domain.Errors
 {
 	public class PostMustHaveContentError : Exception
 	{
+		public override string Message
+		{
+			get
+			{
+				return "Post must have content";
+			}
+		}
 	}
 }

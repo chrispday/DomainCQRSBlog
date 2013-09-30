@@ -8,5 +8,12 @@ namespace Blog.Domain.Errors
 {
 	public class WrongUsernameOrPasswordError : Exception
 	{
+		public override string Message
+		{
+			get
+			{
+				return "Wrong username or password";
+			}
+		}
 	}
 }

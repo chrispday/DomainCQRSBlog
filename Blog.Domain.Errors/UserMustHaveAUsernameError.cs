@@ -8,5 +8,12 @@ namespace Blog.Domain.Errors
 {
 	public class UserMustHaveAUsernameError : Exception
 	{
+		public override string Message
+		{
+			get
+			{
+				return "User must have a username";
+			}
+		}
 	}
 }

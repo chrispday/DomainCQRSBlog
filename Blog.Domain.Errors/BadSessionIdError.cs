@@ -8,5 +8,12 @@ namespace Blog.Domain.Errors
 {
 	public class BadSessionIdError : Exception
 	{
+		public override string Message
+		{
+			get
+			{
+				return "Bad session id";
+			}
+		}
 	}
 }

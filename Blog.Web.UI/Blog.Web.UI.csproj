@@ -176,6 +176,9 @@
     <Content Include="Scripts\handlebars.runtime.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\md5.js" />
     <Content Include="Scripts\moment+langs.js" />
     <Content Include="Scripts\moment+langs.min.js" />

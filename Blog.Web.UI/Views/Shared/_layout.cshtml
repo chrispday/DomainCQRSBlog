@@ -69,6 +69,7 @@
 		</div>
 	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
@@ -82,10 +83,12 @@
 			$("a.viewComments").click(comments.loadComments);
 			$("textarea.commentText").focusin(comments.displayCommentForm);
 			$("input.commentEmail").focusout(comments.displayCommentAvatar);
-			$("button.addComment").click(comments.addComment);
+			$("form.addCommentForm").each(function (idx, item) {
+				$(item).validate(comments.validateCommentForm());
+			});
 
 			Handlebars.registerHelper("momentFormat", function (dt, format) {
-				return new Handlebars.SafeString(new moment(dt).format(format));
+				return new moment(dt).format(format);
 			});
 		});
 	</script>
