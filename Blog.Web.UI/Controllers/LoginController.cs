@@ -37,7 +37,7 @@ namespace Blog.Web.UI.Controllers
 				ModelState.AddModelError("", "Wrong username or password.");
 				return View();
 			}
-			FormsAuthentication.SetAuthCookie(sessionId.ToString(), false);
+			FormsAuthentication.SetAuthCookie(sessionId.ToString(), true);
 			returnUrl = returnUrl ?? "/";
 			return Redirect(returnUrl);
 		}
