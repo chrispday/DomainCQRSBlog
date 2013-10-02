@@ -5,3 +5,4 @@
 /// <reference path="~/Scripts/site.js" />
 /// <reference path="~/Scripts/handlebars.js" />
 /// <reference path="~/Scripts/md5.js" />
+/// <reference path="~/Scripts/angular/angular.js" />

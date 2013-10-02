@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="commentsModule">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewBag.Title</title>
@@ -72,24 +72,27 @@
 	<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+@*	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>*@
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.min.js"></script>
 	<script src="//www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 	<script src="~/Scripts/md5.js"></script>
 	@RenderSection("Scripts", false)
 	<script src="~/Scripts/site.js"></script>
+	<script src="~/Scripts/siteAngular.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-			$("a.viewComments").click(comments.loadComments);
-			$("textarea.commentText").focusin(comments.displayCommentForm);
-			$("input.commentEmail").focusout(comments.displayCommentAvatar);
 			$("form.addCommentForm").each(function (idx, item) {
 				$(item).validate(comments.validateCommentForm());
 			});
 
-			Handlebars.registerHelper("momentFormat", function (dt, format) {
-				return new moment(dt).format(format);
-			});
+			//$("a.viewComments").click(comments.loadComments);
+			//$("textarea.commentText").focusin(comments.displayCommentForm);
+			//$("input.commentEmail").focusout(comments.displayCommentAvatar);
+
+			//Handlebars.registerHelper("momentFormat", function (dt, format) {
+			//	return new moment(dt).format(format);
+			//});
 		});
 	</script>
 </body>
