@@ -167,7 +167,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="App_Readme\Handlebarsjs_README.md" />
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
-    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <None Include="Scripts\jquery\jquery-2.0.3.intellisense.js" />
     <Content Include="google28929e2d28092b4d.html" />
     <Content Include="Scripts\angular\angular-cookies.js" />
     <Content Include="Scripts\angular\angular-cookies.min.js" />
@@ -183,21 +183,21 @@
     <Content Include="Scripts\angular\angular-scenario.js" />
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\angular.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\handlebars.js" />
-    <Content Include="Scripts\handlebars.min.js" />
-    <Content Include="Scripts\handlebars.runtime.js" />
-    <Content Include="Scripts\jquery-2.0.3.js" />
-    <Content Include="Scripts\jquery-2.0.3.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\handlebars\handlebars.js" />
+    <Content Include="Scripts\handlebars\handlebars.min.js" />
+    <Content Include="Scripts\handlebars\handlebars.runtime.js" />
+    <Content Include="Scripts\jquery\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery\jquery-2.0.3.min.js" />
+    <None Include="Scripts\jquery\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery\jquery.validate.js" />
+    <Content Include="Scripts\jquery\jquery.validate.min.js" />
     <Content Include="Scripts\md5.js" />
-    <Content Include="Scripts\moment+langs.js" />
-    <Content Include="Scripts\moment+langs.min.js" />
-    <Content Include="Scripts\moment.js" />
-    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\moment\moment+langs.js" />
+    <Content Include="Scripts\moment\moment+langs.min.js" />
+    <Content Include="Scripts\moment\moment.js" />
+    <Content Include="Scripts\moment\moment.min.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\siteAngular.js" />
     <Content Include="Scripts\syntaxhighlighter\scripts\shAutoloader.js" />
@@ -326,7 +326,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Scripts\jquery-2.0.3.min.map" />
+    <Content Include="Scripts\jquery\jquery-2.0.3.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Drafts\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />

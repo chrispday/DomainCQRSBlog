@@ -2,10 +2,6 @@
 
 commentsModule.factory("commentsFactory", function ($http) {
 	return {
-		getComments: function (postId, setComments) {
-			var url = "/Post/Comments/" + postId;
-			$http.get(url).success(setComments);
-		},
 		createNewCommentValidation: function () {
 			return {
 				RecaptchaId: "",
@@ -26,6 +22,18 @@ commentsModule.factory("commentsFactory", function ($http) {
 			};
 		},
 	}
+});
+
+commentsModule.service("commentsService", function ($http) {
+	return {
+		getComments: function (postId, successCallback) {
+			var url = "/Post/Comments/" + postId;
+			$http.get(url).success(successCallback);
+		},
+		addComment: function (comment, successCallback) {
+			$http.post("/Comments/Add", comment).success(successCallback);
+		}
+	};
 });
 
 commentsModule.service("recaptchaService", function () {
@@ -79,20 +87,22 @@ commentsModule.filter("momentFormat", function () {
 	};
 });
 
-commentsModule.controller("commentsController", function ($scope, $timeout, $http, recaptchaService, commentsFactory) {
+commentsModule.controller("commentsController", function ($scope, $timeout, $http, recaptchaService, commentsService, commentsFactory) {
 	$scope.comments = [];
 
 	$scope.totalComments = 0;
 
 	$scope.showComments = function (postId, afterGet) {
-		$scope.showSpinner = true;
-		commentsFactory.getComments(postId, function (data) {
-			$scope.comments = data;
-			if (afterGet !== undefined) {
-				afterGet();
-			}
-			$scope.showSpinner = false;
-		});
+		if ($scope.comments.length == 0) {
+			$scope.showSpinner = true;
+			commentsService.getComments(postId, function (data) {
+				$scope.comments = data;
+				if (afterGet !== undefined) {
+					afterGet();
+				}
+				$scope.showSpinner = false;
+			});
+		}
 	};
 
 	// New comments
@@ -115,35 +125,36 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 		$scope.newComment.recaptcha_challenge_field = $recaptcha.find("#recaptcha_challenge_field").val();
 		$scope.newComment.recaptcha_response_field = $recaptcha.find("#recaptcha_response_field").val();
 
-		var addComment = function () {
-			$http.post("/Comments/Add", $scope.newComment)
-				.success(function (data) {
-					if (!data.IsValid) {
-						recaptchaService.create($recaptcha.attr("key"), $recaptcha.attr("id"), $recaptcha.attr("theme"));
-						if (data.RecaptchaResponse !== undefined) {
-							$scope.newComment.Validation.RecaptchaError = data.RecaptchaResponse.ErrorMessage;
-						}
-						else if (data.Message !== undefined) {
-							$scope.newComment.Validation.AddCommentError = data.Message;
-						}
-						else {
-							alert(JSON.stringify(data));
-						}
-					}
-					else {
-						$scope.comments.push($scope.newComment);
-						$scope.totalComments = $scope.comments.length;
-						$scope.newComment = commentsFactory.createNewComment();
-						$scope.showNewComment = false;
-					}
-				});
+		var commentAdded = function (data) {
+			if (!data.IsValid) {
+				recaptchaService.create($recaptcha.attr("key"), $recaptcha.attr("id"), $recaptcha.attr("theme"));
+				if (data.RecaptchaResponse !== undefined) {
+					$scope.newComment.Validation.RecaptchaError = data.RecaptchaResponse.ErrorMessage;
+				}
+				else if (data.Message !== undefined) {
+					$scope.newComment.Validation.AddCommentError = data.Message;
+				}
+				else {
+					alert(JSON.stringify(data));
+				}
+			}
+			else {
+				$scope.comments.push($scope.newComment);
+				$scope.totalComments = $scope.comments.length;
+				$scope.newComment = commentsFactory.createNewComment();
+				$scope.showNewComment = false;
+			}
 		};
 
-		if ($scope.comments.length == 0) {
-			$scope.showComments($scope.newComment.PostId, addComment);
+		if ($scope.totalComments != 0 && $scope.comments.length == 0) {
+			$scope.showComments($scope.newComment.PostId, function () {
+				commentsService.addComment($scope.newComment, commentAdded);
+			});
 		}
 		else {
-			$timeout(addComment);
+			$timeout(function () {
+				commentsService.addComment($scope.newComment, commentAdded);
+			});
 		}
 	};
 });
