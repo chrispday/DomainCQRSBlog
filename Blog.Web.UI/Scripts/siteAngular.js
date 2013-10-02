@@ -88,9 +88,12 @@ commentsModule.filter("momentFormat", function () {
 });
 
 commentsModule.controller("commentsController", function ($scope, $timeout, $http, recaptchaService, commentsService, commentsFactory) {
-	$scope.comments = [];
 
+	// models
+	$scope.comments = [];
 	$scope.totalComments = 0;
+	$scope.showNewComment = false;
+	$scope.newComment = commentsFactory.createNewComment();
 
 	$scope.showComments = function (postId, afterGet) {
 		if ($scope.comments.length == 0) {
@@ -105,11 +108,6 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 		}
 	};
 
-	// New comments
-	$scope.showNewComment = false;
-
-	$scope.newComment = commentsFactory.createNewComment();
-
 	$scope.setNewCommentEmailHash = function () {
 		$timeout(function () {
 			if ($scope.newComment.Email !== undefined) {
@@ -118,7 +116,6 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 		});
 	};
 
-	// Add comment
 	$scope.addNewComment = function () {
 		$scope.newComment.WhenCommented = new Date();
 		var $recaptcha = $("#" + $scope.newComment.Validation.RecaptchaId);

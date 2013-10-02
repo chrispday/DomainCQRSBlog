@@ -65,7 +65,6 @@
 		<div class="panel-heading">
 			<a id="comments-@Model.Id"></a>
 			<a class="viewComments" href ng-click="showComments('@Model.Id')"><i class="icon-comments-alt"></i>&nbsp;View Comments <span class="badge postTotalComments" ng-cloak>{{totalComments}}</span></a>
-			@Html.Hidden("postId", Model.Id, new { Class = "postId" })
 		</div>
 		<p class='text-center' ng-show="showSpinner"><i class='icon-spinner icon-3x icon-spin'></i></p>
 		<div class="panel-body postComments" ng-show="comments.length">
