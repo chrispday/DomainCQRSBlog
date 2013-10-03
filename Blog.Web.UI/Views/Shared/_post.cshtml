@@ -14,7 +14,7 @@
 	<div>@Html.Raw(Model.Content)</div>
 	<div>&nbsp;</div>
 	<div class="panel panel-default postCommentsPanel">
-		<div class="panel-body">
+		<div class="panel-body" ng-cloak>
 			<form ng-submit="addNewComment()" role="form" class="form-horizontal addCommentForm">
 				<div class="form-group" ng-show="showNewComment">
 					<label for="Name" class="col-md-1 control-label">Name</label>
@@ -25,16 +25,14 @@
 				<div class="form-group" ng-show="showNewComment">
 					<label for="Email" class="col-md-1 control-label">Email</label>
 					<div class="col-md-11">
-						<input ng-model="newComment.Email" ng-blur="setNewCommentEmailHash()" type="email" class="form-control commentEmail" id="Email" name="Email" placeholder="Email" required />
+						<input ng-model="newCommentEmail" ng-blur="setNewCommentEmailHash()" type="email" class="form-control commentEmail" id="Email" name="Email" placeholder="Email" />
+						<span class="help-block">Not stored, only used to show your <a href="http://www.gravatar.com">Gravatar</a></span>
 					</div>
 				</div>
 				<div class="form-group" ng-show="showNewComment">
-					<div class="col-md-offset-1 col-md-11">
-						<div class="checkbox">
-							<label>
-								<input ng-model="newComment.ShowEmail" type="checkbox" id="ShowEmail" name="ShowEmail" />
-								Show Email</label>
-						</div>
+					<label for="Homepage" class="col-md-1 control-label">Homepage</label>
+					<div class="col-md-11">
+						<input ng-model="newComment.Homepage" type="text" class="form-control" id="Homepage" name="Homepage" placeholder="Homepage" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -47,16 +45,16 @@
 				</div>
 				<div class="form-group" ng-show="showNewComment">
 					<div class="col-md-offset-1 col-md-11">
-						<div recaptcha ng-model="newComment.Validation.RecaptchaId" show-when="showNewComment" key="6LdJ_-cSAAAAABSQ03vab49RBrBYXyiovv8ncnbp" theme="clean" id="newCommentRecaptcha-@Model.Id">
+						<div recaptcha ng-model="newCommentValidation.RecaptchaId" show-when="showNewComment" key="6LdJ_-cSAAAAABSQ03vab49RBrBYXyiovv8ncnbp" theme="clean" id="newCommentRecaptcha-@Model.Id">
 						</div>
-						<div class='text-danger' ng-show="newComment.Validation.RecaptchaError"><label>{{newComment.Validation.RecaptchaError}}</label></div>
+						<div class='text-danger' ng-show="newCommentValidation.RecaptchaError"><label>{{newCommentValidation.RecaptchaError}}</label></div>
 					</div>
 				</div>
 				<div class="form-group" ng-show="showNewComment">
 					<input ng-model="newComment.Id" type="hidden" name="Id" id="Id" />
 					<input ng-model="newComment.PostId" ng-init="newComment.PostId = '@Model.Id'" type="hidden" name="PostId" id="PostId" />
 					<div class="col-md-offset-1 col-md-11">
-						<div class='text-danger' ng-show="newComment.Validation.AddCommentError"><label>{{newComment.Validation.AddCommentError}}</label></div>
+						<div class='text-danger' ng-show="newCommentValidation.AddCommentError"><label>{{newCommentValidation.AddCommentError}}</label></div>
 						<button type="submit" class="btn btn-primary addComment">Add Comment</button>
 					</div>
 				</div>
@@ -66,16 +64,16 @@
 			<a id="comments-@Model.Id"></a>
 			<a class="viewComments" href ng-click="showComments('@Model.Id')"><i class="icon-comments-alt"></i>&nbsp;View Comments <span class="badge postTotalComments" ng-cloak>{{totalComments}}</span></a>
 		</div>
-		<p class='text-center' ng-show="showSpinner"><i class='icon-spinner icon-3x icon-spin'></i></p>
-		<div class="panel-body postComments" ng-show="comments.length">
+		<p class='text-center' ng-show="showSpinner" ng-cloak><i class='icon-spinner icon-3x icon-spin'></i></p>
+		<div class="panel-body postComments" ng-show="comments.length" ng-cloak>
 			<div class="row" ng-repeat="comment in comments">
 				<div class="col-md-1 hidden-xs">
 					<img class="img-thumbnail" src="http://www.gravatar.com/avatar/{{comment.EmailHash}}?d=mm&s=60" height="60" width="60" style="min-width: 60px;" />
 				</div>
 				<div class="col-md-11">
 					<p>
-						<span ng-show="comment.ShowEmail"><a href="mailto:{{comment.Email}}">{{comment.Name}}</a></span>
-						<span ng-show="!comment.ShowEmail">{{comment.Name}}</span>
+						<span ng-show="comment.Homepage"><a href="{{comment.Homepage}}">{{comment.Name}}</a></span>
+						<span ng-show="!comment.Homepage">{{comment.Name}}</span>
 						at {{ comment.WhenCommented | momentFormat:'D-MMM-YYYY h:mma' }}
 					</p>
 					<p>{{comment.CommentText}}</p>

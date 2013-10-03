@@ -60,17 +60,7 @@ namespace Blog.ReadModel.Projectors
 				publishedPost.MostRecentCommentWhen = commentAddedToPost.WhenCommented;
 			}
 
-			Repositories.PublishedPosts.SaveForRecentComment(publishedPost, new Data.Comment()
-			{
-				Id = commentAddedToPost.CommentId,
-				PostId = commentAddedToPost.Id,
-				Name = commentAddedToPost.Name,
-				Email = commentAddedToPost.Email,
-				EmailHash = string.Join("", new MD5Cng().ComputeHash(Encoding.UTF8.GetBytes(commentAddedToPost.Email.ToLower().Trim())).Select(b => b.ToString("x2"))),
-				CommentText = commentAddedToPost.Comment,
-				ShowEmail = commentAddedToPost.ShowEmail,
-				WhenCommented = commentAddedToPost.WhenCommented
-			});
+			Repositories.PublishedPosts.SaveForRecentComment(publishedPost);
 		}
 	}
 }

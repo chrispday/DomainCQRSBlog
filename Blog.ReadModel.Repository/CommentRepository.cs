@@ -33,11 +33,10 @@ namespace Blog.ReadModel.Repository
 			var entity = new DynamicTableEntity(item.PostId.ToString(), order + item.Id.ToString());
 			entity.Properties["Id"] = new EntityProperty(item.Id);
 			entity.Properties["Name"] = new EntityProperty(item.Name);
-			entity.Properties["Email"] = new EntityProperty(item.Email);
 			entity.Properties["EmailHash"] = new EntityProperty(item.EmailHash);
 			entity.Properties["Comment"] = new EntityProperty(item.CommentText);
 			entity.Properties["WhenCommented"] = new EntityProperty(item.WhenCommented.ToUniversalTime().Ticks);
-			entity.Properties["ShowEmail"] = new EntityProperty(item.ShowEmail);
+			entity.Properties["Homepage"] = new EntityProperty(item.Homepage);
 
 			CommentsByWhenTable.Execute(TableOperation.InsertOrMerge(entity));
 		}
@@ -73,11 +72,10 @@ namespace Blog.ReadModel.Repository
 				Id = entity.Properties["Id"].GuidValue.Value,
 				PostId = new Guid(entity.PartitionKey),
 				Name = entity.Properties["Name"].StringValue,
-				Email = entity.Properties["Email"].StringValue,
 				EmailHash = entity.Properties["EmailHash"].StringValue,
 				CommentText = entity.Properties["Comment"].StringValue,
 				WhenCommented = new DateTime(entity.Properties["WhenCommented"].Int64Value.Value).ToLocalTime(),
-				ShowEmail = entity.Properties["ShowEmail"].BooleanValue.Value
+				Homepage = entity.Properties.ContainsKey("Homepage") ? entity.Properties["Homepage"].StringValue : ""
 			};
 		}
 	}

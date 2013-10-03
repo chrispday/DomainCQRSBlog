@@ -49,7 +49,7 @@ public class NewComments_
 		_.Receive(new CreatePost() { Id = id, SessionId = _.SessionId, Title = id.ToString(), WhenCreated = DateTime.Now });
 		_.Receive(new EditPost() { Id = id, SessionId = _.SessionId, Content = id.ToString(), WhenEdited = DateTime.Now });
 		_.Receive(new PublishPost() { Id = id, SessionId = _.SessionId, WhenPublished = DateTime.Now });
-		_.Receive(new AddCommentToPost() { Id = id, CommentId = Guid.NewGuid(), Name = id.ToString(), Email = id.ToString(), Comment = id.ToString(), ShowEmail = true, WhenCommented = DateTime.Now });
+		_.Receive(new AddCommentToPost() { Id = id, CommentId = Guid.NewGuid(), Name = id.ToString(), EmailHash = id.ToString(), Comment = id.ToString(), Homepage = "homepage", WhenCommented = DateTime.Now });
 	}
 
 	private void Nothing()

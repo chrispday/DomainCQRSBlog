@@ -12,7 +12,7 @@ namespace Blog.ReadModel.Repository
 	{
 		IEnumerable<PublishedPost> MostRecentPosts(int page, int pageSize, bool withOneMore);
 		PublishedPost GetByUrl(string url);
-		void SaveForRecentComment(PublishedPost item, Comment comment);
+		void SaveForRecentComment(PublishedPost item);
 		IEnumerable<PublishedPost> GetByMostRecentComments(int page, int pageSize, bool withOneMore);
 	}
 
@@ -64,17 +64,17 @@ namespace Blog.ReadModel.Repository
 			}
 		}
 
-		public void SaveForRecentComment(PublishedPost item, Comment comment)
+		public void SaveForRecentComment(PublishedPost item)
 		{
 			Save(item);
 
-			var order = (DateTime.MaxValue.ToUniversalTime() - comment.WhenCommented.ToUniversalTime()).Ticks.ToString("D12");
-			var entity = new DynamicTableEntity(order + comment.Id.ToString(), item.Id.ToString());
+			var order = (DateTime.MaxValue.ToUniversalTime() - item.MostRecentCommentWhen.ToUniversalTime()).Ticks.ToString("D12");
+			var entity = new DynamicTableEntity(order + Guid.NewGuid().ToString(), item.Id.ToString());
 			entity.Properties["Title"] = new EntityProperty(item.Title ?? "");
 			entity.Properties["Url"] = new EntityProperty(item.Url);
 			entity.Properties["TotalComments"] = new EntityProperty(item.TotalComments);
-			entity.Properties["MostRecentCommentBy"] = new EntityProperty(comment.Name);
-			entity.Properties["MostRecentCommentWhen"] = new EntityProperty(comment.WhenCommented.ToUniversalTime().Ticks);
+			entity.Properties["MostRecentCommentBy"] = new EntityProperty(item.MostRecentCommentBy);
+			entity.Properties["MostRecentCommentWhen"] = new EntityProperty(item.MostRecentCommentWhen.ToUniversalTime().Ticks);
 
 			PublishedPostsByMostRecentComment.Execute(TableOperation.Insert(entity));
 		}

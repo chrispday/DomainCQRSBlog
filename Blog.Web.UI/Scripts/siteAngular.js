@@ -14,11 +14,9 @@ commentsModule.factory("commentsFactory", function ($http) {
 				Id: generateGuid(),
 				PostId: "",
 				Name: "",
-				Email: "",
-				EmailHash: "x",
+				EmailHash: "",
 				CommentText: "",
-				ShowEmail: false,
-				Validation: this.createNewCommentValidation()
+				Homepage: "",
 			};
 		},
 	}
@@ -94,6 +92,8 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 	$scope.totalComments = 0;
 	$scope.showNewComment = false;
 	$scope.newComment = commentsFactory.createNewComment();
+	$scope.newCommentEmail = "";
+	$scope.newCommentValidation = commentsFactory.createNewCommentValidation();
 
 	$scope.showComments = function (postId, afterGet) {
 		if ($scope.comments.length == 0) {
@@ -110,15 +110,15 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 
 	$scope.setNewCommentEmailHash = function () {
 		$timeout(function () {
-			if ($scope.newComment.Email !== undefined) {
-				$scope.newComment.EmailHash = md5($scope.newComment.Email.trim().toLowerCase());
+			if ($scope.newCommentEmail !== undefined) {
+				$scope.newComment.EmailHash = md5($scope.newCommentEmail.trim().toLowerCase());
 			}
 		});
 	};
 
 	$scope.addNewComment = function () {
 		$scope.newComment.WhenCommented = new Date();
-		var $recaptcha = $("#" + $scope.newComment.Validation.RecaptchaId);
+		var $recaptcha = $("#" + $scope.newCommentValidation.RecaptchaId);
 		$scope.newComment.recaptcha_challenge_field = $recaptcha.find("#recaptcha_challenge_field").val();
 		$scope.newComment.recaptcha_response_field = $recaptcha.find("#recaptcha_response_field").val();
 
@@ -126,10 +126,10 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 			if (!data.IsValid) {
 				recaptchaService.create($recaptcha.attr("key"), $recaptcha.attr("id"), $recaptcha.attr("theme"));
 				if (data.RecaptchaResponse !== undefined) {
-					$scope.newComment.Validation.RecaptchaError = data.RecaptchaResponse.ErrorMessage;
+					$scope.newCommentValidation.RecaptchaError = data.RecaptchaResponse.ErrorMessage;
 				}
 				else if (data.Message !== undefined) {
-					$scope.newComment.Validation.AddCommentError = data.Message;
+					$scope.newCommentValidation.AddCommentError = data.Message;
 				}
 				else {
 					alert(JSON.stringify(data));

@@ -103,10 +103,6 @@ namespace Blog.Domain.AggregateRoots
 			{
 				throw new Errors.NameIsEmptyError();
 			}
-			if (string.IsNullOrWhiteSpace(addCommentToPost.Email))
-			{
-				throw new Errors.EmailIsEmptyError();
-			}
 			if (string.IsNullOrWhiteSpace(addCommentToPost.Comment))
 			{
 				throw new Errors.CommentIsEmptyError();
@@ -117,10 +113,10 @@ namespace Blog.Domain.AggregateRoots
 				Id = addCommentToPost.Id,
 				CommentId = addCommentToPost.CommentId,
 				Name = addCommentToPost.Name,
-				Email = addCommentToPost.Email,
+				EmailHash = addCommentToPost.EmailHash,
 				Comment = addCommentToPost.Comment,
 				WhenCommented = addCommentToPost.WhenCommented,
-				ShowEmail = addCommentToPost.ShowEmail,
+				Homepage = addCommentToPost.Homepage,
 				TotalComments = Comments.Count + 1
 			};
 		}

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -29,9 +31,9 @@ namespace Blog.Web.UI.Controllers
 					Id = comment.PostId,
 					CommentId = comment.Id,
 					Comment = comment.CommentText,
-					Email = comment.Email,
+					EmailHash = comment.EmailHash,
 					Name = comment.Name,
-					ShowEmail = comment.ShowEmail,
+					Homepage = comment.Homepage,
 					WhenCommented = DateTime.Now
 				});
 

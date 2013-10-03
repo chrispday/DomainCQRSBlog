@@ -6,6 +6,8 @@ using Blog.Tests;
 using Blog.Domain.Commands;
 using Blog.ReadModel.Repository;
 using Blog.Domain.Errors;
+using System.Security.Cryptography;
+using System.Text;
 
 [TestClass]
 public class CommentOnPost_
@@ -23,20 +25,14 @@ public class CommentOnPost_
 							 .When(ACommentIsAdded)
 							 .Then(TheCommentAppearsWithThePost)
 								  .And(ItHasTheCommentersName)
-								  .And(ItHasTheCommentersEmail)
-								  .And(ItHasTheCommentersComment)
+								  .And(ItHasTheCommentersEmailHash)
+								  .And(ItHasTheCommentersHomepage)
 								  .And(ItHasTheDatetime)
-								  .And(ItHasTheRightShowEmail)
 
 						.WithScenario("Empty Commenter Name")
 							 .Given(APost)
 							 .When(ACommentIsAddedWithAnEmptyName)
 							 .Then(ANameEmptyErrorShouldBeRaised)
-
-						.WithScenario("Empty Commenter Email")
-							 .Given(APost)
-							 .When(ACommentIsAddedWithAnEmptyEmail)
-							 .Then(AEmailEmptyErrorShouldBeRaised)
 
 						.WithScenario("Empty Comment")
 							 .Given(APost)
@@ -59,7 +55,7 @@ public class CommentOnPost_
 
 	private void ACommentIsAdded()
 	{
-		_.Receive(new AddCommentToPost() { Id = id, CommentId = commentId, Name = "name", Email = "email", Comment = "comment", WhenCommented = new DateTime(2000, 1, 1), ShowEmail = true });
+		_.Receive(new AddCommentToPost() { Id = id, CommentId = commentId, Name = "name", EmailHash = string.Join("", new MD5Cng().ComputeHash(Encoding.UTF8.GetBytes("email".ToLower().Trim())).Select(b => b.ToString("x2"))), Comment = "comment", WhenCommented = new DateTime(2000, 1, 1), Homepage = "homepage" });
 	}
 
 	private void TheCommentAppearsWithThePost()
@@ -72,9 +68,14 @@ public class CommentOnPost_
 		Assert.AreEqual("name", Repositories.Comments.Get(commentId).Name);
 	}
 
-	private void ItHasTheCommentersEmail()
+	private void ItHasTheCommentersEmailHash()
 	{
-		Assert.AreEqual("email", Repositories.Comments.Get(commentId).Email);
+		Assert.AreEqual(string.Join("", new MD5Cng().ComputeHash(Encoding.UTF8.GetBytes("email".ToLower().Trim())).Select(b => b.ToString("x2"))), Repositories.Comments.Get(commentId).EmailHash);
+	}
+
+	private void ItHasTheCommentersHomepage()
+	{
+		Assert.AreEqual("homepage", Repositories.Comments.Get(commentId).Homepage);
 	}
 
 	private void ItHasTheCommentersComment()
@@ -87,17 +88,12 @@ public class CommentOnPost_
 		Assert.AreEqual(new DateTime(2000, 1, 1), Repositories.Comments.Get(commentId).WhenCommented);
 	}
 
-	private void ItHasTheRightShowEmail()
-	{
-		Assert.IsTrue(Repositories.Comments.Get(commentId).ShowEmail);
-	}
-
 	Exception emptyNameError;
 	private void ACommentIsAddedWithAnEmptyName()
 	{
 		try
 		{
-			_.Receive(new AddCommentToPost() { Id = id, CommentId = commentId, Name = "", Email = "email", Comment = "comment", WhenCommented = new DateTime(2000, 1, 1) });
+			_.Receive(new AddCommentToPost() { Id = id, CommentId = commentId, Name = "", EmailHash = "email", Comment = "comment", WhenCommented = new DateTime(2000, 1, 1) });
 		}
 		catch (Exception ex)
 		{
@@ -110,30 +106,12 @@ public class CommentOnPost_
 		Assert.IsInstanceOfType(emptyNameError, typeof(NameIsEmptyError));
 	}
 
-	Exception emptyEmailError;
-	private void ACommentIsAddedWithAnEmptyEmail()
-	{
-		try
-		{
-			_.Receive(new AddCommentToPost() { Id = id, CommentId = commentId, Name = "name", Email = "", Comment = "comment", WhenCommented = new DateTime(2000, 1, 1) });
-		}
-		catch (Exception ex)
-		{
-			emptyEmailError = ex;
-		}
-	}
-
-	private void AEmailEmptyErrorShouldBeRaised()
-	{
-		Assert.IsInstanceOfType(emptyEmailError, typeof(EmailIsEmptyError));
-	}
-
 	Exception emptyCommentError;
 	private void ACommentIsAddedThatIsEmpty()
 	{
 		try
 		{
-			_.Receive(new AddCommentToPost() { Id = id, CommentId = commentId, Name = "name", Email = "email", Comment = "", WhenCommented = new DateTime(2000, 1, 1) });
+			_.Receive(new AddCommentToPost() { Id = id, CommentId = commentId, Name = "name", EmailHash = "email", Comment = "", WhenCommented = new DateTime(2000, 1, 1) });
 		}
 		catch (Exception ex)
 		{

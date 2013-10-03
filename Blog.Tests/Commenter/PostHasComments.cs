@@ -32,12 +32,12 @@ public class PostHasComments_
 		_.Receive(new EditPost() { Id = postId, SessionId = _.SessionId, Content = postId.ToString(), WhenEdited = DateTime.Now });
 		_.Receive(new PublishPost() { Id = postId, SessionId = _.SessionId, WhenPublished = DateTime.Now });
 
-		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 3), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
-		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 5), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
-		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 2), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
-		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 4), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
-		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 1), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
-		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 6), Name = "name", Comment = "comment", Email = "email", ShowEmail = true, CommentId =Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 3), Name = "name", Comment = "comment", EmailHash = "email", Homepage = "homepage", CommentId =Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 5), Name = "name", Comment = "comment", EmailHash = "email", Homepage = "homepage", CommentId = Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 2), Name = "name", Comment = "comment", EmailHash = "email", Homepage = "homepage", CommentId = Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 4), Name = "name", Comment = "comment", EmailHash = "email", Homepage = "homepage", CommentId = Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 1), Name = "name", Comment = "comment", EmailHash = "email", Homepage = "homepage", CommentId = Guid.NewGuid() });
+		_.Receive(new AddCommentToPost() { Id = postId, WhenCommented = new DateTime(2000, 1, 6), Name = "name", Comment = "comment", EmailHash = "email", Homepage = "homepage", CommentId = Guid.NewGuid() });
 	}
 
 	PublishedPost post;

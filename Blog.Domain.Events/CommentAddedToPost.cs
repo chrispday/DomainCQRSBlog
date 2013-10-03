@@ -11,10 +11,10 @@ namespace Blog.Domain.Events
 		public Guid Id { get; set; }
 		public Guid CommentId { get; set; }
 		public string Name { get; set; }
-		public string Email { get; set; }
+		public string EmailHash { get; set; }
 		public string Comment { get; set; }
 		public DateTime WhenCommented { get; set; }
-		public bool ShowEmail { get; set; }
 		public int TotalComments { get; set; }
+		public string Homepage { get; set; }
 	}
 }
