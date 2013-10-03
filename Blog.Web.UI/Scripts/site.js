@@ -499,7 +499,14 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 	$scope.showNewComment = false;
 	$scope.newComment = commentsFactory.createNewComment();
 	$scope.newCommentEmail = "";
+	$scope.newCommentTextRows = 2;
 	$scope.newCommentValidation = commentsFactory.createNewCommentValidation();
+
+	$scope.$watch("showNewComment", function (value) {
+		$timeout(function () {
+			$scope.newCommentTextRows = value ? 5 : 2;
+		});
+	});
 
 	$scope.showComments = function (postId, afterGet) {
 		if ($scope.comments.length == 0) {
