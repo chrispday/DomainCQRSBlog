@@ -1,5 +1,5 @@
 ﻿@model Blog.ReadModel.Data.PublishedPost
-<div class="post" ng-controller="commentsController">
+<div class="post" ng-app="commentsModule" ng-controller="commentsController">
 	<div class="page-header">
 		<h3><a href="/Post/@Model.Url">@Model.Title</a></h3>
 		<div class="row">
