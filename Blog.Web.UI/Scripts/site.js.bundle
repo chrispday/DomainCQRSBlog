@@ -12,4 +12,5 @@
 	<file>/Scripts/site/angular/directives/recaptcha.js</file>
 	<file>/Scripts/site/angular/filters/momentFormat.js</file>
 	<file>/Scripts/site/angular/controllers/commentsController.js</file>
+	<file>/Scripts/site/angular/controllers/newCommentController.js</file>
 </bundle>

@@ -492,20 +492,13 @@ commentsModule.filter("momentFormat", function () {
 
 ///#source 1 1 /Scripts/site/angular/controllers/commentsController.js
 commentsModule.controller("commentsController", function ($scope, $timeout, $http, recaptchaService, commentsService, commentsFactory) {
-
-	// models
+	// model
 	$scope.comments = [];
 	$scope.totalComments = 0;
-	$scope.showNewComment = false;
-	$scope.newComment = commentsFactory.createNewComment();
-	$scope.newCommentEmail = "";
-	$scope.newCommentTextRows = 2;
-	$scope.newCommentValidation = commentsFactory.createNewCommentValidation();
 
-	$scope.$watch("showNewComment", function (value) {
-		$timeout(function () {
-			$scope.newCommentTextRows = value ? 5 : 2;
-		});
+	$scope.$on("NewComment", function (event, newComment) {
+		$scope.comments.push(newComment);
+		$scope.totalComments = $scope.comments.length;
 	});
 
 	$scope.showComments = function (postId, afterGet) {
@@ -513,6 +506,7 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 			$scope.showSpinner = true;
 			commentsService.getComments(postId, function (data) {
 				$scope.comments = data;
+				$scope.totalComments = $scope.comments.length;
 				if (afterGet !== undefined) {
 					afterGet();
 				}
@@ -520,6 +514,21 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 			});
 		}
 	};
+});
+///#source 1 1 /Scripts/site/angular/controllers/newCommentController.js
+commentsModule.controller("newCommentController", function ($scope, $timeout, $http, recaptchaService, commentsService, commentsFactory) {
+	// model
+	$scope.showNewComment = false;
+	$scope.newCommentValidation = commentsFactory.createNewCommentValidation();
+	$scope.newComment = commentsFactory.createNewComment();
+	$scope.newCommentEmail = "";
+	$scope.newCommentTextRows = 2;
+
+	$scope.$watch("showNewComment", function (value) {
+		$timeout(function () {
+			$scope.newCommentTextRows = value ? 5 : 2;
+		});
+	});
 
 	$scope.setNewCommentEmailHash = function () {
 		$timeout(function () {
@@ -549,8 +558,7 @@ commentsModule.controller("commentsController", function ($scope, $timeout, $htt
 				}
 			}
 			else {
-				$scope.comments.push($scope.newComment);
-				$scope.totalComments = $scope.comments.length;
+				$scope.$emit("NewComment", $scope.newComment);
 				$scope.newComment = commentsFactory.createNewComment();
 				$scope.showNewComment = false;
 			}

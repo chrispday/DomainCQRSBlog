@@ -14,7 +14,7 @@
 	<div>@Html.Raw(Model.Content)</div>
 	<div>&nbsp;</div>
 	<div class="panel panel-default postCommentsPanel">
-		<div class="panel-body" ng-cloak>
+		<div class="panel-body" ng-controller="newCommentController" ng-cloak>
 			<form ng-submit="addNewComment()" role="form" class="form-horizontal addCommentForm">
 				<div class="form-group" ng-show="showNewComment">
 					<label for="Name" class="col-md-2 control-label">Name</label>

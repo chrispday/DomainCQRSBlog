@@ -212,6 +212,7 @@
     <Content Include="Scripts\site.min.js">
       <DependentUpon>site.js.bundle</DependentUpon>
     </Content>
+    <Content Include="Scripts\site\angular\controllers\newCommentController.js" />
     <Content Include="Scripts\site\angular\directives\focusWhen.js" />
     <Content Include="Scripts\site\angular\directives\recaptcha.js" />
     <Content Include="Scripts\site\angular\factories\commentsFactory.js" />
