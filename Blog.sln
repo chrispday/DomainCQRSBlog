@@ -31,71 +31,13 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureBlog", "AzureBlog\Azur
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DomainCQRS", "DomainCQRS", "{19AD1EA1-71AE-445F-A0FD-E651D2BAA628}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainCQRS", "..\EventStore\DomainCQRS\DomainCQRS\DomainCQRS.csproj", "{A9C47E7F-EEDA-40F8-BF71-638308949636}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainCQRS", "..\DomainCQRS\DomainCQRS\DomainCQRS\DomainCQRS.csproj", "{A9C47E7F-EEDA-40F8-BF71-638308949636}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainCQRS.Serialization.Json", "..\EventStore\DomainCQRS\DomainCQRS.Serialization.Json\DomainCQRS.Serialization.Json.csproj", "{2143436A-BBF3-4555-AE98-8681AA8C591A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainCQRS.Serialization.Json", "..\DomainCQRS\DomainCQRS\DomainCQRS.Serialization.Json\DomainCQRS.Serialization.Json.csproj", "{2143436A-BBF3-4555-AE98-8681AA8C591A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainCQRS.Azure", "..\EventStore\DomainCQRS\DomainCQRS.Azure\DomainCQRS.Azure.csproj", "{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainCQRS.Azure", "..\DomainCQRS\DomainCQRS\DomainCQRS.Azure\DomainCQRS.Azure.csproj", "{9B6CFD63-ADDC-4C3C-8C23-9BC7DBEE2521}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 14
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://chrispday.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Blog.Domain.Commands\\Blog.Domain.Commands.csproj
-		SccProjectTopLevelParentUniqueName1 = Blog.sln
-		SccProjectName1 = Blog.Domain.Commands
-		SccLocalPath1 = Blog.Domain.Commands
-		SccProjectUniqueName2 = Blog.Domain.Events\\Blog.Domain.Events.csproj
-		SccProjectTopLevelParentUniqueName2 = Blog.sln
-		SccProjectName2 = Blog.Domain.Events
-		SccLocalPath2 = Blog.Domain.Events
-		SccProjectUniqueName3 = Blog.Domain.AggregateRoots\\Blog.Domain.AggregateRoots.csproj
-		SccProjectTopLevelParentUniqueName3 = Blog.sln
-		SccProjectName3 = Blog.Domain.AggregateRoots
-		SccLocalPath3 = Blog.Domain.AggregateRoots
-		SccProjectUniqueName4 = Blog.Tests\\Blog.Tests.csproj
-		SccProjectTopLevelParentUniqueName4 = Blog.sln
-		SccProjectName4 = Blog.Tests
-		SccLocalPath4 = Blog.Tests
-		SccProjectUniqueName5 = Blog.ReadModel.Projectors\\Blog.ReadModel.Projectors.csproj
-		SccProjectTopLevelParentUniqueName5 = Blog.sln
-		SccProjectName5 = Blog.ReadModel.Projectors
-		SccLocalPath5 = Blog.ReadModel.Projectors
-		SccProjectUniqueName6 = Blog.ReadModel.Repository\\Blog.ReadModel.Repository.csproj
-		SccProjectTopLevelParentUniqueName6 = Blog.sln
-		SccProjectName6 = Blog.ReadModel.Repository
-		SccLocalPath6 = Blog.ReadModel.Repository
-		SccProjectUniqueName7 = Blog.ReadModel.Data\\Blog.ReadModel.Data.csproj
-		SccProjectTopLevelParentUniqueName7 = Blog.sln
-		SccProjectName7 = Blog.ReadModel.Data
-		SccLocalPath7 = Blog.ReadModel.Data
-		SccProjectUniqueName8 = Blog.Domain.Errors\\Blog.Domain.Errors.csproj
-		SccProjectTopLevelParentUniqueName8 = Blog.sln
-		SccProjectName8 = Blog.Domain.Errors
-		SccLocalPath8 = Blog.Domain.Errors
-		SccProjectUniqueName9 = Blog.Web.UI\\Blog.Web.UI.csproj
-		SccProjectTopLevelParentUniqueName9 = Blog.sln
-		SccProjectName9 = Blog.Web.UI
-		SccLocalPath9 = Blog.Web.UI
-		SccProjectUniqueName10 = AzureBlog\\AzureBlog.ccproj
-		SccProjectTopLevelParentUniqueName10 = Blog.sln
-		SccProjectName10 = AzureBlog
-		SccLocalPath10 = AzureBlog
-		SccProjectUniqueName11 = ..\\EventStore\\DomainCQRS\\DomainCQRS\\DomainCQRS.csproj
-		SccProjectTopLevelParentUniqueName11 = Blog.sln
-		SccProjectName11 = ../EventStore/DomainCQRS/DomainCQRS
-		SccLocalPath11 = ..\\EventStore\\DomainCQRS\\DomainCQRS
-		SccProjectUniqueName12 = ..\\EventStore\\DomainCQRS\\DomainCQRS.Serialization.Json\\DomainCQRS.Serialization.Json.csproj
-		SccProjectTopLevelParentUniqueName12 = Blog.sln
-		SccProjectName12 = ../EventStore/DomainCQRS/DomainCQRS.Serialization.Json
-		SccLocalPath12 = ..\\EventStore\\DomainCQRS\\DomainCQRS.Serialization.Json
-		SccProjectUniqueName13 = ..\\EventStore\\DomainCQRS\\DomainCQRS.Azure\\DomainCQRS.Azure.csproj
-		SccProjectTopLevelParentUniqueName13 = Blog.sln
-		SccProjectName13 = ../EventStore/DomainCQRS/DomainCQRS.Azure
-		SccLocalPath13 = ..\\EventStore\\DomainCQRS\\DomainCQRS.Azure
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

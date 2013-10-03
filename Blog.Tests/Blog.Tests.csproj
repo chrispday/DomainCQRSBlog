@@ -102,15 +102,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EventStore\DomainCQRS\DomainCQRS.Azure\DomainCQRS.Azure.csproj">
+    <ProjectReference Include="..\..\DomainCQRS\DomainCQRS\DomainCQRS.Azure\DomainCQRS.Azure.csproj">
       <Project>{9b6cfd63-addc-4c3c-8c23-9bc7dbee2521}</Project>
       <Name>DomainCQRS.Azure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\EventStore\DomainCQRS\DomainCQRS.Serialization.Json\DomainCQRS.Serialization.Json.csproj">
+    <ProjectReference Include="..\..\DomainCQRS\DomainCQRS\DomainCQRS.Serialization.Json\DomainCQRS.Serialization.Json.csproj">
       <Project>{2143436a-bbf3-4555-ae98-8681aa8c591a}</Project>
       <Name>DomainCQRS.Serialization.Json</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\EventStore\DomainCQRS\DomainCQRS\DomainCQRS.csproj">
+    <ProjectReference Include="..\..\DomainCQRS\DomainCQRS\DomainCQRS\DomainCQRS.csproj">
       <Project>{a9c47e7f-eeda-40f8-bf71-638308949636}</Project>
       <Name>DomainCQRS %28DomainCQRS\DomainCQRS%29</Name>
     </ProjectReference>
