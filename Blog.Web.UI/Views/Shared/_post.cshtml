@@ -4,7 +4,7 @@
 		<h3><a href="/Post/@Model.Url">@Model.Title</a></h3>
 		<div class="row">
 			<div class="col-md-6">
-				<i class="icon-time"></i>&nbsp;@Model.WhenPublished.ToString("dddd, dd" + Blog.Web.UI.Helper.TwoLetterSuffix(Model.WhenPublished) + " MMMM yyyy")
+				<i class="icon-time"></i>&nbsp;@Model.WhenPublished.ToString("dddd, d" + Blog.Web.UI.Helper.TwoLetterSuffix(Model.WhenPublished) + " MMMM yyyy")
 			</div>
 			<div class="col-md-6">
 				<a href="#comments-@Model.Id"><i class="icon-comments-alt"></i>&nbsp;Comments <span class="badge postTotalComments" ng-init="totalComments = @Model.TotalComments" ng-cloak>{{totalComments}}</span></a>
