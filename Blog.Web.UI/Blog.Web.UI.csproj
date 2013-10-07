@@ -165,12 +165,9 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="App_Readme\Handlebarsjs_README.md" />
-    <Content Include="App_Readme\Handlebarsjs_LICENSE" />
     <None Include="Properties\PublishProfiles\Chrisday - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\Chrisday - Web Deploy.pubxml" />
     <None Include="Scripts\external\jquery\jquery-2.0.3.intellisense.js" />
-    <Content Include="google28929e2d28092b4d.html" />
     <Content Include="Scripts\external\angular\angular-cookies.js" />
     <Content Include="Scripts\external\angular\angular-cookies.min.js" />
     <Content Include="Scripts\external\angular\angular-loader.js" />
