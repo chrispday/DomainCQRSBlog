@@ -24,7 +24,7 @@ namespace Blog.Web.UI.Controllers
 				page = 1;
 			}
 
-			var posts = Repositories.PublishedPosts.MostRecentPosts(page.Value, PageSize, true);
+			var posts = Repositories.PublishedPosts.GetPagedPostsByMostRecentP(page.Value, PageSize, true);
 			ViewBag.MorePosts = (5 < posts.Count());
 			ViewBag.PageNumber = page.Value;
 

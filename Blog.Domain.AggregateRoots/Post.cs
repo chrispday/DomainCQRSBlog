@@ -18,6 +18,8 @@ namespace Blog.Domain.AggregateRoots
 		private string Title { get; set; }
 		private DateTime WhenPublished { get; set; }
 		private List<Events.CommentAddedToPost> Comments = new List<Events.CommentAddedToPost>();
+		private bool IsArticle { get; set; }
+		private int ArticleOrder { get; set; }
 
 		public Post(ISessionRepository sessions) : base(sessions) { }
 		public Post() : this(Repositories.Sessions) { }
@@ -35,7 +37,8 @@ namespace Blog.Domain.AggregateRoots
 				Id = createPost.Id,
 				WhenCreated = createPost.WhenCreated,
 				Title = createPost.Title,
-				SessionId = createPost.SessionId
+				SessionId = createPost.SessionId,
+				IsArticle = createPost.IsArticle
 			};
 		}
 
@@ -44,6 +47,7 @@ namespace Blog.Domain.AggregateRoots
 			Id = postCreated.Id;
 			WhenCreated = postCreated.WhenCreated;
 			Title = postCreated.Title;
+			IsArticle = postCreated.IsArticle;
 		}
 
 		public object Apply(Commands.EditPost editPost)
@@ -61,7 +65,8 @@ namespace Blog.Domain.AggregateRoots
 				Content = editPost.Content ?? Content,
 				WhenEdited = editPost.WhenEdited,
 				Title = editPost.Title ?? Title,
-				SessionId = editPost.SessionId
+				SessionId = editPost.SessionId,
+				ArticleOrder = editPost.ArticleOrder
 			};
 		}
 
@@ -71,6 +76,7 @@ namespace Blog.Domain.AggregateRoots
 			Content = postEdited.Content;
 			WhenEdited = postEdited.WhenEdited;
 			Title = postEdited.Title;
+			ArticleOrder = postEdited.ArticleOrder;
 		}
 
 		public object Apply(Commands.PublishPost publishPost)
@@ -87,7 +93,9 @@ namespace Blog.Domain.AggregateRoots
 				WhenPublished = publishPost.WhenPublished,
 				Title = Title,
 				Content = Content,
-				SessionId = publishPost.SessionId
+				SessionId = publishPost.SessionId,
+				IsArticle = IsArticle,
+				ArticleOrder = ArticleOrder
 			};
 		}
 

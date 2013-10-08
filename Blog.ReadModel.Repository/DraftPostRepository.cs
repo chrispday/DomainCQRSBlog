@@ -30,6 +30,8 @@ namespace Blog.ReadModel.Repository
 			entity.Properties["Content"] = new EntityProperty(item.Content ?? "");
 			entity.Properties["WhenEdited"] = new EntityProperty(item.WhenEdited.ToUniversalTime().Ticks);
 			entity.Properties["Title"] = new EntityProperty(item.Title);
+			entity.Properties["IsArticle"] = new EntityProperty(item.IsArticle);
+			entity.Properties["ArticleOrder"] = new EntityProperty(item.ArticleOrder);
 
 			DraftPostsTable.Execute(TableOperation.InsertOrMerge(entity));
 		}
@@ -70,6 +72,8 @@ namespace Blog.ReadModel.Repository
 				Content = entity.Properties["Content"].StringValue,
 				WhenEdited = new DateTime(entity.Properties["WhenEdited"].Int64Value.Value).ToLocalTime(),
 				Title = entity.Properties["Title"].StringValue,
+				IsArticle = entity.Properties.ContainsKey("IsArticle") ? entity.Properties["IsArticle"].BooleanValue.Value : false,
+				ArticleOrder = entity.Properties.ContainsKey("ArticleOrder") ? entity.Properties["ArticleOrder"].Int32Value.Value : 0,
 			};
 		}
 	}

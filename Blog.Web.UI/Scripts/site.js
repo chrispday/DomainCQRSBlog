@@ -217,143 +217,33 @@ $.fn.serializeObject = function () {
 	return o;
 };
 
+!function ($) { //ensure $ always references jQuery
+	$(function () { //when dom has finished loading
+		//make top text appear aligned to bottom: http://stackoverflow.com/questions/13841387/how-do-i-bottom-align-grid-elements-in-bootstrap-fluid-layout
+		function fixHeader() {
+			//for each element that is classed as 'pull-down'
+			//reset margin-top for all pull down items
+			$('.pull-down').each(function () {
+				$(this).css('margin-top', 0);
+			});
+
+			//set its margin-top to the difference between its own height and the height of its parent
+			$('.pull-down').each(function () {
+				if ($(window).innerWidth() >= 768) {
+					$(this).css('margin-top', $(this).parent().height() - $(this).height());
+				}
+			});
+		}
+
+		$(window).resize(function () {
+			fixHeader();
+		});
+
+		fixHeader();
+	});
+}(window.jQuery);
+
 var comments = {
-
-//	displayComments: function (postId, $postComments) {
-//		var $spinner = $("<p class='text-center'><i class='icon-spinner icon-3x icon-spin'></i></p>");
-//		$postComments.before($spinner);
-//		var url = "/Post/Comments/" + postId;
-//		$.ajax({
-//			type: "GET",
-//			url: url,
-//			dataType: "json",
-//			contentType: "application/json; charset=utf-8",
-//			success: function (data) {
-//				var $comments = $(templates.commentsTemplate(data));
-//				$comments.appendTo($postComments);
-//				$postComments.slideDown(300);
-//				$spinner.remove();
-//			},
-//			error: function (xhr, ajaxOptions, thrownError) {
-//				$spinner.remove();
-//				$(this).click(comments.loadComments);
-//				$("<div class='alert alert-warning'>Could not load comments, please retry.<br/>" + xhr.status + " " + thrownError + "<div>").appendTo($postComments);
-//			}
-//		});
-//	},
-
-//	loadComments: function () {
-//		var $this = $(this);
-//		$this.off("click");
-//		$this.click(function () { return false; });
-
-//		var $post = $this.parents("div.post:first");
-//		var postId = $post.find("input.postId:first").val();
-//		var $postComments = $post.find("div.postComments:first");
-//		$postComments.children().remove();
-//		comments.displayComments(postId, $postComments);
-//		return false;
-//	},
-
-//	displayCommentForm: function () {
-//		var $this = $(this);
-//		$this.off("focusin");
-
-//		var $commentForm = $this.parents("form.addCommentForm:first");
-//		comments.createRecaptcha($commentForm);
-//		$commentForm.children("div.form-group").show();
-//		$commentForm.find("#Name").focus();
-//	},
-
-//	createRecaptcha: function($commentForm) {
-//		$commentRecaptcha = $commentForm.find("div.commentRecaptcha:first");
-//		$commentRecaptcha.children().remove();
-//		$commentRecaptcha.parent().find("span.help-block").remove();
-//		Recaptcha.destroy();
-//		Recaptcha.create("6LdJ_-cSAAAAABSQ03vab49RBrBYXyiovv8ncnbp", $commentRecaptcha.attr("id"), {
-//			theme: "clean"
-//		});
-//	},
-
-//	displayCommentAvatar: function () {
-//		var emailHash = md5($(this).val().trim().toLowerCase());
-
-//		var $addCommentForm = $(this).parents("form.addCommentForm:first");
-//		$addCommentForm.find("#EmailHash").val(emailHash);
-//		$addCommentForm.find("img.commentAvatar:first").attr("src", "http://www.gravatar.com/avatar/" + emailHash + "?d=mm&s=60");
-//	},
-
-//	addComment: function (form) {
-//		var $form = $(form);
-//		var $post = $form.parents("div.post:first");
-//		var formData = $form.serializeArray();
-
-//		$.ajax({
-//			type: "POST",
-//			url: "/Comments/Add",
-//			data: formData,
-//			success: function (data) { comments.commentAdded(data, $post, $form); },
-//			error: function (xhr, ajaxOptions, thrownError) {
-//				alert(xhr.status);
-//				alert(thrownError);
-//			}
-//		});
-//		return false;
-//	},
-
-//	commentAdded: function (data, $post, $form) {
-//		// check result
-//		if (!data.IsValid) {
-//			comments.createRecaptcha($form);
-//			if (data.RecaptchaResponse !== undefined) {
-//				var $recaptcha = $form.find("div.commentRecaptcha:first");
-//				$recaptcha.parent().append($("<label class='text-danger'>" + data.RecaptchaResponse.ErrorMessage + "</label>"));
-//			}
-//			else if (data.Message !== undefined) {
-//				var $button = $form.find("button.addComment:first");
-//				$button.before($("<div class='text-danger'>" + data.Message + "</div>"));
-//			}
-//			else {
-//				alert(JSON.stringify(data));
-//			}
-//		}
-//		else {
-//			// increase post count
-//			$post.find("span.postTotalComments").each(function (idx, item) {
-//				var postTotalComments = parseInt($(item).html()) + 1;
-//				$(item).html(postTotalComments);
-//			});
-
-//			var $postComments = $post.find("div.postComments:first");
-//			if ($postComments.is(":hidden")) {
-//				// if comments not displayed, get them
-//				$post.find("a.viewComments").click();
-//			}
-//			else {
-//				// add post content
-//				var jsonFormData = $form.serializeObject();
-//				jsonFormData.WhenCommented = Date.now();
-//				$(templates.commentsTemplate([jsonFormData])).appendTo($postComments);
-//			}
-
-//			// reset form
-//			comments.resetCommentForm($form, true);
-//		}
-//	},
-
-//	resetCommentForm: function($form, resetData) {
-//		var $commentText = $form.find("textarea.commentText:first");
-//		if (resetData) {
-//			$form.trigger("reset");
-//			$form.find("#Id").val(generateGuid());
-//			$form.find("img.commentAvatar:first").attr("href", "http://www.gravatar.com/avatar/x?d=mm&s=60");
-//		};
-//		$form.find("div.form-group").hide(0);
-//		$commentText.parents("div.form-group:first").show(0);
-//		$commentText.off("focusin");
-//		$commentText.focusin(comments.displayCommentForm);
-//	},
-
 	validateCommentForm: function() {
 		return {
 			//submitHandler: comments.addComment,
@@ -372,27 +262,6 @@ var comments = {
 		};
 	}
 }
-
-//var templates = {
-//	commentsTemplate: function (data) {
-//		var $this = this;
-//		if ($this.commentsTemplateResult === undefined) {
-//			$.ajax({
-//				type: "GET",
-//				url: "/Content/Templates/commentsTemplate.html",
-//				success: function (data) {
-//					$this.commentsTemplateResult = Handlebars.compile(data);
-//				},
-//				error: function (xhr, ajaxOptions, thrownError) {
-//					alert(xhr.status);
-//					alert(thrownError);
-//				},
-//				async: false
-//			});
-//		}
-//		return $this.commentsTemplateResult(data);
-//	}
-//};
 
 ///#source 1 1 /Scripts/site/siteAngular.js
 

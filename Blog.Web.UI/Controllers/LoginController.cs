@@ -38,7 +38,8 @@ namespace Blog.Web.UI.Controllers
 				return View();
 			}
 			FormsAuthentication.SetAuthCookie(sessionId.ToString(), true);
-			returnUrl = returnUrl ?? "/";
+			Response.Cookies.Add(new HttpCookie("HasLoggedInBefore") { Expires = DateTime.Now.AddDays(7) });
+			returnUrl = string.IsNullOrWhiteSpace(returnUrl) ? "/" : returnUrl;
 			return Redirect(returnUrl);
 		}
 
@@ -67,15 +68,16 @@ namespace Blog.Web.UI.Controllers
 				return Edit();
 			}
 
-			returnUrl = returnUrl ?? "/";
+			returnUrl = string.IsNullOrWhiteSpace(returnUrl) ? "/" : returnUrl;
 			return Redirect(returnUrl);
 		}
 
 		public ActionResult Signout(string returnUrl)
 		{
 			FormsAuthentication.SignOut();
+			Response.RemoveOutputCacheItem(Url.Action("Index", "Home"));
 
-			returnUrl = returnUrl ?? "/";
+			returnUrl = string.IsNullOrWhiteSpace(returnUrl) ? "/" : returnUrl;
 			return Redirect(returnUrl);
 		}
 	}

@@ -59,7 +59,7 @@ public class ReadMostRecentPosts_
 	{
 		while (true)
 		{
-			var p = Repositories.PublishedPosts.MostRecentPosts(posts.Count + 1, pagesize, true).ToList();
+			var p = Repositories.PublishedPosts.GetPagedPostsByMostRecentP(posts.Count + 1, pagesize, true).ToList();
 			posts.Add(p.Take(pagesize));
 			if (p.Count() < pagesize + 1)
 			{

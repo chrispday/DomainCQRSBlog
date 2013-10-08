@@ -10,6 +10,17 @@
 				<label for="title">Title</label>
 				<input type="text" class="form-control" id="title" name="Title" placeholder="Title" value="@Model.Title" />
 			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" id="isArticle" name="IsArticle" value="true" @(@Model.IsArticle ? "checked" : "") @((Guid.Empty != Model.Id) ? "disabled" : "") />
+				is an article
+				</label>
+			</div>
+			<div class="form-group" @(Model.IsArticle ? "" : "style=display:none;") id="articleOrderDiv">
+				<label for="title">Order</label>
+				<input type="number" class="form-control" id="articleorder" name="ArticleOrder" value="@Model.ArticleOrder" />
+				<p class="help-block">Only for articles</p>
+			</div>
 			<div class="form-group">
 				<textarea id="content" name="Content" style="width:100%; height:275px">@Model.Content</textarea>
 			</div>
@@ -55,6 +66,15 @@
 
 			$('#fileUpload').ajaxForm(function () {
 				$('#fileUpload')[0].reset();
+			});
+
+			$('#isArticle').click(function () {
+				if (this.checked) {
+					$('#articleOrderDiv').show();
+				}
+				else {
+					$('#articleOrderDiv').hide();
+				}
 			});
 		});
 	</script>

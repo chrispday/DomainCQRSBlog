@@ -16,5 +16,7 @@ namespace Blog.ReadModel.Data
 		public int TotalComments { get; set; }
 		public string MostRecentCommentBy { get; set; }
 		public DateTime MostRecentCommentWhen { get; set; }
+		public bool IsArticle { get; set; }
+		public int ArticleOrder { get; set; }
 	}
 }

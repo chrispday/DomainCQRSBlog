@@ -13,5 +13,7 @@ namespace Blog.Domain.Events
 		public string Title { get; set; }
 		public string Content { get; set; }
 		public Guid SessionId { get; set; }
+		public bool IsArticle { get; set; }
+		public int ArticleOrder { get; set; }
 	}
 }

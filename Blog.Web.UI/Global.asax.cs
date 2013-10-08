@@ -20,7 +20,6 @@ namespace Blog.Web.UI
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			DomainCQRSConfig.Register();
-
 		}
 	}
 }

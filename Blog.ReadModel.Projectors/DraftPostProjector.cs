@@ -30,6 +30,7 @@ namespace Blog.ReadModel.Projectors
 			draftPost.WhenCreated = postCreated.WhenCreated;
 			draftPost.WhenEdited = postCreated.WhenCreated;
 			draftPost.Title = postCreated.Title;
+			draftPost.IsArticle = postCreated.IsArticle;
 			Repositories.DraftPosts.Save(draftPost);
 		}
 
@@ -39,6 +40,7 @@ namespace Blog.ReadModel.Projectors
 			draftPost.Content = postEdited.Content;
 			draftPost.WhenEdited = postEdited.WhenEdited;
 			draftPost.Title = postEdited.Title;
+			draftPost.ArticleOrder = postEdited.ArticleOrder;
 			Repositories.DraftPosts.Save(draftPost);
 		}
 

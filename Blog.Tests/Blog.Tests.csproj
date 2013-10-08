@@ -68,6 +68,7 @@
     <Compile Include="Blogger\Identification\IdentifyAsABlogger.cs" />
     <Compile Include="Blogger\Identification\NoLoginToReadComment.cs" />
     <Compile Include="Blogger\Posts\Advertising.cs" />
+    <Compile Include="Blogger\Posts\Articles.cs" />
     <Compile Include="Blogger\Posts\CommentIsntSpam.cs" />
     <Compile Include="Blogger\Posts\EditPublishedPost.cs" />
     <Compile Include="Blogger\Posts\HowAReaderFoundPost.cs" />
@@ -142,6 +143,9 @@
       <Project>{14e3af96-0b9d-4e9e-88f6-99b76a6ee768}</Project>
       <Name>Blog.ReadModel.Repository</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Blogger\Articles\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

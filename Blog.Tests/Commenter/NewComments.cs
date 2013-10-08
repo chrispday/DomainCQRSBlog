@@ -59,7 +59,7 @@ public class NewComments_
 	IEnumerable<PublishedPost> posts;
 	private void PostsShouldBeShownInOrderOfWhichHasMostRecentlyBeenCommentedOn()
 	{
-		posts = Repositories.PublishedPosts.GetByMostRecentComments(1, 5, true);
+		posts = Repositories.PublishedPosts.GetPagedPostsByMostRecentComments(1, 5, true);
 		var when = posts.First().MostRecentCommentWhen;
 		foreach (var post in posts.Skip(1))
 		{

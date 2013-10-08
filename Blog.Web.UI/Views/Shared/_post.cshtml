@@ -1,6 +1,19 @@
 ﻿@model Blog.ReadModel.Data.PublishedPost
 <div class="post" ng-controller="commentsController">
 	<div class="page-header">
+		@if (Model.IsArticle)
+  {
+		<div class="row">
+			<div class="col-md-10">
+				<h3><a href="/Post/@Model.Url">@Model.Title</a></h3>
+			</div>
+			<div class="col-md-2 text-right pull-down">
+				<a href="#comments-@Model.Id" style="margin-bottom:10.5px; display:block;"><i class="icon-comments-alt"></i>&nbsp;Comments <span class="badge postTotalComments" ng-init="totalComments = @Model.TotalComments" ng-cloak>{{totalComments}}</span></a>
+			</div>
+		</div>
+  }
+  else
+  {
 		<h3><a href="/Post/@Model.Url">@Model.Title</a></h3>
 		<div class="row">
 			<div class="col-md-6">
@@ -10,6 +23,7 @@
 				<a href="#comments-@Model.Id"><i class="icon-comments-alt"></i>&nbsp;Comments <span class="badge postTotalComments" ng-init="totalComments = @Model.TotalComments" ng-cloak>{{totalComments}}</span></a>
 			</div>
 		</div>
+  }
 	</div>
 	<div>@Html.Raw(Model.Content)</div>
 	<div>&nbsp;</div>

@@ -34,6 +34,8 @@ namespace Blog.ReadModel.Projectors
 			publishedPost.Url = CreateUrl(postPublished.Title);
 			publishedPost.Content = postPublished.Content;
 			publishedPost.Title = postPublished.Title;
+			publishedPost.IsArticle = postPublished.IsArticle;
+			publishedPost.ArticleOrder = postPublished.ArticleOrder;
 			Repositories.PublishedPosts.Save(publishedPost);
 		}
 
@@ -49,7 +51,7 @@ namespace Blog.ReadModel.Projectors
 
 			return url;
 		}
-
+		
 		public void Receive(CommentAddedToPost commentAddedToPost)
 		{
 			var publishedPost = PublishedPosts.Get(commentAddedToPost.Id);

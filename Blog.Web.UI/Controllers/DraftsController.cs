@@ -46,7 +46,8 @@ namespace Blog.Web.UI.Controllers
 					Id = id,
 					Title = draftPost.Title,
 					WhenCreated = DateTime.Now,
-					SessionId = new Guid(User.Identity.Name)
+					SessionId = new Guid(User.Identity.Name),
+					IsArticle = draftPost.IsArticle
 				});
 			}
 
@@ -56,7 +57,8 @@ namespace Blog.Web.UI.Controllers
 				Title = draftPost.Title,
 				Content = draftPost.Content,
 				WhenEdited = DateTime.Now,
-				SessionId = new Guid(User.Identity.Name)
+				SessionId = new Guid(User.Identity.Name),
+				ArticleOrder = draftPost.ArticleOrder
 			});
 
 			return RedirectToAction("Index");
@@ -67,6 +69,7 @@ namespace Blog.Web.UI.Controllers
 		{
 			var postId = new Guid(id);
 			DomainCQRSConfig.MessageReceiver.Receive(new Blog.Domain.Commands.PublishPost() { Id = postId, WhenPublished = DateTime.Now, SessionId = new Guid(User.Identity.Name) });
+			Response.RemoveOutputCacheItem(Url.Action("Index", "Home"));
 			return Redirect("/");
 		}
 
